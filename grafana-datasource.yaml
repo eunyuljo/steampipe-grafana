@@ -1,0 +1,12 @@
+apiVersion: 1
+
+datasources:
+  - name: Steampipe
+    type: postgres
+    access: proxy
+    url: localhost:9193
+    database: steampipe
+    user: steampipe
+    password: ${STEAMPIPE_PASSWORD}
+    sslmode: disable
+    isDefault: true

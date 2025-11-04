@@ -1,84 +1,158 @@
-# Steampipe + Grafana Docker 환경
+# Steampipe + Grafana AWS 모니터링 시스템
 
-AWS 리소스를 SQL로 조회하고 Grafana로 시각화하는 Docker Compose 기반 모니터링 환경입니다.
+AWS 리소스를 실시간으로 모니터링할 수 있는 Steampipe와 Grafana 통합 환경을 **완전 자동화**로 구축할 수 있는 도구입니다.
 
-## 빠른 시작
+## 🚀 빠른 시작
 
+### 원클릭 설치
 ```bash
-# 1. AWS 자격 증명 설정 (선택사항)
-cp .env.example .env
-vi .env  # AWS 키 입력
+# 자동 설치 실행
+./install-steampipe-grafana.sh
 
-# 2. 서비스 시작
-docker-compose up -d
+# 설치 검증
+./verify-installation.sh
 
-# 3. Grafana 접속
-# http://localhost:3000 (admin/admin)
-
-# 4. 대시보드 Import
-# grafana-dashboard-ec2.json 파일을 Grafana에서 Import
+# 웹 접속: http://localhost:3000 (admin/admin)
 ```
 
-## 구성 요소
+## 📋 시스템 요구사항
 
-- **Steampipe** (포트 9193): AWS API를 SQL로 조회
-- **Grafana** (포트 3000): 데이터 시각화 대시보드
-- **자동 연결**: Grafana에 Steampipe 데이터소스 자동 설정
+### 지원 운영체제
+- ✅ Amazon Linux 2023
+- ✅ Ubuntu 20.04+
+- ✅ CentOS/RHEL 8+
 
-## 파일 구조
+### Python 환경
+- ✅ Python 3.10+ (필수)
+- ✅ pyenv 권장 (버전 관리용)
+- ✅ pip3 (선택사항)
 
+### AWS 자격 증명
+다음 중 하나의 방법으로 설정:
+- AWS CLI: `aws configure`
+- IAM 역할 (EC2에서 실행 시)
+- 환경 변수: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`
+
+## 🎯 자동화 기능
+
+### ✅ 완전 자동 설치
+- OS 자동 감지 및 패키지 설치
+- Steampipe v2.3.2 자동 설치
+- AWS 플러그인 자동 설치
+- Grafana 자동 설치 및 서비스 시작
+- **🆕 데이터소스 자동 설정** (API 활용)
+
+### ✅ 스마트 검증
+- 12개 항목 자동 체크
+- 실패 시 문제 해결 가이드 제공
+
+### ✅ 안전한 제거
+- 컴포넌트만 제거, 스크립트는 보존
+- 재설치 가능
+
+## 📊 기본 제공 대시보드
+
+### AWS EC2 인스턴스 모니터링
+- 인스턴스 상태별 분포 (파이 차트)
+- 인스턴스 타입별 통계 (바 차트)
+- 총 인스턴스 수 (통계 패널)
+- 실행 중인 인스턴스 수 (통계 패널)
+
+### 사용 가능한 쿼리 예시
+```sql
+-- 인스턴스 상태별 그룹화
+SELECT instance_state as metric, COUNT(*) as value
+FROM aws_ec2_instance
+GROUP BY instance_state;
+
+-- 인스턴스 타입별 분포
+SELECT instance_type, COUNT(*) as count
+FROM aws_ec2_instance
+GROUP BY instance_type
+ORDER BY count DESC;
 ```
-.
-├── docker-compose.yml                    # Docker 오케스트레이션
-├── .env.example                          # AWS 자격증명 템플릿
-├── grafana/
-│   └── provisioning/
-│       └── datasources/steampipe.yml    # Grafana 자동 설정
-├── grafana-dashboard-ec2.json           # EC2 대시보드
-├── queries.sql                          # 유용한 쿼리 모음
-└── test.py                              # 데이터 수집 스크립트
-```
 
-## 주요 명령어
+## 🔧 문제 해결
 
+### 일반적인 문제들
+
+**AWS 연결 오류**
 ```bash
-# 서비스 시작
-docker-compose up -d
+# AWS 자격 증명 확인
+aws sts get-caller-identity
 
-# 로그 확인
-docker-compose logs -f
-
-# 서비스 중지
-docker-compose down
-
-# Steampipe 쿼리 실행
-docker exec steampipe steampipe query "SELECT * FROM aws_ec2_instance LIMIT 5"
+# Steampipe 서비스 재시작
+steampipe service restart
 ```
 
-## 자세한 가이드
-
-상세한 설정 및 사용 방법은 [DOCKER_SETUP.md](DOCKER_SETUP.md)를 참고하세요.
-
-## 데이터 수집
-
-`test.py` 스크립트로 EC2 정보를 CSV로 수집할 수 있습니다:
-
+**Grafana 접속 불가**
 ```bash
-./test.py
-# 결과는 results/latest/ 에 저장됨
+# Grafana 서비스 상태 확인
+sudo systemctl status grafana-server
+
+# 서비스 재시작
+sudo systemctl restart grafana-server
 ```
 
-## 쿼리 예제
+**완전 재설치**
+```bash
+# 제거 후 재설치
+./uninstall.sh      # 컴포넌트 제거 (스크립트는 보존)
+./install-steampipe-grafana.sh  # 재설치
+```
 
-`queries.sql` 파일에 다음 정보를 조회하는 15개 쿼리가 포함되어 있습니다:
+## 📁 파일 구조
 
-1. 기본 인스턴스 정보
-2. 네트워크 정보 (IP, VPC, 서브넷)
-3. 보안 그룹
-4. VPC별 그룹화
-5. Elastic IP
-6. EBS 볼륨
-7. 종합 요약
+```
+steampipe/
+├── install-steampipe-grafana.sh    # 메인 설치 스크립트
+├── verify-installation.sh          # 12개 항목 검증
+├── uninstall.sh                     # 스마트 제거 스크립트
+├── .env.example                     # 환경 변수 템플릿
+├── grafana-datasource.yaml         # 데이터소스 설정
+├── grafana-dashboard-ec2.json      # EC2 대시보드
+├── README.md                        # 사용자 가이드
+└── claude.md                        # 프로젝트 문서
+```
 
-자세한 내용은 파일을 직접 확인하세요.
-# steampipe-grafana
+## 🔒 보안 고려사항
+
+### 네트워크 보안
+- 기본적으로 localhost에서만 접근 가능
+- 외부 접근이 필요한 경우 방화벽 설정 필요
+
+### 필요한 최소 IAM 권한
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:Describe*",
+                "iam:Get*",
+                "iam:List*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+## 🎉 프로젝트 특징
+
+### 🚀 **완전 자동화**
+- 데이터소스까지 자동 설정
+- 사용자는 브라우저만 열면 됨
+
+### 🛡️ **안전한 설계**
+- uninstall 후에도 재설치 가능
+- 스크립트 파일 보존
+
+### 🔧 **사용자 친화적**
+- 명확한 에러 메시지
+- 상세한 문제 해결 가이드
+
+---
+
+💡 **팁**: 더 많은 AWS 서비스를 모니터링하려면 `steampipe query ".tables aws_*"` 명령으로 사용 가능한 모든 테이블을 확인해보세요!

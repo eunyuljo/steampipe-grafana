@@ -1,0 +1,136 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "AWS EC2 모니터링",
+    "tags": ["aws", "ec2", "steampipe"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "총 EC2 인스턴스 수",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "SELECT COUNT(*) as value FROM aws_ec2_instance",
+            "format": "table",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "실행 중인 인스턴스",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE instance_state = 'running'",
+            "format": "table",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 6,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "인스턴스 상태별 분포",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "SELECT instance_state as metric, COUNT(*) as value FROM aws_ec2_instance GROUP BY instance_state",
+            "format": "table",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 4,
+        "title": "인스턴스 타입별 분포",
+        "type": "barchart",
+        "targets": [
+          {
+            "expr": "SELECT instance_type as metric, COUNT(*) as value FROM aws_ec2_instance GROUP BY instance_type ORDER BY value DESC",
+            "format": "table",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 5,
+        "title": "EC2 인스턴스 상세 정보",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "SELECT instance_id, instance_type, instance_state, availability_zone, public_ip_address, private_ip_address FROM aws_ec2_instance ORDER BY instance_state, instance_type",
+            "format": "table",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 10,
+          "w": 24,
+          "x": 0,
+          "y": 16
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "30s",
+    "version": 1
+  }
+}
