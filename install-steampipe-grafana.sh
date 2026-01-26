@@ -189,7 +189,20 @@ install_grafana() {
 
     case $OS in
         "amzn"|"centos"|"rhel")
-            # RPM 기반 시스템
+            # RPM 기반 시스템 - Grafana 저장소 추가 필요
+            log_info "Grafana 저장소 추가 중..."
+            sudo tee /etc/yum.repos.d/grafana.repo > /dev/null << 'EOF'
+[grafana]
+name=grafana
+baseurl=https://rpm.grafana.com
+repo_gpgcheck=1
+enabled=1
+gpgcheck=1
+gpgkey=https://rpm.grafana.com/gpg.key
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+EOF
+            log_success "Grafana 저장소 추가 완료"
             sudo dnf install -y grafana
             ;;
         "ubuntu")
@@ -360,6 +373,72 @@ EOF
     log_success "설정 파일 생성 완료"
 }
 
+# Grafana 대시보드 자동 임포트 함수
+import_grafana_dashboard() {
+    log_info "Grafana 대시보드 자동 임포트 중..."
+
+    # 대시보드 JSON 파일이 존재하는지 확인
+    if [[ ! -f "grafana-dashboard-ec2.json" ]]; then
+        log_warning "대시보드 JSON 파일이 없습니다 - 수동으로 임포트해주세요"
+        return
+    fi
+
+    # Grafana 서비스가 준비될 때까지 대기
+    local max_attempts=30
+    local attempt=1
+
+    while [[ $attempt -le $max_attempts ]]; do
+        if curl -s -f http://localhost:3000/api/health &>/dev/null; then
+            break
+        fi
+        log_info "Grafana 서비스 준비 대기 중... ($attempt/$max_attempts)"
+        sleep 2
+        attempt=$((attempt + 1))
+    done
+
+    if [[ $attempt -gt $max_attempts ]]; then
+        log_error "Grafana 서비스 준비 시간 초과"
+        return
+    fi
+
+    # 데이터소스 UID 가져오기
+    local datasource_uid
+    datasource_uid=$(curl -s -u admin:admin http://localhost:3000/api/datasources/name/Steampipe 2>/dev/null | grep -o '"uid":"[^"]*"' | cut -d'"' -f4)
+
+    if [[ -z "$datasource_uid" ]]; then
+        log_warning "데이터소스 UID를 가져올 수 없습니다 - 수동으로 대시보드를 임포트해주세요"
+        return
+    fi
+
+    # 대시보드 JSON에서 datasource UID 치환
+    local dashboard_json
+    dashboard_json=$(sed "s/\${DS_STEAMPIPE}/$datasource_uid/g" grafana-dashboard-ec2.json)
+
+    # 대시보드 임포트
+    local response
+    response=$(curl -s -X POST \
+        -H "Content-Type: application/json" \
+        -u admin:admin \
+        -d "$dashboard_json" \
+        http://localhost:3000/api/dashboards/db 2>/dev/null)
+
+    if echo "$response" | grep -q '"status":"success"' || echo "$response" | grep -q '"url":'; then
+        log_success "AWS EC2 모니터링 대시보드 자동 임포트 완료"
+        local dashboard_url
+        dashboard_url=$(echo "$response" | grep -o '"url":"[^"]*"' | cut -d'"' -f4)
+        if [[ -n "$dashboard_url" ]]; then
+            log_info "대시보드 URL: http://localhost:3000$dashboard_url"
+        fi
+    else
+        log_warning "대시보드 자동 임포트 실패 - 수동으로 임포트해주세요"
+        log_info "수동 임포트 방법:"
+        echo "  1. http://localhost:3000 접속"
+        echo "  2. + (Create) → Import 클릭"
+        echo "  3. grafana-dashboard-ec2.json 파일 업로드"
+        echo "  4. 데이터소스를 'Steampipe'로 선택"
+    fi
+}
+
 # 연결 정보 출력 함수
 display_connection_info() {
     log_info "연결 정보 수집 중..."
@@ -420,6 +499,7 @@ main() {
     setup_grafana_service
     setup_grafana_datasource
     create_dashboard_files
+    import_grafana_dashboard
     display_connection_info
 
     log_success "모든 설치가 완료되었습니다!"
