@@ -5,7 +5,7 @@
         "builtIn": 1,
         "datasource": {
           "type": "grafana",
-          "uid": "-- Grafana --"
+          "uid": "-- Grafana ---variable"
         },
         "enable": true,
         "hide": true,
@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -75,23 +75,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_s3_bucket WHERE block_public_acls = false OR block_public_policy = false",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_s3_bucket WHERE block_public_acls = false OR block_public_policy = false",
           "refId": "A"
         }
       ],
-      "title": "퍼블릭 액세스 허용 버킷",
+      "title": "퍼블릭 액세스 허용 버킷 (Variable 방식)",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -141,23 +141,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_s3_bucket WHERE versioning_enabled = false",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_s3_bucket WHERE versioning_enabled = false",
           "refId": "A"
         }
       ],
-      "title": "버전 관리 비활성화 버킷",
+      "title": "버전 관리 비활성화 버킷 (Variable 방식)",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -203,23 +203,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_s3_bucket",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_s3_bucket",
           "refId": "A"
         }
       ],
-      "title": "총 S3 버킷 수",
+      "title": "총 S3 버킷 수 (Variable 방식)",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -265,23 +265,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_s3_bucket WHERE versioning_enabled = true AND block_public_acls = true AND block_public_policy = true AND logging IS NOT NULL AND logging != '{}' AND logging::text != 'null'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_s3_bucket WHERE versioning_enabled = true AND block_public_acls = true AND block_public_policy = true AND logging IS NOT NULL AND logging != '{}' AND logging::text != 'null'",
           "refId": "A"
         }
       ],
-      "title": "완전 보안 설정 버킷",
+      "title": "완전 보안 설정 버킷 (Variable 방식)",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -331,23 +331,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_s3_bucket WHERE logging IS NULL OR logging = '{}' OR logging::text = 'null'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_s3_bucket WHERE logging IS NULL OR logging = '{}' OR logging::text = 'null'",
           "refId": "A"
         }
       ],
-      "title": "액세스 로그 비활성화 버킷",
+      "title": "액세스 로그 비활성화 버킷 (Variable 방식)",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -395,23 +395,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  CASE \n    WHEN versioning_enabled = true THEN '버전 관리 활성화'\n    ELSE '버전 관리 비활성화'\n  END as metric,\n  COUNT(*) as value\nFROM aws_s3_bucket \nGROUP BY versioning_enabled",
+          "rawSql": "SELECT \n  CASE \n    WHEN versioning_enabled = true THEN '버전 관리 활성화'\n    ELSE '버전 관리 비활성화'\n  END as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_s3_bucket \nGROUP BY versioning_enabled",
           "refId": "A"
         }
       ],
-      "title": "버전 관리 상태",
+      "title": "버전 관리 상태 (Variable 방식)",
       "type": "piechart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -459,23 +459,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  CASE \n    WHEN block_public_acls = true AND block_public_policy = true THEN '퍼블릭 액세스 차단'\n    ELSE '퍼블릭 액세스 허용'\n  END as metric,\n  COUNT(*) as value\nFROM aws_s3_bucket \nGROUP BY block_public_acls, block_public_policy",
+          "rawSql": "SELECT \n  CASE \n    WHEN block_public_acls = true AND block_public_policy = true THEN '퍼블릭 액세스 차단'\n    ELSE '퍼블릭 액세스 허용'\n  END as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_s3_bucket \nGROUP BY block_public_acls, block_public_policy",
           "refId": "A"
         }
       ],
-      "title": "퍼블릭 액세스 차단 상태",
+      "title": "퍼블릭 액세스 차단 상태 (Variable 방식)",
       "type": "piechart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -523,23 +523,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  CASE \n    WHEN logging IS NOT NULL AND logging != '{}' AND logging::text != 'null' THEN '액세스 로그 활성화'\n    ELSE '액세스 로그 비활성화'\n  END as metric,\n  COUNT(*) as value\nFROM aws_s3_bucket \nGROUP BY \n  CASE \n    WHEN logging IS NOT NULL AND logging != '{}' AND logging::text != 'null' THEN '액세스 로그 활성화'\n    ELSE '액세스 로그 비활성화'\n  END",
+          "rawSql": "SELECT \n  CASE \n    WHEN logging IS NOT NULL AND logging != '{}' AND logging::text != 'null' THEN '액세스 로그 활성화'\n    ELSE '액세스 로그 비활성화'\n  END as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_s3_bucket \nGROUP BY \n  CASE \n    WHEN logging IS NOT NULL AND logging != '{}' AND logging::text != 'null' THEN '액세스 로그 활성화'\n    ELSE '액세스 로그 비활성화'\n  END",
           "refId": "A"
         }
       ],
-      "title": "액세스 로그 활성화 상태",
+      "title": "액세스 로그 활성화 상태 (Variable 방식)",
       "type": "piechart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -588,17 +588,17 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  name,\n  region,\n  versioning_enabled,\n  block_public_acls,\n  block_public_policy,\n  CASE \n    WHEN logging IS NOT NULL AND logging != '{}' AND logging::text != 'null' THEN true\n    ELSE false\n  END as access_logging_enabled,\n  creation_date,\n  CASE \n    WHEN block_public_acls = false OR block_public_policy = false THEN '🔴 CRITICAL'\n    WHEN versioning_enabled = false OR (logging IS NULL OR logging = '{}' OR logging::text = 'null') THEN '🟡 HIGH'\n    ELSE '🟢 LOW'\n  END as risk_score\nFROM aws_s3_bucket \nORDER BY \n  CASE \n    WHEN block_public_acls = false OR block_public_policy = false THEN 1\n    WHEN versioning_enabled = false OR (logging IS NULL OR logging = '{}' OR logging::text = 'null') THEN 2\n    ELSE 3\n  END",
+          "rawSql": "SELECT \n  name,\n  region,\n  versioning_enabled,\n  block_public_acls,\n  block_public_policy,\n  CASE \n    WHEN logging IS NOT NULL AND logging != '{}' AND logging::text != 'null' THEN true\n    ELSE false\n  END as access_logging_enabled,\n  creation_date,\n  CASE \n    WHEN block_public_acls = false OR block_public_policy = false THEN '🔴 CRITICAL'\n    WHEN versioning_enabled = false OR (logging IS NULL OR logging = '{}' OR logging::text = 'null') THEN '🟡 HIGH'\n    ELSE '🟢 LOW'\n  END as risk_score\nFROM ${account_connection}.aws_s3_bucket \nORDER BY \n  CASE \n    WHEN block_public_acls = false OR block_public_policy = false THEN 1\n    WHEN versioning_enabled = false OR (logging IS NULL OR logging = '{}' OR logging::text = 'null') THEN 2\n    ELSE 3\n  END",
           "refId": "A"
         }
       ],
-      "title": "S3 버킷 보안 위험도 평가",
+      "title": "S3 버킷 보안 위험도 평가 (Variable 방식)",
       "type": "table"
     }
   ],
@@ -611,17 +611,43 @@
     "security",
     "steampipe"
   ],
-  "templating": {
-    "list": []
-  },
+  "templating": {"list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Account 1",
+          "value": "aws_estaid"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "account_connection",
+        "options": [
+          {
+            "selected": true,
+            "text": "Account 1",
+            "value": "aws_estaid"
+          },
+          {
+            "selected": false,
+            "text": "Account 2",
+            "value": "aws_test_fnf"
+          }
+        ],
+        "query": "Account 1 : aws_estaid, Account 2 : aws_test_fnf",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]},
   "time": {
     "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "AWS S3 보안 모니터링",
-  "uid": "aws-s3-security",
+  "title": "AWS S3 보안 모니터링 (Variable 방식)",
+  "uid": "aws-s3-security-variable",
   "version": 1,
   "weekStart": ""
 }

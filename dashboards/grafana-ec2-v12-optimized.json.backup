@@ -5,7 +5,7 @@
         "builtIn": 1,
         "datasource": {
           "type": "grafana",
-          "uid": "-- Grafana ---variable"
+          "uid": "-- Grafana --"
         },
         "enable": true,
         "hide": true,
@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "AWS 계정의 총 EC2 인스턴스 수",
       "fieldConfig": {
@@ -77,12 +77,12 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance",
           "refId": "A",
           "sql": {
             "columns": [
@@ -103,13 +103,13 @@
           }
         }
       ],
-      "title": "총 인스턴스 수 (Variable 방식)",
+      "title": "총 인스턴스 수",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "실행 중인 EC2 인스턴스 수",
       "fieldConfig": {
@@ -157,22 +157,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE instance_state = 'running'",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE instance_state = 'running'",
           "refId": "A"
         }
       ],
-      "title": "🟢 실행 중 (Variable 방식)",
+      "title": "🟢 실행 중",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "중지된 EC2 인스턴스 수",
       "fieldConfig": {
@@ -220,22 +220,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE instance_state = 'stopped'",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE instance_state = 'stopped'",
           "refId": "A"
         }
       ],
-      "title": "🔴 중지됨 (Variable 방식)",
+      "title": "🔴 중지됨",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "퍼블릭 IP가 할당된 인스턴스 수",
       "fieldConfig": {
@@ -283,22 +283,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE public_ip_address IS NOT NULL",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE public_ip_address IS NOT NULL",
           "refId": "A"
         }
       ],
-      "title": "🌐 퍼블릭 IP (Variable 방식)",
+      "title": "🌐 퍼블릭 IP",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "EC2 인스턴스 상태별 분포 - Bar Chart로 명확한 비교",
       "fieldConfig": {
@@ -377,22 +377,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  CASE \n    WHEN instance_state = 'running' THEN '🟢 Running'\n    WHEN instance_state = 'stopped' THEN '🔴 Stopped'\n    WHEN instance_state = 'pending' THEN '🟡 Pending'\n    WHEN instance_state = 'stopping' THEN '🟠 Stopping'\n    ELSE instance_state\n  END as metric, \n  COUNT(*) as value\nFROM ${account_connection}.aws_ec2_instance \nGROUP BY instance_state\nORDER BY value DESC",
+          "rawSql": "SELECT \n  CASE \n    WHEN instance_state = 'running' THEN '🟢 Running'\n    WHEN instance_state = 'stopped' THEN '🔴 Stopped'\n    WHEN instance_state = 'pending' THEN '🟡 Pending'\n    WHEN instance_state = 'stopping' THEN '🟠 Stopping'\n    ELSE instance_state\n  END as metric, \n  COUNT(*) as value\nFROM aws_ec2_instance \nGROUP BY instance_state\nORDER BY value DESC",
           "refId": "A"
         }
       ],
-      "title": "📊 인스턴스 상태별 분포 (Variable 방식)",
+      "title": "📊 인스턴스 상태별 분포",
       "type": "barchart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "EC2 인스턴스 타입별 분포 - 가장 많이 사용되는 타입 확인",
       "fieldConfig": {
@@ -471,22 +471,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  instance_type as metric, \n  COUNT(*) as value\nFROM ${account_connection}.aws_ec2_instance \nGROUP BY instance_type\nORDER BY value DESC\nLIMIT 10",
+          "rawSql": "SELECT \n  instance_type as metric, \n  COUNT(*) as value\nFROM aws_ec2_instance \nGROUP BY instance_type\nORDER BY value DESC\nLIMIT 10",
           "refId": "A"
         }
       ],
-      "title": "💻 인스턴스 타입별 분포 (상위 10개) (Variable 방식)",
+      "title": "💻 인스턴스 타입별 분포 (상위 10개)",
       "type": "barchart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "가용성 영역별 인스턴스 분산 현황",
       "fieldConfig": {
@@ -565,22 +565,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  placement_availability_zone as metric, \n  COUNT(*) as value\nFROM ${account_connection}.aws_ec2_instance \nGROUP BY placement_availability_zone\nORDER BY value DESC",
+          "rawSql": "SELECT \n  placement_availability_zone as metric, \n  COUNT(*) as value\nFROM aws_ec2_instance \nGROUP BY placement_availability_zone\nORDER BY value DESC",
           "refId": "A"
         }
       ],
-      "title": "📍 가용성 영역별 분포 (Variable 방식)",
+      "title": "📍 가용성 영역별 분포",
       "type": "barchart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "전체 EC2 인스턴스 상세 정보 - 상태별 색상 구분",
       "fieldConfig": {
@@ -679,16 +679,16 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  instance_id,\n  instance_type,\n  instance_state,\n  placement_availability_zone as availability_zone,\n  public_ip_address,\n  private_ip_address,\n  launch_time,\n  tags->>'Name' as name\nFROM ${account_connection}.aws_ec2_instance \nORDER BY instance_state, launch_time DESC",
+          "rawSql": "SELECT \n  instance_id,\n  instance_type,\n  instance_state,\n  placement_availability_zone as availability_zone,\n  public_ip_address,\n  private_ip_address,\n  launch_time,\n  tags->>'Name' as name\nFROM aws_ec2_instance \nORDER BY instance_state, launch_time DESC",
           "refId": "A"
         }
       ],
-      "title": "📋 EC2 인스턴스 상세 목록 (Variable 방식)",
+      "title": "📋 EC2 인스턴스 상세 목록",
       "type": "table"
     }
   ],
@@ -701,42 +701,16 @@
     "steampipe",
     "v12"
   ],
-  "templating": {"list": [
-      {
-        "current": {
-          "selected": false,
-          "text": "Account 1",
-          "value": "aws_estaid"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "name": "account_connection",
-        "options": [
-          {
-            "selected": true,
-            "text": "Account 1",
-            "value": "aws_estaid"
-          },
-          {
-            "selected": false,
-            "text": "Account 2",
-            "value": "aws_test_fnf"
-          }
-        ],
-        "query": "Account 1 : aws_estaid, Account 2 : aws_test_fnf",
-        "queryValue": "",
-        "skipUrlSync": false,
-        "type": "custom"
-      }
-    ]},
+  "templating": {
+    "list": []
+  },
   "time": {
     "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "AWS EC2 모니터링 (v12.3.3 최적화 - Pie Chart 없이) (Variable 방식)",
-  "uid": "ec2-v12-no-pie-variable",
+  "title": "AWS EC2 모니터링 (v12.3.3 최적화 - Pie Chart 없이)",
+  "uid": "ec2-v12-no-pie",
   "version": 1
 }

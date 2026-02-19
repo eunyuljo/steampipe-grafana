@@ -5,7 +5,7 @@
         "builtIn": 1,
         "datasource": {
           "type": "grafana",
-          "uid": "-- Grafana ---variable"
+          "uid": "-- Grafana --"
         },
         "enable": true,
         "hide": true,
@@ -32,13 +32,13 @@
       },
       "id": 100,
       "panels": [],
-      "title": "📊 백업 현황 요약 (Variable 방식)",
+      "title": "📊 백업 현황 요약",
       "type": "row"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "완료된 EBS 스냅샷 총 개수",
       "fieldConfig": {
@@ -87,22 +87,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ebs_snapshot WHERE state = 'completed'",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ebs_snapshot WHERE state = 'completed'",
           "refId": "A"
         }
       ],
-      "title": "📀 총 EBS 스냅샷 (Variable 방식)",
+      "title": "📀 총 EBS 스냅샷",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "RDS 자동 백업 설정된 인스턴스",
       "fieldConfig": {
@@ -147,22 +147,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance WHERE backup_retention_period > 0",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_rds_db_instance WHERE backup_retention_period > 0",
           "refId": "A"
         }
       ],
-      "title": "🔄 RDS 자동 백업 설정 (Variable 방식)",
+      "title": "🔄 RDS 자동 백업 설정",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "오늘 생성된 새로운 백업",
       "fieldConfig": {
@@ -211,22 +211,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ebs_snapshot WHERE start_time::date = CURRENT_DATE AND state = 'completed'",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ebs_snapshot WHERE start_time::date = CURRENT_DATE AND state = 'completed'",
           "refId": "A"
         }
       ],
-      "title": "📅 오늘 생성된 백업 (Variable 방식)",
+      "title": "📅 오늘 생성된 백업",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "총 백업 스토리지 사용량 (GB)",
       "fieldConfig": {
@@ -271,22 +271,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COALESCE(SUM(volume_size), 0) as value FROM ${account_connection}.aws_ebs_snapshot WHERE state = 'completed'",
+          "rawSql": "SELECT COALESCE(SUM(volume_size), 0) as value FROM aws_ebs_snapshot WHERE state = 'completed'",
           "refId": "A"
         }
       ],
-      "title": "💾 총 백업 크기 (Variable 방식)",
+      "title": "💾 총 백업 크기",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "90일 이상 된 오래된 스냅샷 (비용 최적화 대상)",
       "fieldConfig": {
@@ -339,22 +339,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ebs_snapshot WHERE start_time < NOW() - INTERVAL '90 days' AND state = 'completed'",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ebs_snapshot WHERE start_time < NOW() - INTERVAL '90 days' AND state = 'completed'",
           "refId": "A"
         }
       ],
-      "title": "🗑️ 90일+ 오래된 백업 (Variable 방식)",
+      "title": "🗑️ 90일+ 오래된 백업",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "사용자 생성 AMI 이미지",
       "fieldConfig": {
@@ -399,16 +399,16 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_ami WHERE state = 'available' AND owner_id != 'amazon'",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_ami WHERE state = 'available' AND owner_id != 'amazon'",
           "refId": "A"
         }
       ],
-      "title": "💿 사용자 AMI (Variable 방식)",
+      "title": "💿 사용자 AMI",
       "type": "stat"
     },
     {
@@ -421,13 +421,13 @@
       },
       "id": 101,
       "panels": [],
-      "title": "📈 백업 트렌드 분석 (Variable 방식)",
+      "title": "📈 백업 트렌드 분석",
       "type": "row"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "지난 30일간 일별 백업 생성 추이",
       "fieldConfig": {
@@ -502,16 +502,16 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  start_time::date as time,\n  COUNT(*) as \"EBS Snapshots\"\nFROM ${account_connection}.aws_ebs_snapshot \nWHERE start_time >= NOW() - INTERVAL '30 days'\n  AND state = 'completed'\nGROUP BY start_time::date \nORDER BY start_time::date",
+          "rawSql": "SELECT \n  start_time::date as time,\n  COUNT(*) as \"EBS Snapshots\"\nFROM aws_ebs_snapshot \nWHERE start_time >= NOW() - INTERVAL '30 days'\n  AND state = 'completed'\nGROUP BY start_time::date \nORDER BY start_time::date",
           "refId": "A"
         }
       ],
-      "title": "📅 일별 백업 생성 추이 (30일) (Variable 방식)",
+      "title": "📅 일별 백업 생성 추이 (30일)",
       "type": "timeseries"
     },
     {
@@ -524,13 +524,13 @@
       },
       "id": 102,
       "panels": [],
-      "title": "🔍 백업 상태별 분석 (Variable 방식)",
+      "title": "🔍 백업 상태별 분석",
       "type": "row"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "EBS 스냅샷 상태별 분포",
       "fieldConfig": {
@@ -606,22 +606,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  CASE \n    WHEN state = 'completed' THEN '✅ Completed'\n    WHEN state = 'pending' THEN '⏳ Pending'\n    WHEN state = 'error' THEN '❌ Error'\n    ELSE state\n  END as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_ebs_snapshot \nGROUP BY state\nORDER BY value DESC",
+          "rawSql": "SELECT \n  CASE \n    WHEN state = 'completed' THEN '✅ Completed'\n    WHEN state = 'pending' THEN '⏳ Pending'\n    WHEN state = 'error' THEN '❌ Error'\n    ELSE state\n  END as metric,\n  COUNT(*) as value\nFROM aws_ebs_snapshot \nGROUP BY state\nORDER BY value DESC",
           "refId": "A"
         }
       ],
-      "title": "📊 EBS 스냅샷 상태별 분포 (Variable 방식)",
+      "title": "📊 EBS 스냅샷 상태별 분포",
       "type": "barchart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "RDS 백업 보존 기간별 인스턴스 분포",
       "fieldConfig": {
@@ -697,16 +697,16 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ 백업 없음 (0일)'\n    WHEN backup_retention_period <= 1 THEN '🟡 1일'\n    WHEN backup_retention_period <= 7 THEN '🟠 2-7일'\n    WHEN backup_retention_period <= 14 THEN '🟢 8-14일'\n    WHEN backup_retention_period <= 30 THEN '🔵 15-30일'\n    ELSE '🟣 30일+'\n  END as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_rds_db_instance \nGROUP BY \n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ 백업 없음 (0일)'\n    WHEN backup_retention_period <= 1 THEN '🟡 1일'\n    WHEN backup_retention_period <= 7 THEN '🟠 2-7일'\n    WHEN backup_retention_period <= 14 THEN '🟢 8-14일'\n    WHEN backup_retention_period <= 30 THEN '🔵 15-30일'\n    ELSE '🟣 30일+'\n  END\nORDER BY value DESC",
+          "rawSql": "SELECT \n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ 백업 없음 (0일)'\n    WHEN backup_retention_period <= 1 THEN '🟡 1일'\n    WHEN backup_retention_period <= 7 THEN '🟠 2-7일'\n    WHEN backup_retention_period <= 14 THEN '🟢 8-14일'\n    WHEN backup_retention_period <= 30 THEN '🔵 15-30일'\n    ELSE '🟣 30일+'\n  END as metric,\n  COUNT(*) as value\nFROM aws_rds_db_instance \nGROUP BY \n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ 백업 없음 (0일)'\n    WHEN backup_retention_period <= 1 THEN '🟡 1일'\n    WHEN backup_retention_period <= 7 THEN '🟠 2-7일'\n    WHEN backup_retention_period <= 14 THEN '🟢 8-14일'\n    WHEN backup_retention_period <= 30 THEN '🔵 15-30일'\n    ELSE '🟣 30일+'\n  END\nORDER BY value DESC",
           "refId": "A"
         }
       ],
-      "title": "🗄️ RDS 백업 보존 기간 분포 (Variable 방식)",
+      "title": "🗄️ RDS 백업 보존 기간 분포",
       "type": "barchart"
     },
     {
@@ -719,13 +719,13 @@
       },
       "id": 103,
       "panels": [],
-      "title": "📋 백업 상세 테이블 (Variable 방식)",
+      "title": "📋 백업 상세 테이블",
       "type": "row"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "최신 EBS 스냅샷 목록 (최근 50개)",
       "fieldConfig": {
@@ -821,22 +821,22 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  snapshot_id,\n  volume_id,\n  volume_size || ' GB' as size,\n  state,\n  progress || '%' as progress,\n  start_time::timestamp as start_time,\n  CASE \n    WHEN start_time >= NOW() - INTERVAL '1 day' THEN '🆕 New'\n    WHEN start_time >= NOW() - INTERVAL '7 days' THEN '📅 Recent'\n    WHEN start_time >= NOW() - INTERVAL '30 days' THEN '📆 Month'\n    ELSE '🗓️ Old'\n  END as age_category,\n  region,\n  tags->>'Name' as name\nFROM ${account_connection}.aws_ebs_snapshot \nORDER BY start_time DESC \nLIMIT 50",
+          "rawSql": "SELECT \n  snapshot_id,\n  volume_id,\n  volume_size || ' GB' as size,\n  state,\n  progress || '%' as progress,\n  start_time::timestamp as start_time,\n  CASE \n    WHEN start_time >= NOW() - INTERVAL '1 day' THEN '🆕 New'\n    WHEN start_time >= NOW() - INTERVAL '7 days' THEN '📅 Recent'\n    WHEN start_time >= NOW() - INTERVAL '30 days' THEN '📆 Month'\n    ELSE '🗓️ Old'\n  END as age_category,\n  region,\n  tags->>'Name' as name\nFROM aws_ebs_snapshot \nORDER BY start_time DESC \nLIMIT 50",
           "refId": "A"
         }
       ],
-      "title": "📀 최신 EBS 스냅샷 목록 (Variable 방식)",
+      "title": "📀 최신 EBS 스냅샷 목록",
       "type": "table"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "RDS 백업 설정 현황 및 다음 백업 윈도우",
       "fieldConfig": {
@@ -927,16 +927,16 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  db_instance_identifier,\n  engine || ' ' || engine_version as database_engine,\n  CASE \n    WHEN backup_retention_period > 0 THEN 'Enabled'\n    ELSE 'Disabled'\n  END as backup_status,\n  backup_retention_period || ' days' as retention_period,\n  preferred_backup_window,\n  preferred_maintenance_window,\n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ No Backup'\n    WHEN backup_retention_period <= 7 THEN '⚠️ Short Term'\n    WHEN backup_retention_period <= 30 THEN '✅ Good'\n    ELSE '🎯 Extended'\n  END as backup_assessment,\n  region,\n  availability_zone\nFROM ${account_connection}.aws_rds_db_instance \nORDER BY backup_retention_period DESC",
+          "rawSql": "SELECT \n  db_instance_identifier,\n  engine || ' ' || engine_version as database_engine,\n  CASE \n    WHEN backup_retention_period > 0 THEN 'Enabled'\n    ELSE 'Disabled'\n  END as backup_status,\n  backup_retention_period || ' days' as retention_period,\n  preferred_backup_window,\n  preferred_maintenance_window,\n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ No Backup'\n    WHEN backup_retention_period <= 7 THEN '⚠️ Short Term'\n    WHEN backup_retention_period <= 30 THEN '✅ Good'\n    ELSE '🎯 Extended'\n  END as backup_assessment,\n  region,\n  availability_zone\nFROM aws_rds_db_instance \nORDER BY backup_retention_period DESC",
           "refId": "A"
         }
       ],
-      "title": "🗄️ RDS 백업 설정 상세 현황 (Variable 방식)",
+      "title": "🗄️ RDS 백업 설정 상세 현황",
       "type": "table"
     }
   ],
@@ -950,42 +950,16 @@
     "ebs",
     "rds"
   ],
-  "templating": {"list": [
-      {
-        "current": {
-          "selected": false,
-          "text": "Account 1",
-          "value": "aws_estaid"
-        },
-        "hide": 0,
-        "includeAll": false,
-        "multi": false,
-        "name": "account_connection",
-        "options": [
-          {
-            "selected": true,
-            "text": "Account 1",
-            "value": "aws_estaid"
-          },
-          {
-            "selected": false,
-            "text": "Account 2",
-            "value": "aws_test_fnf"
-          }
-        ],
-        "query": "Account 1 : aws_estaid, Account 2 : aws_test_fnf",
-        "queryValue": "",
-        "skipUrlSync": false,
-        "type": "custom"
-      }
-    ]},
+  "templating": {
+    "list": []
+  },
   "time": {
     "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "AWS 백업 모니터링 전용 대시보드 (Variable 방식)",
-  "uid": "aws-backup-monitoring-variable",
+  "title": "AWS 백업 모니터링 전용 대시보드",
+  "uid": "aws-backup-monitoring",
   "version": 1
 }

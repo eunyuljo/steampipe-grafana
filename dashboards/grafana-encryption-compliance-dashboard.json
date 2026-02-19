@@ -5,7 +5,7 @@
         "builtIn": 1,
         "datasource": {
           "type": "grafana",
-          "uid": "-- Grafana --"
+          "uid": "-- Grafana ---variable"
         },
         "enable": true,
         "hide": true,
@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -75,23 +75,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_kms_key WHERE key_state = 'PendingDeletion'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_kms_key WHERE key_state = 'PendingDeletion'",
           "refId": "A"
         }
       ],
-      "title": "삭제 예정 암호화 키",
+      "title": "삭제 예정 암호화 키 (Variable 방식)",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -145,23 +145,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_kms_key WHERE key_usage = 'ENCRYPT_DECRYPT' AND key_state = 'Enabled'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_kms_key WHERE key_usage = 'ENCRYPT_DECRYPT' AND key_state = 'Enabled'",
           "refId": "A"
         }
       ],
-      "title": "활성 암호화 키",
+      "title": "활성 암호화 키 (Variable 방식)",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -211,23 +211,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_iam_access_key WHERE create_date < NOW() - INTERVAL '90 days' AND status = 'Active'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_access_key WHERE create_date < NOW() - INTERVAL '90 days' AND status = 'Active'",
           "refId": "A"
         }
       ],
-      "title": "90일 이상 된 액세스 키",
+      "title": "90일 이상 된 액세스 키 (Variable 방식)",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -273,23 +273,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_iam_access_key WHERE status = 'Active'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_access_key WHERE status = 'Active'",
           "refId": "A"
         }
       ],
-      "title": "총 활성 액세스 키",
+      "title": "총 활성 액세스 키 (Variable 방식)",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -337,23 +337,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  key_state as metric,\n  COUNT(*) as value\nFROM aws_kms_key \nGROUP BY key_state\nORDER BY value DESC",
+          "rawSql": "SELECT \n  key_state as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_kms_key \nGROUP BY key_state\nORDER BY value DESC",
           "refId": "A"
         }
       ],
-      "title": "KMS 키 상태 분포",
+      "title": "KMS 키 상태 분포 (Variable 방식)",
       "type": "piechart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -423,23 +423,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  user_name as metric,\n  COUNT(*) as value\nFROM aws_iam_access_key \nWHERE status = 'Active'\nGROUP BY user_name\nORDER BY value DESC",
+          "rawSql": "SELECT \n  user_name as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_iam_access_key \nWHERE status = 'Active'\nGROUP BY user_name\nORDER BY value DESC",
           "refId": "A"
         }
       ],
-      "title": "사용자별 액세스 키 수",
+      "title": "사용자별 액세스 키 수 (Variable 방식)",
       "type": "barchart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -488,17 +488,17 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  user_name,\n  access_key_id,\n  status,\n  create_date,\n  EXTRACT(DAY FROM NOW() - create_date) as age_days,\n  CASE \n    WHEN create_date < NOW() - INTERVAL '365 days' THEN '🔴 CRITICAL'\n    WHEN create_date < NOW() - INTERVAL '90 days' THEN '🟡 HIGH'\n    WHEN create_date < NOW() - INTERVAL '30 days' THEN '🟠 MEDIUM'\n    ELSE '🟢 LOW'\n  END as risk_level\nFROM aws_iam_access_key \nWHERE status = 'Active'\nORDER BY create_date ASC",
+          "rawSql": "SELECT \n  user_name,\n  access_key_id,\n  status,\n  create_date,\n  EXTRACT(DAY FROM NOW() - create_date) as age_days,\n  CASE \n    WHEN create_date < NOW() - INTERVAL '365 days' THEN '🔴 CRITICAL'\n    WHEN create_date < NOW() - INTERVAL '90 days' THEN '🟡 HIGH'\n    WHEN create_date < NOW() - INTERVAL '30 days' THEN '🟠 MEDIUM'\n    ELSE '🟢 LOW'\n  END as risk_level\nFROM ${account_connection}.aws_iam_access_key \nWHERE status = 'Active'\nORDER BY create_date ASC",
           "refId": "A"
         }
       ],
-      "title": "액세스 키 연령 및 위험도 평가",
+      "title": "액세스 키 연령 및 위험도 평가 (Variable 방식)",
       "type": "table"
     }
   ],
@@ -521,8 +521,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "AWS 암호화 및 키 관리 컴플라이언스",
-  "uid": "aws-encryption-compliance",
+  "title": "AWS 암호화 및 키 관리 컴플라이언스 (Variable 방식)",
+  "uid": "aws-encryption-compliance-variable",
   "version": 1,
   "weekStart": ""
 }

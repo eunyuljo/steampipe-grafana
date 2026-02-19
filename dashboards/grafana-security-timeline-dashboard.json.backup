@@ -5,7 +5,7 @@
         "builtIn": 1,
         "datasource": {
           "type": "grafana",
-          "uid": "-- Grafana ---variable"
+          "uid": "-- Grafana --"
         },
         "enable": true,
         "hide": true,
@@ -25,12 +25,40 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
           },
           "mappings": [],
           "thresholds": {
@@ -41,7 +69,7 @@
               },
               {
                 "color": "red",
-                "value": 1
+                "value": 80
               }
             ]
           },
@@ -51,47 +79,61 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
+        "w": 12,
         "x": 0,
         "y": 0
       },
       "id": 1,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
         },
-        "textMode": "auto"
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
       },
-      "pluginVersion": "9.0.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
-          "format": "table",
+          "format": "time_series",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(DISTINCT sg.group_name) as value FROM ${account_connection}.aws_vpc_security_group sg, jsonb_array_elements(sg.ip_permissions) perm, jsonb_array_elements(perm->'IpRanges') ip_range WHERE ip_range->>'CidrIp' = '0.0.0.0/0' AND (perm->>'FromPort')::int IN (22, 3389)",
-          "refId": "A"
+          "rawSql": "SELECT \n  DATE(launch_time) as time,\n  COUNT(*) as \"새로운 인스턴스\",\n  COUNT(CASE WHEN public_ip_address IS NOT NULL THEN 1 END) as \"퍼블릭 인스턴스\"\nFROM aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '30 days'\nGROUP BY DATE(launch_time)\nORDER BY time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
-      "title": "SSH/RDP 전체 오픈 보안그룹 (Variable 방식)",
-      "type": "stat"
+      "title": "일별 인스턴스 생성 추이",
+      "type": "timeseries"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -122,7 +164,7 @@
       "gridPos": {
         "h": 8,
         "w": 6,
-        "x": 6,
+        "x": 12,
         "y": 0
       },
       "id": 2,
@@ -145,23 +187,41 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(DISTINCT sg.group_name) as value FROM ${account_connection}.aws_vpc_security_group sg, jsonb_array_elements(sg.ip_permissions) perm, jsonb_array_elements(perm->'IpRanges') ip_range WHERE ip_range->>'CidrIp' = '0.0.0.0/0'",
-          "refId": "A"
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE launch_time >= NOW() - INTERVAL '24 hours'",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
-      "title": "0.0.0.0/0 오픈 보안그룹 (Variable 방식)",
+      "title": "24시간 내 새 인스턴스",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -174,6 +234,10 @@
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
               }
             ]
           },
@@ -184,7 +248,7 @@
       "gridPos": {
         "h": 8,
         "w": 6,
-        "x": 12,
+        "x": 18,
         "y": 0
       },
       "id": 3,
@@ -207,85 +271,41 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_vpc_security_group",
-          "refId": "A"
-        }
-      ],
-      "title": "총 보안그룹 수 (Variable 방식)",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe-variable"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "steps": [
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE public_ip_address IS NOT NULL AND launch_time >= NOW() - INTERVAL '24 hours'",
+          "refId": "A",
+          "select": [
+            [
               {
-                "color": "green",
-                "value": null
+                "params": [
+                  "value"
+                ],
+                "type": "column"
               }
             ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 18,
-        "y": 0
-      },
-      "id": 4,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
           ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe-variable"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE public_ip_address IS NOT NULL",
-          "refId": "A"
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
-      "title": "퍼블릭 IP 인스턴스 (Variable 방식)",
+      "title": "24시간 내 퍼블릭 인스턴스",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -339,7 +359,7 @@
         "x": 0,
         "y": 8
       },
-      "id": 5,
+      "id": 4,
       "options": {
         "legend": {
           "calcs": [],
@@ -355,23 +375,41 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
-          "format": "table",
+          "format": "time_series",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  perm->>'FromPort' as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_vpc_security_group sg,\n  jsonb_array_elements(sg.ip_permissions) perm,\n  jsonb_array_elements(perm->'IpRanges') ip_range\nWHERE ip_range->>'CidrIp' = '0.0.0.0/0'\n  AND perm->>'FromPort' IS NOT NULL\nGROUP BY perm->>'FromPort'\nORDER BY value DESC\nLIMIT 10",
-          "refId": "A"
+          "rawSql": "SELECT \n  EXTRACT(HOUR FROM launch_time) as time,\n  COUNT(*) as \"시간별 생성\"\nFROM aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '7 days'\nGROUP BY EXTRACT(HOUR FROM launch_time)\nORDER BY time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
-      "title": "0.0.0.0/0 오픈 포트 분석 (Variable 방식)",
-      "type": "barchart"
+      "title": "시간별 인스턴스 생성 패턴",
+      "type": "timeseries"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -395,7 +433,7 @@
         "x": 12,
         "y": 8
       },
-      "id": 6,
+      "id": 5,
       "options": {
         "reduceOptions": {
           "values": false,
@@ -419,23 +457,41 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  vpc_id as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_ec2_instance \nGROUP BY vpc_id \nORDER BY value DESC",
-          "refId": "A"
+          "rawSql": "SELECT \n  sg.group_name as metric,\n  COUNT(*) as value\nFROM aws_ec2_instance i,\n  jsonb_array_elements(i.security_groups) as sg_json,\n  aws_vpc_security_group sg\nWHERE (sg_json->>'GroupId') = sg.group_id\n  AND i.launch_time >= NOW() - INTERVAL '7 days'\nGROUP BY sg.group_name\nORDER BY value DESC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
-      "title": "VPC별 인스턴스 분포 (Variable 방식)",
+      "title": "최근 7일 보안그룹 사용 패턴",
       "type": "piechart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -444,18 +500,45 @@
             "displayMode": "auto",
             "inspect": false
           },
-          "mappings": []
+          "mappings": [],
+          "thresholds": {
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
         },
         "overrides": [
           {
             "matcher": {
               "id": "byName",
-              "options": "risk_level"
+              "options": "public_ip_address"
             },
             "properties": [
               {
                 "id": "custom.displayMode",
                 "value": "color-background"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 1
+                    }
+                  ]
+                }
               }
             ]
           }
@@ -467,7 +550,7 @@
         "x": 0,
         "y": 16
       },
-      "id": 7,
+      "id": 6,
       "options": {
         "showHeader": true,
         "cellHeight": "sm",
@@ -484,17 +567,35 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  sg.group_name,\n  sg.group_id,\n  string_agg(DISTINCT perm->>'FromPort', ', ') as open_ports,\n  COUNT(*) as rule_count,\n  CASE \n    WHEN COUNT(CASE WHEN (perm->>'FromPort')::int IN (22, 3389) THEN 1 END) > 0 THEN '🔴 HIGH'\n    WHEN COUNT(*) > 5 THEN '🟡 MEDIUM' \n    ELSE '🟢 LOW'\n  END as risk_level\nFROM ${account_connection}.aws_vpc_security_group sg,\n  jsonb_array_elements(sg.ip_permissions) perm,\n  jsonb_array_elements(perm->'IpRanges') ip_range\nWHERE ip_range->>'CidrIp' = '0.0.0.0/0'\nGROUP BY sg.group_name, sg.group_id\nORDER BY \n  CASE \n    WHEN COUNT(CASE WHEN (perm->>'FromPort')::int IN (22, 3389) THEN 1 END) > 0 THEN 1\n    WHEN COUNT(*) > 5 THEN 2 \n    ELSE 3\n  END",
-          "refId": "A"
+          "rawSql": "SELECT \n  instance_id,\n  launch_time,\n  state_transition_time,\n  instance_state,\n  CASE WHEN public_ip_address IS NOT NULL THEN '🔴 Public' ELSE '🟢 Private' END as exposure,\n  key_name,\n  instance_type\nFROM aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '30 days'\nORDER BY launch_time DESC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
-      "title": "위험한 보안그룹 분석 (0.0.0.0/0 허용) (Variable 방식)",
+      "title": "최근 30일 보안 이벤트 타임라인",
       "type": "table"
     }
   ],
@@ -503,21 +604,21 @@
   "style": "dark",
   "tags": [
     "aws",
-    "network",
     "security",
+    "timeline",
     "steampipe"
   ],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-7d",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "AWS 네트워크 보안 모니터링 (Variable 방식)",
-  "uid": "aws-network-security-variable",
+  "title": "AWS 보안 이벤트 시간별 추이",
+  "uid": "aws-security-timeline",
   "version": 1,
   "weekStart": ""
 }

@@ -5,7 +5,7 @@
         "builtIn": 1,
         "datasource": {
           "type": "grafana",
-          "uid": "-- Grafana ---variable"
+          "uid": "-- Grafana --"
         },
         "enable": true,
         "hide": true,
@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -33,177 +33,37 @@
             "mode": "thresholds"
           },
           "mappings": [],
-          "max": 100,
-          "min": 0,
           "thresholds": {
             "steps": [
               {
-                "color": "red",
+                "color": "green",
                 "value": null
               },
               {
                 "color": "yellow",
-                "value": 30
+                "value": 1
               },
               {
-                "color": "green",
-                "value": 70
+                "color": "red",
+                "value": 3
               }
             ]
           },
-          "unit": "percent"
+          "unit": "short"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 6,
         "x": 0,
         "y": 0
       },
       "id": 1,
       "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe-variable"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT \n  ROUND(\n    (\n      COUNT(CASE WHEN public_ip_address IS NULL AND key_name IS NOT NULL THEN 1 END) * 100.0 / \n      NULLIF(COUNT(*), 0)\n    ), 2\n  ) as value\nFROM ${account_connection}.aws_ec2_instance",
-          "refId": "A"
-        }
-      ],
-      "title": "EC2 보안 컴플라이언스 점수 (Variable 방식)",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe-variable"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 50
-              },
-              {
-                "color": "green",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 0
-      },
-      "id": 2,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe-variable"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT \n  ROUND(\n    (\n      COUNT(CASE WHEN versioning_enabled = true AND block_public_acls = true AND block_public_policy = true THEN 1 END) * 100.0 / \n      NULLIF(COUNT(*), 0)\n    ), 2\n  ) as value\nFROM ${account_connection}.aws_s3_bucket",
-          "refId": "A"
-        }
-      ],
-      "title": "S3 보안 컴플라이언스 점수 (Variable 방식)",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe-variable"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 3
-              },
-              {
-                "color": "red",
-                "value": 5
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 0,
-        "y": 8
-      },
-      "id": 3,
-      "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -212,96 +72,30 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value_and_name"
       },
       "pluginVersion": "9.0.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE public_ip_address IS NOT NULL",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE launch_time >= NOW() - INTERVAL '1 hour' AND public_ip_address IS NOT NULL",
           "refId": "A"
         }
       ],
-      "title": "🔴 퍼블릭 노출 인스턴스 (Variable 방식)",
+      "title": "⚠️ 1시간 내 퍼블릭 인스턴스 생성",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 6,
-        "y": 8
-      },
-      "id": 4,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe-variable"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_s3_bucket WHERE block_public_acls = false OR block_public_policy = false",
-          "refId": "A"
-        }
-      ],
-      "title": "🔴 퍼블릭 S3 버킷 (Variable 방식)",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -330,16 +124,16 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 6,
-        "x": 12,
-        "y": 8
+        "x": 6,
+        "y": 0
       },
-      "id": 5,
+      "id": 2,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -348,30 +142,30 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value_and_name"
       },
       "pluginVersion": "9.0.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(DISTINCT sg.group_name) as value FROM ${account_connection}.aws_vpc_security_group sg, jsonb_array_elements(sg.ip_permissions) perm, jsonb_array_elements(perm->'IpRanges') ip_range WHERE ip_range->>'CidrIp' = '0.0.0.0/0' AND (perm->>'FromPort')::int IN (22, 3389)",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_iam_access_key WHERE create_date >= NOW() - INTERVAL '24 hours'",
           "refId": "A"
         }
       ],
-      "title": "🟡 위험한 보안그룹 (Variable 방식)",
+      "title": "🔑 24시간 내 새 액세스 키 생성",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -396,16 +190,16 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 6,
-        "x": 18,
-        "y": 8
+        "x": 12,
+        "y": 0
       },
-      "id": 6,
+      "id": 3,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -414,30 +208,100 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value_and_name"
       },
       "pluginVersion": "9.0.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_access_key WHERE create_date < NOW() - INTERVAL '90 days' AND status = 'Active'",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE launch_time >= NOW() - INTERVAL '1 hour' AND EXTRACT(HOUR FROM launch_time) NOT BETWEEN 9 AND 18",
           "refId": "A"
         }
       ],
-      "title": "🟡 오래된 액세스 키 (Variable 방식)",
+      "title": "🌙 업무시간 외 인스턴스 생성",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 3
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value_and_name"
+      },
+      "pluginVersion": "9.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(DISTINCT sg.group_name) as value FROM aws_vpc_security_group sg, jsonb_array_elements(sg.ip_permissions) perm, jsonb_array_elements(perm->'IpRanges') ip_range WHERE ip_range->>'CidrIp' = '0.0.0.0/0' AND perm->>'FromPort' = '22'",
+          "refId": "A"
+        }
+      ],
+      "title": "🚨 SSH 전체 오픈 보안그룹",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -449,8 +313,8 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
+            "fillOpacity": 20,
+            "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -483,15 +347,31 @@
           },
           "unit": "short"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "긴급 이벤트"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "red"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 12
+        "y": 8
       },
-      "id": 7,
+      "id": 5,
       "options": {
         "legend": {
           "calcs": [],
@@ -499,31 +379,159 @@
           "placement": "bottom"
         },
         "tooltip": {
-          "mode": "single",
-          "sort": "none"
+          "mode": "multi",
+          "sort": "desc"
         }
       },
       "targets": [
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  DATE(launch_time) as time,\n  COUNT(CASE WHEN public_ip_address IS NOT NULL THEN 1 END) as \"퍼블릭 인스턴스\",\n  COUNT(CASE WHEN key_name IS NULL THEN 1 END) as \"키페어 없는 인스턴스\",\n  COUNT(*) as \"전체 인스턴스\"\nFROM ${account_connection}.aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '30 days'\nGROUP BY DATE(launch_time)\nORDER BY time",
+          "rawSql": "SELECT \n  DATE_TRUNC('hour', launch_time) as time,\n  COUNT(CASE WHEN public_ip_address IS NOT NULL THEN 1 END) as \"퍼블릭 인스턴스 생성\",\n  COUNT(CASE WHEN EXTRACT(HOUR FROM launch_time) NOT BETWEEN 9 AND 18 THEN 1 END) as \"업무외 시간 생성\",\n  COUNT(CASE WHEN public_ip_address IS NOT NULL AND key_name IS NULL THEN 1 END) as \"긴급 이벤트\"\nFROM aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '24 hours'\nGROUP BY DATE_TRUNC('hour', launch_time)\nORDER BY time",
           "refId": "A"
         }
       ],
-      "title": "일별 보안 위험 요소 추이 (Variable 방식)",
+      "title": "24시간 보안 이벤트 타임라인",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 6,
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "pieType": "donut",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "visible",
+          "placement": "bottom",
+          "values": []
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  CASE \n    WHEN EXTRACT(HOUR FROM launch_time) BETWEEN 9 AND 18 THEN '업무시간 (9-18시)'\n    WHEN EXTRACT(HOUR FROM launch_time) BETWEEN 19 AND 23 THEN '저녁시간 (19-23시)'\n    ELSE '새벽/야간 (0-8시)'\n  END as metric,\n  COUNT(*) as value\nFROM aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '7 days'\nGROUP BY metric\nORDER BY value DESC",
+          "refId": "A"
+        }
+      ],
+      "title": "시간대별 인스턴스 생성 패턴 (7일)",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 7,
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "pieType": "donut",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "visible",
+          "placement": "bottom",
+          "values": []
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  availability_zone as metric,\n  COUNT(*) as value\nFROM aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '7 days'\nGROUP BY availability_zone\nORDER BY value DESC",
+          "refId": "A"
+        }
+      ],
+      "title": "최근 7일 AZ별 인스턴스 생성",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -538,12 +546,24 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "risk_score"
+              "options": "severity"
             },
             "properties": [
               {
                 "id": "custom.displayMode",
                 "value": "color-background"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "launch_time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 180
               }
             ]
           }
@@ -553,7 +573,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 20
+        "y": 24
       },
       "id": 8,
       "options": {
@@ -572,17 +592,17 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  instance_id,\n  instance_type,\n  availability_zone,\n  CASE WHEN public_ip_address IS NOT NULL THEN '퍼블릭' ELSE '프라이빗' END as exposure,\n  CASE WHEN key_name IS NOT NULL THEN '있음' ELSE '없음' END as key_pair,\n  jsonb_array_length(security_groups) as sg_count,\n  CASE \n    WHEN public_ip_address IS NOT NULL AND key_name IS NULL THEN '🔴 CRITICAL'\n    WHEN public_ip_address IS NOT NULL THEN '🟡 HIGH'\n    WHEN key_name IS NULL THEN '🟠 MEDIUM'\n    ELSE '🟢 LOW'\n  END as risk_score\nFROM ${account_connection}.aws_ec2_instance \nORDER BY \n  CASE \n    WHEN public_ip_address IS NOT NULL AND key_name IS NULL THEN 1\n    WHEN public_ip_address IS NOT NULL THEN 2\n    WHEN key_name IS NULL THEN 3\n    ELSE 4\n  END",
+          "rawSql": "SELECT \n  instance_id,\n  launch_time,\n  EXTRACT(HOUR FROM launch_time) as launch_hour,\n  instance_type,\n  availability_zone,\n  CASE WHEN public_ip_address IS NOT NULL THEN '퍼블릭' ELSE '프라이빗' END as exposure,\n  CASE WHEN key_name IS NOT NULL THEN '있음' ELSE '없음' END as key_pair,\n  CASE \n    WHEN public_ip_address IS NOT NULL AND key_name IS NULL AND EXTRACT(HOUR FROM launch_time) NOT BETWEEN 9 AND 18 THEN '🔴 CRITICAL'\n    WHEN public_ip_address IS NOT NULL AND EXTRACT(HOUR FROM launch_time) NOT BETWEEN 9 AND 18 THEN '🟡 HIGH'\n    WHEN public_ip_address IS NOT NULL THEN '🟠 MEDIUM'\n    WHEN EXTRACT(HOUR FROM launch_time) NOT BETWEEN 9 AND 18 THEN '🟡 HIGH'\n    ELSE '🟢 LOW'\n  END as severity\nFROM aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '24 hours'\nORDER BY \n  CASE \n    WHEN public_ip_address IS NOT NULL AND key_name IS NULL AND EXTRACT(HOUR FROM launch_time) NOT BETWEEN 9 AND 18 THEN 1\n    WHEN public_ip_address IS NOT NULL AND EXTRACT(HOUR FROM launch_time) NOT BETWEEN 9 AND 18 THEN 2\n    WHEN public_ip_address IS NOT NULL THEN 3\n    WHEN EXTRACT(HOUR FROM launch_time) NOT BETWEEN 9 AND 18 THEN 4\n    ELSE 5\n  END, launch_time DESC",
           "refId": "A"
         }
       ],
-      "title": "EC2 인스턴스 위험도 상세 평가 (Variable 방식)",
+      "title": "🚨 24시간 보안 인시던트 상세 로그",
       "type": "table"
     }
   ],
@@ -591,22 +611,22 @@
   "style": "dark",
   "tags": [
     "aws",
-    "risk",
-    "compliance",
     "security",
-    "assessment"
+    "incident",
+    "response",
+    "monitoring"
   ],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-7d",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "AWS 위험 평가 및 컴플라이언스 (Variable 방식)",
-  "uid": "aws-risk-assessment-variable",
+  "title": "AWS 보안 인시던트 대응 센터",
+  "uid": "aws-security-incident",
   "version": 1,
   "weekStart": ""
 }

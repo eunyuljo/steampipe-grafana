@@ -5,7 +5,7 @@
         "builtIn": 1,
         "datasource": {
           "type": "grafana",
-          "uid": "-- Grafana ---variable"
+          "uid": "-- Grafana --"
         },
         "enable": true,
         "hide": true,
@@ -25,147 +25,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 30
-              },
-              {
-                "color": "green",
-                "value": 70
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 0
-      },
-      "id": 1,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe-variable"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT \n  ROUND(\n    (\n      COUNT(CASE WHEN public_ip_address IS NULL AND key_name IS NOT NULL THEN 1 END) * 100.0 / \n      NULLIF(COUNT(*), 0)\n    ), 2\n  ) as value\nFROM ${account_connection}.aws_ec2_instance",
-          "refId": "A"
-        }
-      ],
-      "title": "EC2 보안 컴플라이언스 점수 (Variable 방식)",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe-variable"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 50
-              },
-              {
-                "color": "green",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 0
-      },
-      "id": 2,
-      "options": {
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe-variable"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT \n  ROUND(\n    (\n      COUNT(CASE WHEN versioning_enabled = true AND block_public_acls = true AND block_public_policy = true THEN 1 END) * 100.0 / \n      NULLIF(COUNT(*), 0)\n    ), 2\n  ) as value\nFROM ${account_connection}.aws_s3_bucket",
-          "refId": "A"
-        }
-      ],
-      "title": "S3 보안 컴플라이언스 점수 (Variable 방식)",
-      "type": "gauge"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -180,12 +40,8 @@
                 "value": null
               },
               {
-                "color": "yellow",
-                "value": 3
-              },
-              {
                 "color": "red",
-                "value": 5
+                "value": 1
               }
             ]
           },
@@ -194,10 +50,146 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 6,
         "x": 0,
-        "y": 8
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(*) as value FROM aws_kms_key WHERE key_state = 'PendingDeletion'",
+          "refId": "A"
+        }
+      ],
+      "title": "삭제 예정 암호화 키",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 5
+              },
+              {
+                "color": "red",
+                "value": 10
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(*) as value FROM aws_kms_key WHERE key_usage = 'ENCRYPT_DECRYPT' AND key_state = 'Enabled'",
+          "refId": "A"
+        }
+      ],
+      "title": "활성 암호화 키",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 0
       },
       "id": 3,
       "options": {
@@ -219,23 +211,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE public_ip_address IS NOT NULL",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_iam_access_key WHERE create_date < NOW() - INTERVAL '90 days' AND status = 'Active'",
           "refId": "A"
         }
       ],
-      "title": "🔴 퍼블릭 노출 인스턴스 (Variable 방식)",
+      "title": "90일 이상 된 액세스 키",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -248,10 +240,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 1
               }
             ]
           },
@@ -260,10 +248,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 6,
-        "x": 6,
-        "y": 8
+        "x": 18,
+        "y": 0
       },
       "id": 4,
       "options": {
@@ -285,159 +273,87 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_s3_bucket WHERE block_public_acls = false OR block_public_policy = false",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_iam_access_key WHERE status = 'Active'",
           "refId": "A"
         }
       ],
-      "title": "🔴 퍼블릭 S3 버킷 (Variable 방식)",
+      "title": "총 활성 액세스 키",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
-          "mappings": [],
-          "thresholds": {
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 2
-              },
-              {
-                "color": "red",
-                "value": 5
-              }
-            ]
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            }
           },
-          "unit": "short"
+          "mappings": []
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 12,
+        "h": 8,
+        "w": 12,
+        "x": 0,
         "y": 8
       },
       "id": 5,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto"
+        "pieType": "pie",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "visible",
+          "placement": "bottom",
+          "values": []
+        }
       },
-      "pluginVersion": "9.0.0",
       "targets": [
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(DISTINCT sg.group_name) as value FROM ${account_connection}.aws_vpc_security_group sg, jsonb_array_elements(sg.ip_permissions) perm, jsonb_array_elements(perm->'IpRanges') ip_range WHERE ip_range->>'CidrIp' = '0.0.0.0/0' AND (perm->>'FromPort')::int IN (22, 3389)",
+          "rawSql": "SELECT \n  key_state as metric,\n  COUNT(*) as value\nFROM aws_kms_key \nGROUP BY key_state\nORDER BY value DESC",
           "refId": "A"
         }
       ],
-      "title": "🟡 위험한 보안그룹 (Variable 방식)",
-      "type": "stat"
+      "title": "KMS 키 상태 분포",
+      "type": "piechart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 18,
-        "y": 8
-      },
-      "id": 6,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.0.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe-variable"
-          },
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_access_key WHERE create_date < NOW() - INTERVAL '90 days' AND status = 'Active'",
-          "refId": "A"
-        }
-      ],
-      "title": "🟡 오래된 액세스 키 (Variable 방식)",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -448,8 +364,8 @@
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
+            "drawStyle": "bars",
+            "fillOpacity": 80,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -457,12 +373,12 @@
               "vis": false
             },
             "lineInterpolation": "linear",
-            "lineWidth": 2,
+            "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
             },
-            "showPoints": "auto",
+            "showPoints": "never",
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -487,11 +403,11 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 12
+        "w": 12,
+        "x": 12,
+        "y": 8
       },
-      "id": 7,
+      "id": 6,
       "options": {
         "legend": {
           "calcs": [],
@@ -507,23 +423,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
-          "format": "time_series",
+          "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  DATE(launch_time) as time,\n  COUNT(CASE WHEN public_ip_address IS NOT NULL THEN 1 END) as \"퍼블릭 인스턴스\",\n  COUNT(CASE WHEN key_name IS NULL THEN 1 END) as \"키페어 없는 인스턴스\",\n  COUNT(*) as \"전체 인스턴스\"\nFROM ${account_connection}.aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '30 days'\nGROUP BY DATE(launch_time)\nORDER BY time",
+          "rawSql": "SELECT \n  user_name as metric,\n  COUNT(*) as value\nFROM aws_iam_access_key \nWHERE status = 'Active'\nGROUP BY user_name\nORDER BY value DESC",
           "refId": "A"
         }
       ],
-      "title": "일별 보안 위험 요소 추이 (Variable 방식)",
-      "type": "timeseries"
+      "title": "사용자별 액세스 키 수",
+      "type": "barchart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -538,7 +454,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "risk_score"
+              "options": "risk_level"
             },
             "properties": [
               {
@@ -553,9 +469,9 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 20
+        "y": 16
       },
-      "id": 8,
+      "id": 7,
       "options": {
         "showHeader": true,
         "cellHeight": "sm",
@@ -572,17 +488,17 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  instance_id,\n  instance_type,\n  availability_zone,\n  CASE WHEN public_ip_address IS NOT NULL THEN '퍼블릭' ELSE '프라이빗' END as exposure,\n  CASE WHEN key_name IS NOT NULL THEN '있음' ELSE '없음' END as key_pair,\n  jsonb_array_length(security_groups) as sg_count,\n  CASE \n    WHEN public_ip_address IS NOT NULL AND key_name IS NULL THEN '🔴 CRITICAL'\n    WHEN public_ip_address IS NOT NULL THEN '🟡 HIGH'\n    WHEN key_name IS NULL THEN '🟠 MEDIUM'\n    ELSE '🟢 LOW'\n  END as risk_score\nFROM ${account_connection}.aws_ec2_instance \nORDER BY \n  CASE \n    WHEN public_ip_address IS NOT NULL AND key_name IS NULL THEN 1\n    WHEN public_ip_address IS NOT NULL THEN 2\n    WHEN key_name IS NULL THEN 3\n    ELSE 4\n  END",
+          "rawSql": "SELECT \n  user_name,\n  access_key_id,\n  status,\n  create_date,\n  EXTRACT(DAY FROM NOW() - create_date) as age_days,\n  CASE \n    WHEN create_date < NOW() - INTERVAL '365 days' THEN '🔴 CRITICAL'\n    WHEN create_date < NOW() - INTERVAL '90 days' THEN '🟡 HIGH'\n    WHEN create_date < NOW() - INTERVAL '30 days' THEN '🟠 MEDIUM'\n    ELSE '🟢 LOW'\n  END as risk_level\nFROM aws_iam_access_key \nWHERE status = 'Active'\nORDER BY create_date ASC",
           "refId": "A"
         }
       ],
-      "title": "EC2 인스턴스 위험도 상세 평가 (Variable 방식)",
+      "title": "액세스 키 연령 및 위험도 평가",
       "type": "table"
     }
   ],
@@ -591,22 +507,22 @@
   "style": "dark",
   "tags": [
     "aws",
-    "risk",
+    "encryption",
+    "kms",
     "compliance",
-    "security",
-    "assessment"
+    "security"
   ],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-7d",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
-  "title": "AWS 위험 평가 및 컴플라이언스 (Variable 방식)",
-  "uid": "aws-risk-assessment-variable",
+  "title": "AWS 암호화 및 키 관리 컴플라이언스",
+  "uid": "aws-encryption-compliance",
   "version": 1,
   "weekStart": ""
 }

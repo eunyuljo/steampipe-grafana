@@ -5,7 +5,7 @@
         "builtIn": 1,
         "datasource": {
           "type": "grafana",
-          "uid": "-- Grafana --"
+          "uid": "-- Grafana ---variable"
         },
         "enable": true,
         "hide": true,
@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -99,13 +99,13 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  DATE(launch_time) as time,\n  COUNT(*) as \"새로운 인스턴스\",\n  COUNT(CASE WHEN public_ip_address IS NOT NULL THEN 1 END) as \"퍼블릭 인스턴스\"\nFROM aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '30 days'\nGROUP BY DATE(launch_time)\nORDER BY time",
+          "rawSql": "SELECT \n  DATE(launch_time) as time,\n  COUNT(*) as \"새로운 인스턴스\",\n  COUNT(CASE WHEN public_ip_address IS NOT NULL THEN 1 END) as \"퍼블릭 인스턴스\"\nFROM ${account_connection}.aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '30 days'\nGROUP BY DATE(launch_time)\nORDER BY time",
           "refId": "A",
           "select": [
             [
@@ -127,13 +127,13 @@
           ]
         }
       ],
-      "title": "일별 인스턴스 생성 추이",
+      "title": "일별 인스턴스 생성 추이 (Variable 방식)",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -187,13 +187,13 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE launch_time >= NOW() - INTERVAL '24 hours'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE launch_time >= NOW() - INTERVAL '24 hours'",
           "refId": "A",
           "select": [
             [
@@ -215,13 +215,13 @@
           ]
         }
       ],
-      "title": "24시간 내 새 인스턴스",
+      "title": "24시간 내 새 인스턴스 (Variable 방식)",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -271,13 +271,13 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE public_ip_address IS NOT NULL AND launch_time >= NOW() - INTERVAL '24 hours'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE public_ip_address IS NOT NULL AND launch_time >= NOW() - INTERVAL '24 hours'",
           "refId": "A",
           "select": [
             [
@@ -299,13 +299,13 @@
           ]
         }
       ],
-      "title": "24시간 내 퍼블릭 인스턴스",
+      "title": "24시간 내 퍼블릭 인스턴스 (Variable 방식)",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -375,13 +375,13 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  EXTRACT(HOUR FROM launch_time) as time,\n  COUNT(*) as \"시간별 생성\"\nFROM aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '7 days'\nGROUP BY EXTRACT(HOUR FROM launch_time)\nORDER BY time",
+          "rawSql": "SELECT \n  EXTRACT(HOUR FROM launch_time) as time,\n  COUNT(*) as \"시간별 생성\"\nFROM ${account_connection}.aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '7 days'\nGROUP BY EXTRACT(HOUR FROM launch_time)\nORDER BY time",
           "refId": "A",
           "select": [
             [
@@ -403,13 +403,13 @@
           ]
         }
       ],
-      "title": "시간별 인스턴스 생성 패턴",
+      "title": "시간별 인스턴스 생성 패턴 (Variable 방식)",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -457,13 +457,13 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  sg.group_name as metric,\n  COUNT(*) as value\nFROM aws_ec2_instance i,\n  jsonb_array_elements(i.security_groups) as sg_json,\n  aws_vpc_security_group sg\nWHERE (sg_json->>'GroupId') = sg.group_id\n  AND i.launch_time >= NOW() - INTERVAL '7 days'\nGROUP BY sg.group_name\nORDER BY value DESC",
+          "rawSql": "SELECT \n  sg.group_name as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_ec2_instance i,\n  jsonb_array_elements(i.security_groups) as sg_json,\n  aws_vpc_security_group sg\nWHERE (sg_json->>'GroupId') = sg.group_id\n  AND i.launch_time >= NOW() - INTERVAL '7 days'\nGROUP BY sg.group_name\nORDER BY value DESC",
           "refId": "A",
           "select": [
             [
@@ -485,13 +485,13 @@
           ]
         }
       ],
-      "title": "최근 7일 보안그룹 사용 패턴",
+      "title": "최근 7일 보안그룹 사용 패턴 (Variable 방식)",
       "type": "piechart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe"
+        "uid": "steampipe-variable"
       },
       "fieldConfig": {
         "defaults": {
@@ -567,13 +567,13 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe"
+            "uid": "steampipe-variable"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  instance_id,\n  launch_time,\n  state_transition_time,\n  instance_state,\n  CASE WHEN public_ip_address IS NOT NULL THEN '🔴 Public' ELSE '🟢 Private' END as exposure,\n  key_name,\n  instance_type\nFROM aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '30 days'\nORDER BY launch_time DESC",
+          "rawSql": "SELECT \n  instance_id,\n  launch_time,\n  state_transition_time,\n  instance_state,\n  CASE WHEN public_ip_address IS NOT NULL THEN '🔴 Public' ELSE '🟢 Private' END as exposure,\n  key_name,\n  instance_type\nFROM ${account_connection}.aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '30 days'\nORDER BY launch_time DESC",
           "refId": "A",
           "select": [
             [
@@ -595,7 +595,7 @@
           ]
         }
       ],
-      "title": "최근 30일 보안 이벤트 타임라인",
+      "title": "최근 30일 보안 이벤트 타임라인 (Variable 방식)",
       "type": "table"
     }
   ],
@@ -617,8 +617,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "AWS 보안 이벤트 시간별 추이",
-  "uid": "aws-security-timeline",
+  "title": "AWS 보안 이벤트 시간별 추이 (Variable 방식)",
+  "uid": "aws-security-timeline-variable",
   "version": 1,
   "weekStart": ""
 }

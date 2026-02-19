@@ -5,7 +5,7 @@
         "builtIn": 1,
         "datasource": {
           "type": "grafana",
-          "uid": "-- Grafana ---variable"
+          "uid": "-- Grafana --"
         },
         "enable": true,
         "hide": true,
@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -75,23 +75,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_user WHERE password_last_used IS NULL OR password_last_used < NOW() - INTERVAL '90 days'",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_iam_user WHERE password_last_used IS NULL OR password_last_used < NOW() - INTERVAL '90 days'",
           "refId": "A"
         }
       ],
-      "title": "90일 이상 미사용 계정 (Variable 방식)",
+      "title": "90일 이상 미사용 계정",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -145,23 +145,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_user",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_iam_user",
           "refId": "A"
         }
       ],
-      "title": "총 IAM 사용자 수 (Variable 방식)",
+      "title": "총 IAM 사용자 수",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -209,23 +209,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  CASE \n    WHEN password_last_used IS NULL THEN '사용 안함'\n    WHEN password_last_used >= NOW() - INTERVAL '30 days' THEN '30일 이내'\n    WHEN password_last_used >= NOW() - INTERVAL '90 days' THEN '90일 이내'\n    ELSE '90일 이상'\n  END as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_iam_user \nGROUP BY metric",
+          "rawSql": "SELECT \n  CASE \n    WHEN password_last_used IS NULL THEN '사용 안함'\n    WHEN password_last_used >= NOW() - INTERVAL '30 days' THEN '30일 이내'\n    WHEN password_last_used >= NOW() - INTERVAL '90 days' THEN '90일 이내'\n    ELSE '90일 이상'\n  END as metric,\n  COUNT(*) as value\nFROM aws_iam_user \nGROUP BY metric",
           "refId": "A"
         }
       ],
-      "title": "사용자 활동 패턴 (Variable 방식)",
+      "title": "사용자 활동 패턴",
       "type": "piechart"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -274,17 +274,17 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  name,\n  password_last_used,\n  create_date,\n  CASE \n    WHEN password_last_used IS NULL THEN '🔴 HIGH'\n    WHEN password_last_used < NOW() - INTERVAL '90 days' THEN '🟡 MEDIUM'\n    ELSE '🟢 LOW'\n  END as risk_level\nFROM ${account_connection}.aws_iam_user \nORDER BY \n  CASE \n    WHEN password_last_used IS NULL THEN 1\n    WHEN password_last_used < NOW() - INTERVAL '90 days' THEN 2\n    ELSE 3\n  END",
+          "rawSql": "SELECT \n  name,\n  password_last_used,\n  create_date,\n  CASE \n    WHEN password_last_used IS NULL THEN '🔴 HIGH'\n    WHEN password_last_used < NOW() - INTERVAL '90 days' THEN '🟡 MEDIUM'\n    ELSE '🟢 LOW'\n  END as risk_level\nFROM aws_iam_user \nORDER BY \n  CASE \n    WHEN password_last_used IS NULL THEN 1\n    WHEN password_last_used < NOW() - INTERVAL '90 days' THEN 2\n    ELSE 3\n  END",
           "refId": "A"
         }
       ],
-      "title": "IAM 사용자 위험도 평가 (Variable 방식)",
+      "title": "IAM 사용자 위험도 평가",
       "type": "table"
     }
   ],
@@ -306,8 +306,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "AWS IAM 보안 모니터링 (Variable 방식)",
-  "uid": "aws-iam-security-variable",
+  "title": "AWS IAM 보안 모니터링",
+  "uid": "aws-iam-security",
   "version": 1,
   "weekStart": ""
 }

@@ -5,7 +5,7 @@
         "builtIn": 1,
         "datasource": {
           "type": "grafana",
-          "uid": "-- Grafana ---variable"
+          "uid": "-- Grafana --"
         },
         "enable": true,
         "hide": true,
@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -79,23 +79,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  ROUND(\n    (\n      COUNT(CASE WHEN public_ip_address IS NULL AND key_name IS NOT NULL THEN 1 END) * 100.0 / \n      NULLIF(COUNT(*), 0)\n    ), 2\n  ) as value\nFROM ${account_connection}.aws_ec2_instance",
+          "rawSql": "SELECT \n  ROUND(\n    (\n      COUNT(CASE WHEN public_ip_address IS NULL AND key_name IS NOT NULL THEN 1 END) * 100.0 / \n      NULLIF(COUNT(*), 0)\n    ), 2\n  ) as value\nFROM aws_ec2_instance",
           "refId": "A"
         }
       ],
-      "title": "EC2 보안 컴플라이언스 점수 (Variable 방식)",
+      "title": "EC2 보안 컴플라이언스 점수",
       "type": "gauge"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -149,23 +149,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  ROUND(\n    (\n      COUNT(CASE WHEN versioning_enabled = true AND block_public_acls = true AND block_public_policy = true THEN 1 END) * 100.0 / \n      NULLIF(COUNT(*), 0)\n    ), 2\n  ) as value\nFROM ${account_connection}.aws_s3_bucket",
+          "rawSql": "SELECT \n  ROUND(\n    (\n      COUNT(CASE WHEN versioning_enabled = true AND block_public_acls = true AND block_public_policy = true THEN 1 END) * 100.0 / \n      NULLIF(COUNT(*), 0)\n    ), 2\n  ) as value\nFROM aws_s3_bucket",
           "refId": "A"
         }
       ],
-      "title": "S3 보안 컴플라이언스 점수 (Variable 방식)",
+      "title": "S3 보안 컴플라이언스 점수",
       "type": "gauge"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -219,23 +219,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE public_ip_address IS NOT NULL",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE public_ip_address IS NOT NULL",
           "refId": "A"
         }
       ],
-      "title": "🔴 퍼블릭 노출 인스턴스 (Variable 방식)",
+      "title": "🔴 퍼블릭 노출 인스턴스",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -285,23 +285,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_s3_bucket WHERE block_public_acls = false OR block_public_policy = false",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_s3_bucket WHERE block_public_acls = false OR block_public_policy = false",
           "refId": "A"
         }
       ],
-      "title": "🔴 퍼블릭 S3 버킷 (Variable 방식)",
+      "title": "🔴 퍼블릭 S3 버킷",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -355,23 +355,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(DISTINCT sg.group_name) as value FROM ${account_connection}.aws_vpc_security_group sg, jsonb_array_elements(sg.ip_permissions) perm, jsonb_array_elements(perm->'IpRanges') ip_range WHERE ip_range->>'CidrIp' = '0.0.0.0/0' AND (perm->>'FromPort')::int IN (22, 3389)",
+          "rawSql": "SELECT COUNT(DISTINCT sg.group_name) as value FROM aws_vpc_security_group sg, jsonb_array_elements(sg.ip_permissions) perm, jsonb_array_elements(perm->'IpRanges') ip_range WHERE ip_range->>'CidrIp' = '0.0.0.0/0' AND (perm->>'FromPort')::int IN (22, 3389)",
           "refId": "A"
         }
       ],
-      "title": "🟡 위험한 보안그룹 (Variable 방식)",
+      "title": "🟡 위험한 보안그룹",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -421,23 +421,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_access_key WHERE create_date < NOW() - INTERVAL '90 days' AND status = 'Active'",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_iam_access_key WHERE create_date < NOW() - INTERVAL '90 days' AND status = 'Active'",
           "refId": "A"
         }
       ],
-      "title": "🟡 오래된 액세스 키 (Variable 방식)",
+      "title": "🟡 오래된 액세스 키",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -507,23 +507,23 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "time_series",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  DATE(launch_time) as time,\n  COUNT(CASE WHEN public_ip_address IS NOT NULL THEN 1 END) as \"퍼블릭 인스턴스\",\n  COUNT(CASE WHEN key_name IS NULL THEN 1 END) as \"키페어 없는 인스턴스\",\n  COUNT(*) as \"전체 인스턴스\"\nFROM ${account_connection}.aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '30 days'\nGROUP BY DATE(launch_time)\nORDER BY time",
+          "rawSql": "SELECT \n  DATE(launch_time) as time,\n  COUNT(CASE WHEN public_ip_address IS NOT NULL THEN 1 END) as \"퍼블릭 인스턴스\",\n  COUNT(CASE WHEN key_name IS NULL THEN 1 END) as \"키페어 없는 인스턴스\",\n  COUNT(*) as \"전체 인스턴스\"\nFROM aws_ec2_instance \nWHERE launch_time >= NOW() - INTERVAL '30 days'\nGROUP BY DATE(launch_time)\nORDER BY time",
           "refId": "A"
         }
       ],
-      "title": "일별 보안 위험 요소 추이 (Variable 방식)",
+      "title": "일별 보안 위험 요소 추이",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "fieldConfig": {
         "defaults": {
@@ -572,17 +572,17 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  instance_id,\n  instance_type,\n  availability_zone,\n  CASE WHEN public_ip_address IS NOT NULL THEN '퍼블릭' ELSE '프라이빗' END as exposure,\n  CASE WHEN key_name IS NOT NULL THEN '있음' ELSE '없음' END as key_pair,\n  jsonb_array_length(security_groups) as sg_count,\n  CASE \n    WHEN public_ip_address IS NOT NULL AND key_name IS NULL THEN '🔴 CRITICAL'\n    WHEN public_ip_address IS NOT NULL THEN '🟡 HIGH'\n    WHEN key_name IS NULL THEN '🟠 MEDIUM'\n    ELSE '🟢 LOW'\n  END as risk_score\nFROM ${account_connection}.aws_ec2_instance \nORDER BY \n  CASE \n    WHEN public_ip_address IS NOT NULL AND key_name IS NULL THEN 1\n    WHEN public_ip_address IS NOT NULL THEN 2\n    WHEN key_name IS NULL THEN 3\n    ELSE 4\n  END",
+          "rawSql": "SELECT \n  instance_id,\n  instance_type,\n  availability_zone,\n  CASE WHEN public_ip_address IS NOT NULL THEN '퍼블릭' ELSE '프라이빗' END as exposure,\n  CASE WHEN key_name IS NOT NULL THEN '있음' ELSE '없음' END as key_pair,\n  jsonb_array_length(security_groups) as sg_count,\n  CASE \n    WHEN public_ip_address IS NOT NULL AND key_name IS NULL THEN '🔴 CRITICAL'\n    WHEN public_ip_address IS NOT NULL THEN '🟡 HIGH'\n    WHEN key_name IS NULL THEN '🟠 MEDIUM'\n    ELSE '🟢 LOW'\n  END as risk_score\nFROM aws_ec2_instance \nORDER BY \n  CASE \n    WHEN public_ip_address IS NOT NULL AND key_name IS NULL THEN 1\n    WHEN public_ip_address IS NOT NULL THEN 2\n    WHEN key_name IS NULL THEN 3\n    ELSE 4\n  END",
           "refId": "A"
         }
       ],
-      "title": "EC2 인스턴스 위험도 상세 평가 (Variable 방식)",
+      "title": "EC2 인스턴스 위험도 상세 평가",
       "type": "table"
     }
   ],
@@ -605,8 +605,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "AWS 위험 평가 및 컴플라이언스 (Variable 방식)",
-  "uid": "aws-risk-assessment-variable",
+  "title": "AWS 위험 평가 및 컴플라이언스",
+  "uid": "aws-risk-assessment",
   "version": 1,
   "weekStart": ""
 }
