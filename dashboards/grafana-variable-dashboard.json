@@ -88,7 +88,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance",
           "refId": "A"
         }
       ],
@@ -148,7 +148,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_rds_db_instance",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance",
           "refId": "A"
         }
       ],
@@ -208,7 +208,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_s3_bucket",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_s3_bucket",
           "refId": "A"
         }
       ],
@@ -268,7 +268,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_lambda_function",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_lambda_function",
           "refId": "A"
         }
       ],
@@ -328,7 +328,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_vpc",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_vpc",
           "refId": "A"
         }
       ],
@@ -388,7 +388,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_load_balancer_v2",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_load_balancer_v2",
           "refId": "A"
         }
       ],
@@ -448,7 +448,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_iam_user",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_user",
           "refId": "A"
         }
       ],
@@ -508,7 +508,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(DISTINCT region) as value FROM aws_ec2_instance",
+          "rawSql": "SELECT COUNT(DISTINCT region) as value FROM ${account_connection}.aws_ec2_instance",
           "refId": "A"
         }
       ],
@@ -589,7 +589,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE instance_state = 'stopped'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE instance_state = 'stopped'",
           "refId": "A"
         }
       ],
@@ -657,7 +657,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_rds_db_instance WHERE publicly_accessible = true",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance WHERE publicly_accessible = true",
           "refId": "A"
         }
       ],
@@ -725,7 +725,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_ebs_volume WHERE encrypted = false",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ebs_volume WHERE encrypted = false",
           "refId": "A"
         }
       ],
@@ -793,7 +793,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance WHERE tags = '{}'::jsonb OR tags->>'Name' IS NULL",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE tags = '{}'::jsonb OR tags->>'Name' IS NULL",
           "refId": "A"
         }
       ],
@@ -857,7 +857,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(DISTINCT group_id) as value FROM aws_vpc_security_group_rule WHERE type = 'ingress' AND from_port = 22 AND to_port = 22 AND cidr_ipv4 = '0.0.0.0/0'",
+          "rawSql": "SELECT COUNT(DISTINCT group_id) as value FROM ${account_connection}.aws_vpc_security_group_rule WHERE type = 'ingress' AND from_port = 22 AND to_port = 22 AND cidr_ipv4 = '0.0.0.0/0'",
           "refId": "A"
         }
       ],
@@ -921,7 +921,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_iam_account_summary WHERE account_access_keys_present > 0",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_account_summary WHERE account_access_keys_present > 0",
           "refId": "A"
         }
       ],
@@ -1025,7 +1025,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT region as metric, COUNT(*) as value FROM aws_ec2_instance GROUP BY region ORDER BY value DESC",
+          "rawSql": "SELECT region as metric, COUNT(*) as value FROM ${account_connection}.aws_ec2_instance GROUP BY region ORDER BY value DESC",
           "refId": "A"
         }
       ],
@@ -1116,7 +1116,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT region as metric, COUNT(*) as value FROM aws_rds_db_instance GROUP BY region ORDER BY value DESC",
+          "rawSql": "SELECT region as metric, COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance GROUP BY region ORDER BY value DESC",
           "refId": "A"
         }
       ],
@@ -1220,7 +1220,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT instance_type as metric, COUNT(*) as value FROM aws_ec2_instance GROUP BY instance_type ORDER BY value DESC LIMIT 10",
+          "rawSql": "SELECT instance_type as metric, COUNT(*) as value FROM ${account_connection}.aws_ec2_instance GROUP BY instance_type ORDER BY value DESC LIMIT 10",
           "refId": "A"
         }
       ],
@@ -1311,7 +1311,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT engine as metric, COUNT(*) as value FROM aws_rds_db_instance GROUP BY engine ORDER BY value DESC",
+          "rawSql": "SELECT engine as metric, COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance GROUP BY engine ORDER BY value DESC",
           "refId": "A"
         }
       ],
@@ -1435,7 +1435,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "-- 보안 위험 요소 종합\nSELECT \n  'EC2 Instance' as resource_type,\n  instance_id as resource_id,\n  'SSH Open to 0.0.0.0/0' as issue,\n  'HIGH' as risk_level,\n  region,\n  placement_availability_zone as az\nFROM aws_ec2_instance \nWHERE instance_id IN (\n  SELECT DISTINCT instance_id \n  FROM aws_ec2_instance_security_group isg\n  JOIN aws_vpc_security_group_rule sgr ON isg.group_id = sgr.group_id\n  WHERE sgr.type = 'ingress' AND sgr.from_port = 22 AND sgr.to_port = 22 AND sgr.cidr_ipv4 = '0.0.0.0/0'\n)\nUNION ALL\nSELECT \n  'RDS Instance' as resource_type,\n  db_instance_identifier as resource_id,\n  'Publicly Accessible' as issue,\n  'HIGH' as risk_level,\n  region,\n  availability_zone as az\nFROM aws_rds_db_instance \nWHERE publicly_accessible = true\nUNION ALL\nSELECT \n  'EBS Volume' as resource_type,\n  volume_id as resource_id,\n  'Not Encrypted' as issue,\n  'MEDIUM' as risk_level,\n  region,\n  availability_zone as az\nFROM aws_ebs_volume \nWHERE encrypted = false\nORDER BY \n  CASE risk_level \n    WHEN 'HIGH' THEN 1 \n    WHEN 'MEDIUM' THEN 2 \n    WHEN 'LOW' THEN 3 \n  END,\n  resource_type",
+          "rawSql": "-- 보안 위험 요소 종합\nSELECT \n  'EC2 Instance' as resource_type,\n  instance_id as resource_id,\n  'SSH Open to 0.0.0.0/0' as issue,\n  'HIGH' as risk_level,\n  region,\n  placement_availability_zone as az\nFROM ${account_connection}.aws_ec2_instance \nWHERE instance_id IN (\n  SELECT DISTINCT instance_id \n  FROM ${account_connection}.aws_ec2_instance_security_group isg\n  JOIN aws_vpc_security_group_rule sgr ON isg.group_id = sgr.group_id\n  WHERE sgr.type = 'ingress' AND sgr.from_port = 22 AND sgr.to_port = 22 AND sgr.cidr_ipv4 = '0.0.0.0/0'\n)\nUNION ALL\nSELECT \n  'RDS Instance' as resource_type,\n  db_instance_identifier as resource_id,\n  'Publicly Accessible' as issue,\n  'HIGH' as risk_level,\n  region,\n  availability_zone as az\nFROM ${account_connection}.aws_rds_db_instance \nWHERE publicly_accessible = true\nUNION ALL\nSELECT \n  'EBS Volume' as resource_type,\n  volume_id as resource_id,\n  'Not Encrypted' as issue,\n  'MEDIUM' as risk_level,\n  region,\n  availability_zone as az\nFROM ${account_connection}.aws_ebs_volume \nWHERE encrypted = false\nORDER BY \n  CASE risk_level \n    WHEN 'HIGH' THEN 1 \n    WHEN 'MEDIUM' THEN 2 \n    WHEN 'LOW' THEN 3 \n  END,\n  resource_type",
           "refId": "A"
         }
       ],
@@ -1541,7 +1541,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "-- 태그 정책 준수 현황\nSELECT \n  'EC2' as resource_type,\n  instance_id as resource_id,\n  instance_type,\n  instance_state,\n  CASE \n    WHEN tags->>'Name' IS NOT NULL AND tags->>'Name' != '' THEN true\n    ELSE false \n  END as has_name_tag,\n  tags->>'Environment' as environment_tag,\n  tags->>'Owner' as owner_tag,\n  region,\n  launch_time::date as created_date\nFROM aws_ec2_instance \nORDER BY has_name_tag, launch_time DESC\nLIMIT 50",
+          "rawSql": "-- 태그 정책 준수 현황\nSELECT \n  'EC2' as resource_type,\n  instance_id as resource_id,\n  instance_type,\n  instance_state,\n  CASE \n    WHEN tags->>'Name' IS NOT NULL AND tags->>'Name' != '' THEN true\n    ELSE false \n  END as has_name_tag,\n  tags->>'Environment' as environment_tag,\n  tags->>'Owner' as owner_tag,\n  region,\n  launch_time::date as created_date\nFROM ${account_connection}.aws_ec2_instance \nORDER BY has_name_tag, launch_time DESC\nLIMIT 50",
           "refId": "A"
         }
       ],
@@ -1614,7 +1614,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_ebs_snapshot WHERE state = 'completed'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ebs_snapshot WHERE state = 'completed'",
           "refId": "A"
         }
       ],
@@ -1674,7 +1674,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_rds_db_instance WHERE backup_retention_period > 0",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance WHERE backup_retention_period > 0",
           "refId": "A"
         }
       ],
@@ -1734,7 +1734,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_ebs_snapshot WHERE start_time >= NOW() - INTERVAL '7 days' AND state = 'completed'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ebs_snapshot WHERE start_time >= NOW() - INTERVAL '7 days' AND state = 'completed'",
           "refId": "A"
         }
       ],
@@ -1794,7 +1794,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_ami WHERE state = 'available' AND owner_id != 'amazon'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_ami WHERE state = 'available' AND owner_id != 'amazon'",
           "refId": "A"
         }
       ],
@@ -1862,7 +1862,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_ebs_volume v WHERE NOT EXISTS (SELECT 1 FROM aws_ebs_snapshot s WHERE s.volume_id = v.volume_id AND s.start_time >= NOW() - INTERVAL '30 days')",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ebs_volume v WHERE NOT EXISTS (SELECT 1 FROM ${account_connection}.aws_ebs_snapshot s WHERE s.volume_id = v.volume_id AND s.start_time >= NOW() - INTERVAL '30 days')",
           "refId": "A"
         }
       ],
@@ -1926,7 +1926,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_rds_db_instance WHERE backup_retention_period = 0",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance WHERE backup_retention_period = 0",
           "refId": "A"
         }
       ],
@@ -2017,7 +2017,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  start_time::date as metric,\n  COUNT(*) as value\nFROM aws_ebs_snapshot \nWHERE start_time >= NOW() - INTERVAL '30 days'\n  AND state = 'completed'\nGROUP BY start_time::date \nORDER BY start_time::date",
+          "rawSql": "SELECT \n  start_time::date as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_ebs_snapshot \nWHERE start_time >= NOW() - INTERVAL '30 days'\n  AND state = 'completed'\nGROUP BY start_time::date \nORDER BY start_time::date",
           "refId": "A"
         }
       ],
@@ -2109,7 +2109,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ 백업 없음'\n    WHEN backup_retention_period <= 7 THEN '🟡 1-7일'\n    WHEN backup_retention_period <= 14 THEN '🟠 8-14일'\n    WHEN backup_retention_period <= 30 THEN '🟢 15-30일'\n    ELSE '🔵 30일+'\n  END as metric,\n  COUNT(*) as value\nFROM aws_rds_db_instance \nGROUP BY \n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ 백업 없음'\n    WHEN backup_retention_period <= 7 THEN '🟡 1-7일'\n    WHEN backup_retention_period <= 14 THEN '🟠 8-14일'\n    WHEN backup_retention_period <= 30 THEN '🟢 15-30일'\n    ELSE '🔵 30일+'\n  END\nORDER BY value DESC",
+          "rawSql": "SELECT \n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ 백업 없음'\n    WHEN backup_retention_period <= 7 THEN '🟡 1-7일'\n    WHEN backup_retention_period <= 14 THEN '🟠 8-14일'\n    WHEN backup_retention_period <= 30 THEN '🟢 15-30일'\n    ELSE '🔵 30일+'\n  END as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_rds_db_instance \nGROUP BY \n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ 백업 없음'\n    WHEN backup_retention_period <= 7 THEN '🟡 1-7일'\n    WHEN backup_retention_period <= 14 THEN '🟠 8-14일'\n    WHEN backup_retention_period <= 30 THEN '🟢 15-30일'\n    ELSE '🔵 30일+'\n  END\nORDER BY value DESC",
           "refId": "A"
         }
       ],
@@ -2215,7 +2215,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "-- 백업 위험 요소 종합\nSELECT \n  'RDS Instance' as resource_type,\n  db_instance_identifier as resource_id,\n  'No Automatic Backup' as issue,\n  'HIGH' as risk_level,\n  'Enable automated backups' as recommendation,\n  region,\n  availability_zone as az\nFROM aws_rds_db_instance \nWHERE backup_retention_period = 0\nUNION ALL\nSELECT \n  'EBS Volume' as resource_type,\n  v.volume_id as resource_id,\n  'No Recent Snapshot' as issue,\n  'MEDIUM' as risk_level,\n  'Create EBS snapshot' as recommendation,\n  v.region,\n  v.availability_zone as az\nFROM aws_ebs_volume v \nWHERE NOT EXISTS (\n  SELECT 1 FROM aws_ebs_snapshot s \n  WHERE s.volume_id = v.volume_id \n    AND s.start_time >= NOW() - INTERVAL '30 days'\n    AND s.state = 'completed'\n)\nAND v.state = 'in-use'\nORDER BY \n  CASE risk_level \n    WHEN 'HIGH' THEN 1 \n    WHEN 'MEDIUM' THEN 2 \n  END,\n  resource_type\nLIMIT 50",
+          "rawSql": "-- 백업 위험 요소 종합\nSELECT \n  'RDS Instance' as resource_type,\n  db_instance_identifier as resource_id,\n  'No Automatic Backup' as issue,\n  'HIGH' as risk_level,\n  'Enable automated backups' as recommendation,\n  region,\n  availability_zone as az\nFROM ${account_connection}.aws_rds_db_instance \nWHERE backup_retention_period = 0\nUNION ALL\nSELECT \n  'EBS Volume' as resource_type,\n  v.volume_id as resource_id,\n  'No Recent Snapshot' as issue,\n  'MEDIUM' as risk_level,\n  'Create EBS snapshot' as recommendation,\n  v.region,\n  v.availability_zone as az\nFROM ${account_connection}.aws_ebs_volume v \nWHERE NOT EXISTS (\n  SELECT 1 FROM ${account_connection}.aws_ebs_snapshot s \n  WHERE s.volume_id = v.volume_id \n    AND s.start_time >= NOW() - INTERVAL '30 days'\n    AND s.state = 'completed'\n)\nAND v.state = 'in-use'\nORDER BY \n  CASE risk_level \n    WHEN 'HIGH' THEN 1 \n    WHEN 'MEDIUM' THEN 2 \n  END,\n  resource_type\nLIMIT 50",
           "refId": "A"
         }
       ],
