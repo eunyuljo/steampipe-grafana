@@ -392,7 +392,7 @@ import_grafana_dashboard() {
     log_info "Grafana 대시보드 자동 임포트 중..."
 
     # 대시보드 JSON 파일이 존재하는지 확인
-    if [[ ! -f "dashboards/grafana-ec2-v12-native.json" ]]; then
+    if [[ ! -f "dashboards/grafana-ec2-v12-optimized.json" ]]; then
         log_warning "대시보드 JSON 파일이 없습니다 - 수동으로 임포트해주세요"
         return
     fi
@@ -426,7 +426,7 @@ import_grafana_dashboard() {
 
     # 대시보드 JSON에서 datasource UID 치환
     local dashboard_json
-    dashboard_json=$(sed "s/\${DS_STEAMPIPE}/$datasource_uid/g" dashboards/grafana-ec2-v12-native.json)
+    dashboard_json=$(cat dashboards/grafana-ec2-v12-optimized.json)
 
     # 대시보드 임포트
     local response
@@ -448,7 +448,7 @@ import_grafana_dashboard() {
         log_info "수동 임포트 방법:"
         echo "  1. http://localhost:3000 접속"
         echo "  2. + (Create) → Import 클릭"
-        echo "  3. dashboards/grafana-ec2-v12-native.json 파일 업로드"
+        echo "  3. dashboards/grafana-ec2-v12-optimized.json 파일 업로드"
         echo "  4. 데이터소스를 'Steampipe'로 선택"
     fi
 }
@@ -473,7 +473,7 @@ display_connection_info() {
     echo "$STEAMPIPE_INFO"
     echo ""
     echo "📁 설정 파일 위치:"
-    echo "   대시보드: dashboards/grafana-ec2-v12-native.json (v12.3.3 호환)"
+    echo "   대시보드: dashboards/grafana-ec2-v12-optimized.json (v12.3.3 최적화)"
     echo "   환경설정: .env.example"
     echo ""
     echo "🚀 다음 단계:"

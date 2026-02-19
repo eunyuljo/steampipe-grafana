@@ -62,11 +62,20 @@ AWS 리소스를 실시간으로 모니터링할 수 있는 Steampipe와 Grafana
 
 ## 📊 기본 제공 대시보드
 
-### AWS EC2 인스턴스 모니터링
-- 인스턴스 상태별 분포 (파이 차트)
-- 인스턴스 타입별 통계 (바 차트)
-- 총 인스턴스 수 (통계 패널)
-- 실행 중인 인스턴스 수 (통계 패널)
+### AWS EC2 종합 모니터링 (v12.3.3 최적화)
+#### 📈 상단 통계 패널 (6개)
+- 총 인스턴스 수 / 🟢 실행중 / 🔴 중지됨
+- 🌐 퍼블릭 IP / 📍 AZ 개수 / 💻 타입 종류
+
+#### 📊 분포 차트 (3개)
+- **상태별 분포**: Running/Stopped 비교 (바차트)
+- **타입별 분포**: t3.small, t3.medium 등 (바차트)
+- **가용성 영역별 분포**: AZ간 인스턴스 분산 (바차트)
+
+#### 📋 상세 테이블
+- 필터링 가능한 인스턴스 목록
+- 상태별 색상 구분 (🟢🔴🟡)
+- Instance ID, Type, State, AZ, IP 주소, Launch Time
 
 ### 사용 가능한 쿼리 예시
 ```sql
@@ -121,7 +130,7 @@ steampipe/
 ├── .env.example                     # 환경 변수 템플릿
 ├── grafana-datasource.yaml         # 데이터소스 설정
 ├── dashboards/                     # 대시보드 디렉토리
-│   ├── grafana-ec2-v12-native.json    # EC2 대시보드 (v12.3.3 호환)
+│   ├── grafana-ec2-v12-optimized.json     # EC2 대시보드 (v12.3.3 최적화)
 │   └── grafana-s3-security-dashboard.json  # S3 보안 대시보드
 ├── README.md                        # 사용자 가이드
 └── claude.md                        # 프로젝트 문서
