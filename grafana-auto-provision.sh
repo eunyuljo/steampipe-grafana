@@ -202,13 +202,6 @@ main() {
         ["dashboards/grafana-backup-monitoring-dashboard.json"]="💾 백업 모니터링 (Variable 방식)"
         ["dashboards/grafana-s3-security-dashboard.json"]="🪣 S3 보안 모니터링 (Variable 방식)"
         ["dashboards/grafana-test-variable.json"]="🧪 Variable 테스트 대시보드"
-        ["dashboards/grafana-security-timeline-dashboard.json"]="📅 보안 이벤트 시간별 추이"
-        ["dashboards/grafana-iam-security-dashboard.json"]="👤 IAM 보안 모니터링"
-        ["dashboards/grafana-network-security-dashboard.json"]="🌐 네트워크 보안 모니터링"
-        ["dashboards/grafana-encryption-compliance-dashboard.json"]="🔐 암호화 및 키 관리 컴플라이언스"
-        ["dashboards/grafana-risk-assessment-dashboard.json"]="⚠️ 위험 평가 및 컴플라이언스"
-        ["dashboards/grafana-security-incident-dashboard.json"]="🚨 보안 인시던트 대응 센터"
-        ["dashboards/grafana-security-kpi-dashboard.json"]="📊 보안 운영 KPI"
     )
 
     # 각 대시보드 처리
