@@ -312,14 +312,7 @@
           "color": {
             "mode": "palette-classic"
           },
-          "custom": {
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "vis": false
-            }
-          },
-          "mappings": []
+          "unit": "short"
         },
         "overrides": []
       },
@@ -340,15 +333,12 @@
         },
         "pieType": "pie",
         "tooltip": {
-          "mode": "single",
-          "sort": "none"
+          "mode": "single"
         },
         "legend": {
           "displayMode": "visible",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "displayLabels": []
+          "placement": "bottom"
+        }
       },
       "targets": [
         {
@@ -359,7 +349,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  CASE instance_state\n    WHEN 'running' THEN '🟢 실행중'\n    WHEN 'stopped' THEN '🔴 중지됨' \n    WHEN 'pending' THEN '🟡 시작중'\n    WHEN 'stopping' THEN '🟠 중지중'\n    ELSE instance_state\n  END as metric,\n  COUNT(*) as value\nFROM aws_ec2_instance \nGROUP BY instance_state\nORDER BY value DESC",
+          "rawSql": "SELECT \n  CASE instance_state\n    WHEN 'running' THEN 'Running'\n    WHEN 'stopped' THEN 'Stopped' \n    WHEN 'pending' THEN 'Pending'\n    WHEN 'stopping' THEN 'Stopping'\n    ELSE instance_state\n  END,\n  COUNT(*)::float\nFROM aws_ec2_instance \nGROUP BY instance_state\nORDER BY COUNT(*) DESC",
           "refId": "A"
         }
       ],
