@@ -13,6 +13,11 @@ AWS 리소스를 실시간으로 모니터링할 수 있는 Steampipe와 Grafana
 ./verify-installation.sh
 
 # 웹 접속: http://localhost:3000 (admin/admin)
+
+# 참고 사항 
+수행되는 스크립트는 위 기본 admin / admin 접속 정보를 바탕으로 작성되어있음.
+따라서 웹 접속 이후 패스워드를 변경하게 되는데 그 패스워드를 따르도록 수정하거나 다시 admin 으로 변경한다.
+
 ```
 
 ## 📋 시스템 요구사항
