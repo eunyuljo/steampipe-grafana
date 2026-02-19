@@ -310,7 +310,16 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              }
+            ]
           },
           "unit": "short"
         },
@@ -318,27 +327,24 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 6,
         "x": 0,
         "y": 8
       },
       "id": 3,
       "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
         "reduceOptions": {
-          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": ""
+          "fields": "",
+          "values": false
         },
-        "pieType": "pie",
-        "tooltip": {
-          "mode": "single"
-        },
-        "legend": {
-          "displayMode": "visible",
-          "placement": "bottom"
-        }
+        "textMode": "auto"
       },
       "targets": [
         {
@@ -349,12 +355,63 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  CASE instance_state\n    WHEN 'running' THEN 'Running'\n    WHEN 'stopped' THEN 'Stopped' \n    WHEN 'pending' THEN 'Pending'\n    WHEN 'stopping' THEN 'Stopping'\n    ELSE instance_state\n  END,\n  COUNT(*)::float\nFROM aws_ec2_instance \nGROUP BY instance_state\nORDER BY COUNT(*) DESC",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_ec2_instance",
           "refId": "A"
         }
       ],
-      "title": "인스턴스 상태별 분포",
-      "type": "piechart"
+      "title": "전체 인스턴스 수 (상태별)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 6,
+        "y": 8
+      },
+      "id": 9,
+      "options": {
+        "orientation": "auto",
+        "barWidth": 0.97,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "visible",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "12.3.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  CASE instance_state\n    WHEN 'running' THEN 'Running'\n    WHEN 'stopped' THEN 'Stopped' \n    WHEN 'pending' THEN 'Pending'\n    WHEN 'stopping' THEN 'Stopping'\n    ELSE instance_state\n  END as metric,\n  COUNT(*) as count\nFROM aws_ec2_instance \nGROUP BY instance_state\nORDER BY count DESC",
+          "refId": "A"
+        }
+      ],
+      "title": "상태별 상세 분포",
+      "type": "barchart"
     },
     {
       "datasource": {
