@@ -12,6 +12,10 @@ AWS 리소스를 실시간으로 모니터링할 수 있는 Steampipe와 Grafana
 # 설치 검증
 ./verify-installation.sh
 
+# 대시보드 기본 설치
+
+./grafana-auto-provision.sh
+
 # 웹 접속: http://localhost:3000 (admin/admin)
 
 # 참고 사항 

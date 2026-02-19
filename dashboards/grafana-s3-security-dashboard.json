@@ -271,11 +271,77 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM aws_s3_bucket WHERE versioning_enabled = true AND block_public_acls = true AND block_public_policy = true",
+          "rawSql": "SELECT COUNT(*) as value FROM aws_s3_bucket WHERE versioning_enabled = true AND block_public_acls = true AND block_public_policy = true AND logging IS NOT NULL AND logging != '{}' AND logging::text != 'null'",
           "refId": "A"
         }
       ],
-      "title": "보안 설정 완료 버킷",
+      "title": "완전 보안 설정 버킷",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 8
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(*) as value FROM aws_s3_bucket WHERE logging IS NULL OR logging = '{}' OR logging::text = 'null'",
+          "refId": "A"
+        }
+      ],
+      "title": "액세스 로그 비활성화 버킷",
       "type": "stat"
     },
     {
@@ -302,7 +368,7 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
+        "x": 6,
         "y": 8
       },
       "id": 5,
@@ -367,7 +433,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 8
+        "y": 16
       },
       "id": 6,
       "options": {
@@ -413,6 +479,70 @@
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 9,
+      "options": {
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "pieType": "pie",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "visible",
+          "placement": "bottom",
+          "values": []
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  CASE \n    WHEN logging IS NOT NULL AND logging != '{}' AND logging::text != 'null' THEN '액세스 로그 활성화'\n    ELSE '액세스 로그 비활성화'\n  END as metric,\n  COUNT(*) as value\nFROM aws_s3_bucket \nGROUP BY \n  CASE \n    WHEN logging IS NOT NULL AND logging != '{}' AND logging::text != 'null' THEN '액세스 로그 활성화'\n    ELSE '액세스 로그 비활성화'\n  END",
+          "refId": "A"
+        }
+      ],
+      "title": "액세스 로그 활성화 상태",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "fieldConfig": {
+        "defaults": {
           "custom": {
             "align": "auto",
             "displayMode": "auto",
@@ -439,7 +569,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 16
+        "y": 24
       },
       "id": 7,
       "options": {
@@ -464,7 +594,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n  name,\n  region,\n  versioning_enabled,\n  block_public_acls,\n  block_public_policy,\n  creation_date,\n  CASE \n    WHEN block_public_acls = false OR block_public_policy = false THEN '🔴 HIGH'\n    WHEN versioning_enabled = false THEN '🟡 MEDIUM'\n    ELSE '🟢 LOW'\n  END as risk_score\nFROM aws_s3_bucket \nORDER BY \n  CASE \n    WHEN block_public_acls = false OR block_public_policy = false THEN 1\n    WHEN versioning_enabled = false THEN 2\n    ELSE 3\n  END",
+          "rawSql": "SELECT \n  name,\n  region,\n  versioning_enabled,\n  block_public_acls,\n  block_public_policy,\n  CASE \n    WHEN logging IS NOT NULL AND logging != '{}' AND logging::text != 'null' THEN true\n    ELSE false\n  END as access_logging_enabled,\n  creation_date,\n  CASE \n    WHEN block_public_acls = false OR block_public_policy = false THEN '🔴 CRITICAL'\n    WHEN versioning_enabled = false OR (logging IS NULL OR logging = '{}' OR logging::text = 'null') THEN '🟡 HIGH'\n    ELSE '🟢 LOW'\n  END as risk_score\nFROM aws_s3_bucket \nORDER BY \n  CASE \n    WHEN block_public_acls = false OR block_public_policy = false THEN 1\n    WHEN versioning_enabled = false OR (logging IS NULL OR logging = '{}' OR logging::text = 'null') THEN 2\n    ELSE 3\n  END",
           "refId": "A"
         }
       ],

@@ -196,7 +196,7 @@ main() {
 
     # 사용 가능한 대시보드 JSON 파일들 (dashboards 폴더에서)
     declare -A dashboards=(
-        ["dashboards/grafana-dashboard-simple.json"]="EC2 기본 모니터링"
+        ["dashboards/grafana-ec2-dashboard.json"]="EC2 종합 모니터링"
         ["dashboards/grafana-security-timeline-dashboard.json"]="보안 이벤트 시간별 추이"
         ["dashboards/grafana-iam-security-dashboard.json"]="IAM 보안 모니터링"
         ["dashboards/grafana-s3-security-dashboard.json"]="S3 보안 모니터링"
