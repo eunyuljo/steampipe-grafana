@@ -194,7 +194,7 @@ main() {
     check_grafana_service
     setup_datasource
 
-    # 사용 가능한 대시보드 JSON 파일들 (dashboards 폴더에서)
+    # Variable 방식 대시보드 목록 (dashboards 폴더에서)
     declare -A dashboards=(
         ["dashboards/grafana-variable-dashboard.json"]="🌐 AWS 다중 계정 모니터링 (Variable 메인)"
         ["dashboards/grafana-aws-infra-comprehensive.json"]="🏢 AWS 통합 인프라 모니터링 (Variable 방식)"
@@ -202,10 +202,8 @@ main() {
         ["dashboards/grafana-backup-monitoring-dashboard.json"]="💾 백업 모니터링 (Variable 방식)"
         ["dashboards/grafana-s3-security-dashboard.json"]="🪣 S3 보안 모니터링 (Variable 방식)"
         ["dashboards/grafana-test-variable.json"]="🧪 Variable 테스트 대시보드"
-        ["dashboards/grafana-backup-monitoring-dashboard.json"]="💾 백업 모니터링 전용 대시보드"
         ["dashboards/grafana-security-timeline-dashboard.json"]="📅 보안 이벤트 시간별 추이"
         ["dashboards/grafana-iam-security-dashboard.json"]="👤 IAM 보안 모니터링"
-        ["dashboards/grafana-s3-security-dashboard.json"]="🪣 S3 보안 모니터링"
         ["dashboards/grafana-network-security-dashboard.json"]="🌐 네트워크 보안 모니터링"
         ["dashboards/grafana-encryption-compliance-dashboard.json"]="🔐 암호화 및 키 관리 컴플라이언스"
         ["dashboards/grafana-risk-assessment-dashboard.json"]="⚠️ 위험 평가 및 컴플라이언스"
