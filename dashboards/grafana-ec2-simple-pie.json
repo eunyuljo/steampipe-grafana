@@ -1,0 +1,53 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "Steampipe",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"]
+        }
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT instance_state, count(*) FROM aws_ec2_instance GROUP BY instance_state",
+          "refId": "A"
+        }
+      ],
+      "title": "가장 간단한 Pie Chart",
+      "type": "piechart"
+    }
+  ],
+  "schemaVersion": 26,
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "title": "Simple Pie Test",
+  "uid": "simple-pie-test",
+  "version": 1
+}

@@ -1,0 +1,264 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "Steampipe",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "pieType": "pie",
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "right"
+        }
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT instance_state as name, COUNT(*)::int as value FROM aws_ec2_instance GROUP BY instance_state",
+          "refId": "A"
+        }
+      ],
+      "title": "Step 1: 기본 (name/value)",
+      "type": "piechart"
+    },
+    {
+      "datasource": "Steampipe",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "pieType": "pie",
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "right"
+        }
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT instance_state::text, COUNT(*)::numeric FROM aws_ec2_instance GROUP BY instance_state",
+          "refId": "A"
+        }
+      ],
+      "title": "Step 2: 타입 명시 (text/numeric)",
+      "type": "piechart"
+    },
+    {
+      "datasource": "Steampipe",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "pieType": "pie",
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "right"
+        }
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  CASE \n    WHEN instance_state = 'running' THEN 'Running'\n    WHEN instance_state = 'stopped' THEN 'Stopped'\n    ELSE instance_state\n  END as state_name, \n  COUNT(*)::int as instance_count\nFROM aws_ec2_instance \nGROUP BY instance_state",
+          "refId": "A"
+        }
+      ],
+      "title": "Step 3: 이모지 제거",
+      "type": "piechart"
+    },
+    {
+      "datasource": "Steampipe",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 4,
+      "options": {
+        "pieType": "pie",
+        "reduceOptions": {
+          "values": false,
+          "calcs": ["lastNotNull"],
+          "fields": ""
+        },
+        "legend": {
+          "displayMode": "list",
+          "placement": "right"
+        }
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  CASE \n    WHEN instance_state = 'running' THEN '🟢 Running'\n    WHEN instance_state = 'stopped' THEN '🔴 Stopped'\n    WHEN instance_state = 'pending' THEN '🟡 Pending'\n    WHEN instance_state = 'stopping' THEN '🟠 Stopping'\n    ELSE instance_state\n  END as metric, \n  COUNT(*)::int as value\nFROM aws_ec2_instance \nGROUP BY instance_state\nORDER BY value DESC",
+          "refId": "A"
+        }
+      ],
+      "title": "Step 4: 원본 쿼리 (문제 쿼리)",
+      "type": "piechart"
+    },
+    {
+      "datasource": "Steampipe",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 5,
+      "options": {
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  CASE \n    WHEN instance_state = 'running' THEN '🟢 Running'\n    WHEN instance_state = 'stopped' THEN '🔴 Stopped'\n    WHEN instance_state = 'pending' THEN '🟡 Pending'\n    WHEN instance_state = 'stopping' THEN '🟠 Stopping'\n    ELSE instance_state\n  END as metric, \n  COUNT(*)::int as value,\n  pg_typeof(COUNT(*)) as data_type\nFROM aws_ec2_instance \nGROUP BY instance_state\nORDER BY value DESC",
+          "refId": "A"
+        }
+      ],
+      "title": "데이터 타입 확인 (Table)",
+      "type": "table"
+    }
+  ],
+  "schemaVersion": 26,
+  "style": "dark",
+  "tags": ["debug", "pie", "aws"],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Pie Chart 디버깅 - 단계별 테스트",
+  "uid": "pie-debug-steps",
+  "version": 1
+}
