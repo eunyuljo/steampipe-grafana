@@ -1,0 +1,82 @@
+{
+  "datasource": {
+    "type": "postgres",
+    "uid": "steampipe"
+  },
+  "fieldConfig": {
+    "defaults": {
+      "color": {
+        "mode": "palette-classic"
+      },
+      "custom": {
+        "hideFrom": {
+          "legend": false,
+          "tooltip": false,
+          "vis": false
+        }
+      },
+      "mappings": [],
+      "unit": "short"
+    },
+    "overrides": []
+  },
+  "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 8
+  },
+  "id": 3,
+  "options": {
+    "reduceOptions": {
+      "values": false,
+      "calcs": [
+        "lastNotNull"
+      ],
+      "fields": ""
+    },
+    "pieType": "pie",
+    "tooltip": {
+      "mode": "single",
+      "sort": "none"
+    },
+    "legend": {
+      "displayMode": "visible",
+      "placement": "bottom"
+    },
+    "displayLabels": []
+  },
+  "pluginVersion": "12.3.3",
+  "targets": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "editorMode": "code",
+      "format": "table",
+      "rawQuery": true,
+      "rawSql": "SELECT \n  CASE instance_state\n    WHEN 'running' THEN '🟢 실행중'\n    WHEN 'stopped' THEN '🔴 중지됨' \n    WHEN 'pending' THEN '🟡 시작중'\n    WHEN 'stopping' THEN '🟠 중지중'\n    ELSE instance_state\n  END as metric,\n  COUNT(*) as value\nFROM aws_ec2_instance \nGROUP BY instance_state\nORDER BY value DESC",
+      "refId": "A",
+      "sql": {
+        "columns": [
+          {
+            "parameters": [],
+            "type": "function"
+          }
+        ],
+        "groupBy": [
+          {
+            "property": {
+              "type": "string"
+            },
+            "type": "groupBy"
+          }
+        ],
+        "limit": 50
+      }
+    }
+  ],
+  "title": "인스턴스 상태별 분포",
+  "type": "piechart"
+}

@@ -1,0 +1,35 @@
+{
+  "type": "piechart",
+  "fieldConfig": {
+    "defaults": {
+      "mappings": [],
+      "color": {
+        "mode": "palette-classic"
+      }
+    }
+  },
+  "options": {
+    "reduceOptions": {
+      "values": false,
+      "calcs": [
+        "lastNotNull"
+      ],
+      "fields": ""
+    },
+    "pieType": "pie",
+    "tooltip": {
+      "mode": "single",
+      "sort": "none"
+    },
+    "legend": {
+      "displayMode": "visible",
+      "placement": "bottom"
+    }
+  },
+  "targets": [
+    {
+      "rawSql": "SELECT instance_state as __text, COUNT(*) as __value FROM aws_ec2_instance GROUP BY instance_state ORDER BY COUNT(*) DESC",
+      "format": "table"
+    }
+  ]
+}

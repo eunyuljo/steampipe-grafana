@@ -66,7 +66,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "12.3.3",
       "targets": [
         {
           "datasource": {
@@ -146,7 +146,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "12.3.3",
       "targets": [
         {
           "datasource": {
@@ -226,7 +226,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "12.3.3",
       "targets": [
         {
           "datasource": {
@@ -286,7 +286,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "12.3.3",
       "targets": [
         {
           "datasource": {
@@ -331,17 +331,24 @@
       },
       "id": 3,
       "options": {
-        "orientation": "auto",
-        "barWidth": 0.97,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [],
-          "displayMode": "visible",
-          "placement": "bottom"
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
         },
+        "pieType": "pie",
         "tooltip": {
-          "mode": "single"
-        }
+          "mode": "single",
+          "sort": "none"
+        },
+        "legend": {
+          "displayMode": "visible",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "displayLabels": []
       },
       "targets": [
         {
@@ -349,14 +356,15 @@
             "type": "postgres",
             "uid": "steampipe"
           },
+          "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT instance_state, COUNT(*) as count FROM aws_ec2_instance GROUP BY instance_state ORDER BY count DESC",
+          "rawSql": "SELECT \n  CASE instance_state\n    WHEN 'running' THEN '🟢 실행중'\n    WHEN 'stopped' THEN '🔴 중지됨' \n    WHEN 'pending' THEN '🟡 시작중'\n    WHEN 'stopping' THEN '🟠 중지중'\n    ELSE instance_state\n  END as metric,\n  COUNT(*) as value\nFROM aws_ec2_instance \nGROUP BY instance_state\nORDER BY value DESC",
           "refId": "A"
         }
       ],
       "title": "인스턴스 상태별 분포",
-      "type": "barchart"
+      "type": "piechart"
     },
     {
       "datasource": {
@@ -504,7 +512,7 @@
           "countRows": false
         }
       },
-      "pluginVersion": "9.0.0",
+      "pluginVersion": "12.3.3",
       "targets": [
         {
           "datasource": {
@@ -542,7 +550,7 @@
     }
   ],
   "refresh": "30s",
-  "schemaVersion": 37,
+  "schemaVersion": 39,
   "style": "dark",
   "tags": [
     "aws",
