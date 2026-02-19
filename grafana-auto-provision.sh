@@ -196,8 +196,9 @@ main() {
 
     # 사용 가능한 대시보드 JSON 파일들 (dashboards 폴더에서)
     declare -A dashboards=(
-        ["dashboards/grafana-aws-msp-comprehensive.json"]="🏢 AWS MSP 종합 모니터링 (메인 대시보드)"
+        ["dashboards/grafana-aws-infra-comprehensive.json"]="🏢 AWS 통합 인프라 모니터링 (메인 대시보드)"
         ["dashboards/grafana-ec2-v12-optimized.json"]="🖥️ EC2 전용 모니터링 (v12.3.3 최적화)"
+        ["dashboards/grafana-backup-monitoring-dashboard.json"]="💾 백업 모니터링 전용 대시보드"
         ["dashboards/grafana-security-timeline-dashboard.json"]="📅 보안 이벤트 시간별 추이"
         ["dashboards/grafana-iam-security-dashboard.json"]="👤 IAM 보안 모니터링"
         ["dashboards/grafana-s3-security-dashboard.json"]="🪣 S3 보안 모니터링"

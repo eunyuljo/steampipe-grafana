@@ -191,8 +191,9 @@ main() {
     # 7. 설정 파일 확인
     log_info "7. 설정 파일 존재 확인"
     check_file_exists ".env.example" "환경 설정 템플릿"
-    check_file_exists "dashboards/grafana-aws-msp-comprehensive.json" "MSP 종합 대시보드 (메인)"
+    check_file_exists "dashboards/grafana-aws-infra-comprehensive.json" "통합 인프라 대시보드 (메인)"
     check_file_exists "dashboards/grafana-ec2-v12-optimized.json" "EC2 대시보드 (v12.3.3 최적화)"
+    check_file_exists "dashboards/grafana-backup-monitoring-dashboard.json" "백업 모니터링 전용 대시보드"
     check_file_exists "grafana-datasource.yaml" "Grafana 데이터소스 설정"
     check_file_exists "claude.md" "프로젝트 문서"
     echo ""

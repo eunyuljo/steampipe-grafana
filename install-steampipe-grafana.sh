@@ -481,7 +481,7 @@ display_connection_info() {
     echo "   2. admin/admin으로 로그인"
     echo "   3. Steampipe 데이터소스가 자동으로 설정됨 ✅"
     echo "   4. 기본 EC2 대시보드 자동 임포트 완료 ✅"
-    echo "   5. 🏢 MSP 종합 대시보드는 './grafana-auto-provision.sh' 실행"
+    echo "   5. 🏢 통합 인프라 + 💾 백업 모니터링: './grafana-auto-provision.sh' 실행"
     echo ""
     echo "============================================================================="
 }
