@@ -196,15 +196,16 @@ main() {
 
     # 사용 가능한 대시보드 JSON 파일들 (dashboards 폴더에서)
     declare -A dashboards=(
-        ["dashboards/grafana-ec2-v12-optimized.json"]="EC2 종합 모니터링 (v12.3.3 최적화)"
-        ["dashboards/grafana-security-timeline-dashboard.json"]="보안 이벤트 시간별 추이"
-        ["dashboards/grafana-iam-security-dashboard.json"]="IAM 보안 모니터링"
-        ["dashboards/grafana-s3-security-dashboard.json"]="S3 보안 모니터링"
-        ["dashboards/grafana-network-security-dashboard.json"]="네트워크 보안 모니터링"
-        ["dashboards/grafana-encryption-compliance-dashboard.json"]="암호화 및 키 관리 컴플라이언스"
-        ["dashboards/grafana-risk-assessment-dashboard.json"]="위험 평가 및 컴플라이언스"
-        ["dashboards/grafana-security-incident-dashboard.json"]="보안 인시던트 대응 센터"
-        ["dashboards/grafana-security-kpi-dashboard.json"]="보안 운영 KPI"
+        ["dashboards/grafana-aws-msp-comprehensive.json"]="🏢 AWS MSP 종합 모니터링 (메인 대시보드)"
+        ["dashboards/grafana-ec2-v12-optimized.json"]="🖥️ EC2 전용 모니터링 (v12.3.3 최적화)"
+        ["dashboards/grafana-security-timeline-dashboard.json"]="📅 보안 이벤트 시간별 추이"
+        ["dashboards/grafana-iam-security-dashboard.json"]="👤 IAM 보안 모니터링"
+        ["dashboards/grafana-s3-security-dashboard.json"]="🪣 S3 보안 모니터링"
+        ["dashboards/grafana-network-security-dashboard.json"]="🌐 네트워크 보안 모니터링"
+        ["dashboards/grafana-encryption-compliance-dashboard.json"]="🔐 암호화 및 키 관리 컴플라이언스"
+        ["dashboards/grafana-risk-assessment-dashboard.json"]="⚠️ 위험 평가 및 컴플라이언스"
+        ["dashboards/grafana-security-incident-dashboard.json"]="🚨 보안 인시던트 대응 센터"
+        ["dashboards/grafana-security-kpi-dashboard.json"]="📊 보안 운영 KPI"
     )
 
     # 각 대시보드 처리

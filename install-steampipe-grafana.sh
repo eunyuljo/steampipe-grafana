@@ -480,7 +480,8 @@ display_connection_info() {
     echo "   1. 브라우저에서 http://localhost:3000 접속"
     echo "   2. admin/admin으로 로그인"
     echo "   3. Steampipe 데이터소스가 자동으로 설정됨 ✅"
-    echo "   4. v12.3.3 최적화 대시보드 자동 임포트 완료 ✅"
+    echo "   4. 기본 EC2 대시보드 자동 임포트 완료 ✅"
+    echo "   5. 🏢 MSP 종합 대시보드는 './grafana-auto-provision.sh' 실행"
     echo ""
     echo "============================================================================="
 }

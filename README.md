@@ -12,8 +12,7 @@ AWS 리소스를 실시간으로 모니터링할 수 있는 Steampipe와 Grafana
 # 설치 검증
 ./verify-installation.sh
 
-# 대시보드 기본 설치
-
+# 🏢 MSP 종합 대시보드 + 보안 대시보드 전체 설치
 ./grafana-auto-provision.sh
 
 # 웹 접속: http://localhost:3000 (admin/admin)
@@ -62,7 +61,34 @@ AWS 리소스를 실시간으로 모니터링할 수 있는 Steampipe와 Grafana
 
 ## 📊 기본 제공 대시보드
 
-### AWS EC2 종합 모니터링 (v12.3.3 최적화)
+### 🏢 AWS MSP 종합 모니터링 (메인 대시보드)
+**MSP 관점에서 AWS 인프라 전체를 모니터링하는 통합 대시보드**
+
+#### 📈 인프라 현황 요약 (8개 통계)
+- 🖥️ **EC2 인스턴스** / 💾 **RDS 인스턴스** / 🪣 **S3 버킷** / ⚡ **Lambda 함수**
+- 🌐 **VPC 네트워크** / ⚖️ **로드밸런서** / 👤 **IAM 사용자** / 🌍 **활성 리전**
+
+#### 🚨 MSP 알림 및 위험 요소 (6개 위험 지표)
+- ⏸️ **중지된 인스턴스** (비용 절감 기회)
+- 🔓 **퍼블릭 RDS** (보안 위험)
+- 🔐 **미암호화 EBS** (보안 위험)
+- 🏷️ **미태그 리소스** (관리 위험)
+- 🚨 **SSH 전체 오픈** (높은 위험)
+- ⚠️ **루트 액세스 키** (최고 위험)
+
+#### 📈 리전별 리소스 분포
+- 🌍 **EC2 인스턴스 리전별 분포**
+- 💾 **RDS 인스턴스 리전별 분포**
+
+#### 🔍 리소스 상세 현황
+- 💻 **EC2 인스턴스 타입별 분포** (상위 10개)
+- 🗄️ **RDS 엔진별 분포**
+
+#### 📋 MSP 관리 테이블
+- 🚨 **보안 위험 요소** (즉시 조치 필요한 리소스)
+- 🏷️ **태그 정책 준수 현황** (최근 50개 리소스)
+
+### 🖥️ AWS EC2 종합 모니터링 (v12.3.3 최적화)
 #### 📈 상단 통계 패널 (6개)
 - 총 인스턴스 수 / 🟢 실행중 / 🔴 중지됨
 - 🌐 퍼블릭 IP / 📍 AZ 개수 / 💻 타입 종류
@@ -125,13 +151,22 @@ sudo systemctl restart grafana-server
 ```
 steampipe/
 ├── install-steampipe-grafana.sh    # 메인 설치 스크립트
+├── grafana-auto-provision.sh       # 전체 대시보드 자동 프로비저닝
 ├── verify-installation.sh          # 12개 항목 검증
 ├── uninstall.sh                     # 스마트 제거 스크립트
 ├── .env.example                     # 환경 변수 템플릿
 ├── grafana-datasource.yaml         # 데이터소스 설정
 ├── dashboards/                     # 대시보드 디렉토리
-│   ├── grafana-ec2-v12-optimized.json     # EC2 대시보드 (v12.3.3 최적화)
-│   └── grafana-s3-security-dashboard.json  # S3 보안 대시보드
+│   ├── grafana-aws-msp-comprehensive.json # 🏢 MSP 종합 대시보드 (메인)
+│   ├── grafana-ec2-v12-optimized.json     # 🖥️ EC2 전용 대시보드
+│   ├── grafana-s3-security-dashboard.json # 🪣 S3 보안 대시보드
+│   ├── grafana-iam-security-dashboard.json # 👤 IAM 보안 대시보드
+│   ├── grafana-network-security-dashboard.json # 🌐 네트워크 보안
+│   ├── grafana-security-timeline-dashboard.json # 📅 보안 타임라인
+│   ├── grafana-encryption-compliance-dashboard.json # 🔐 암호화 컴플라이언스
+│   ├── grafana-risk-assessment-dashboard.json # ⚠️ 위험 평가
+│   ├── grafana-security-incident-dashboard.json # 🚨 보안 인시던트
+│   └── grafana-security-kpi-dashboard.json # 📊 보안 KPI
 ├── README.md                        # 사용자 가이드
 └── claude.md                        # 프로젝트 문서
 ```
@@ -162,7 +197,14 @@ steampipe/
 
 ## 🎉 프로젝트 특징
 
+### 🏢 **MSP 전문 설계**
+- AWS 인프라 전체 현황 한 눈에 파악
+- 보안 위험 요소 실시간 모니터링
+- 비용 최적화 기회 자동 발견
+- 컴플라이언스 준수 현황 추적
+
 ### 🚀 **완전 자동화**
+- 10개 대시보드 자동 프로비저닝
 - 데이터소스까지 자동 설정
 - 사용자는 브라우저만 열면 됨
 
