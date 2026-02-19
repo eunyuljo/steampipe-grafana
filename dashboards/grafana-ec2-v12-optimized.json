@@ -398,7 +398,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-spectrum"
+            "mode": "palette-classic"
           },
           "custom": {
             "axisLabel": "",
