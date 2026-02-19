@@ -152,6 +152,115 @@ GROUP BY instance_type
 ORDER BY count DESC;
 ```
 
+## 🌐 AWS 다중 계정 모니터링 설정
+
+### Profile 기반 다중 계정 설정
+
+여러 AWS 계정을 동시에 모니터링하려면 AWS CLI Profile과 Steampipe Connection을 연결하여 설정할 수 있습니다.
+
+#### 1단계: AWS CLI Profile 설정
+```bash
+# 각 계정별 Profile 생성
+aws configure --profile production
+aws configure --profile development
+aws configure --profile staging
+
+# Profile 목록 확인
+aws configure list-profiles
+```
+
+#### 2단계: Steampipe Connection 설정
+`~/.steampipe/config/aws.spc` 파일에 Profile별 Connection 추가:
+
+```hcl
+# 기본 connection은 그대로 유지
+connection "aws" {
+  plugin = "aws"
+  # 기존 설정...
+}
+
+# Production 계정
+connection "aws_production" {
+  plugin = "aws"
+  profile = "production"
+  regions = ["ap-northeast-2", "us-east-1", "eu-west-1"]
+}
+
+# Development 계정
+connection "aws_development" {
+  plugin = "aws"
+  profile = "development"
+  regions = ["ap-northeast-2", "us-east-1"]
+}
+
+# Staging 계정
+connection "aws_staging" {
+  plugin = "aws"
+  profile = "staging"
+  regions = ["ap-northeast-2"]
+}
+
+# 모든 계정 통합 조회 (선택사항)
+connection "aws_all_profiles" {
+  plugin      = "aws"
+  type        = "aggregator"
+  connections = ["aws_production", "aws_development", "aws_staging"]
+}
+```
+
+#### 3단계: 서비스 재시작 및 테스트
+```bash
+# Steampipe 재시작
+steampipe service restart
+
+# 각 계정별 연결 테스트
+steampipe query "SELECT count(*) FROM aws_production.aws_ec2_instance"
+steampipe query "SELECT count(*) FROM aws_development.aws_ec2_instance"
+steampipe query "SELECT count(*) FROM aws_staging.aws_ec2_instance"
+```
+
+#### 4단계: 계정별 대시보드 생성
+각 AWS Profile별로 독립된 대시보드를 생성하여 계정별 리소스를 분리 모니터링:
+
+**Production 계정 전용 쿼리:**
+```sql
+SELECT instance_id, instance_type, instance_state
+FROM aws_production.aws_ec2_instance
+```
+
+**Development 계정 전용 쿼리:**
+```sql
+SELECT instance_id, instance_type, instance_state
+FROM aws_development.aws_ec2_instance
+```
+
+**계정 간 리소스 비교:**
+```sql
+SELECT 'Production' as account, count(*) FROM aws_production.aws_ec2_instance
+UNION ALL
+SELECT 'Development' as account, count(*) FROM aws_development.aws_ec2_instance
+UNION ALL
+SELECT 'Staging' as account, count(*) FROM aws_staging.aws_ec2_instance
+```
+
+### 자동화 스크립트 지원
+
+```bash
+# 다중 계정 설정 자동화
+./multi-account-setup.sh
+
+# 다중 계정 전용 대시보드 (선택사항)
+# dashboards/grafana-multi-account-dashboard.json
+```
+
+### 다중 계정 모니터링 장점
+
+✅ **계정별 독립 모니터링** - 각 AWS 계정의 리소스를 분리하여 관리
+✅ **통합 비교 분석** - 여러 계정의 리소스를 한 번에 비교
+✅ **환경별 관리** - Production/Development/Staging 환경 분리
+✅ **보안 강화** - 계정별 접근 권한 분리 및 감사
+✅ **비용 추적** - 계정별 리소스 사용량 및 비용 모니터링
+
 ## 🔧 문제 해결
 
 ### 일반적인 문제들
@@ -189,10 +298,13 @@ steampipe/
 ├── grafana-auto-provision.sh       # 전체 대시보드 자동 프로비저닝
 ├── verify-installation.sh          # 12개 항목 검증
 ├── uninstall.sh                     # 스마트 제거 스크립트
+├── multi-account-setup.sh          # 🌐 다중 계정 자동 설정 스크립트
 ├── .env.example                     # 환경 변수 템플릿
 ├── grafana-datasource.yaml         # 데이터소스 설정
+├── aws-profile-connections.spc     # Profile 기반 Connection 설정 예시
 ├── dashboards/                     # 대시보드 디렉토리
 │   ├── grafana-aws-infra-comprehensive.json # 🏢 통합 인프라 대시보드 (메인)
+│   ├── grafana-multi-account-dashboard.json # 🌐 다중 계정 모니터링 대시보드
 │   ├── grafana-ec2-v12-optimized.json     # 🖥️ EC2 전용 대시보드
 │   ├── grafana-backup-monitoring-dashboard.json # 💾 백업 모니터링 전용
 │   ├── grafana-s3-security-dashboard.json # 🪣 S3 보안 대시보드
@@ -247,10 +359,13 @@ steampipe/
 - 컴플라이언스 준수 현황 추적
 - **💾 백업 정책 준수 모니터링** (신규 추가)
 - **🔄 재해복구 준비 상태 추적** (신규 추가)
+- **🌐 AWS Profile 기반 다중 계정 모니터링** (신규 추가)
+- **📊 계정별 독립 대시보드 및 통합 비교** (신규 추가)
 
 ### 🚀 **완전 자동화**
-- **11개 대시보드 자동 프로비저닝** (백업 전용 대시보드 추가)
+- **12개 대시보드 자동 프로비저닝** (다중 계정 대시보드 추가)
 - 데이터소스까지 자동 설정
+- AWS Profile 기반 다중 계정 자동 설정
 - 사용자는 브라우저만 열면 됨
 
 ### 🛡️ **안전한 설계**
@@ -270,12 +385,16 @@ steampipe/
 - [ ] 리전별 리소스 분산 확인
 - [ ] **백업 없는 중요 리소스 0개 유지** 📀
 - [ ] **최근 7일 백업 생성 현황 확인** 📅
+- [ ] **계정별 리소스 현황 확인** 🌐
+- [ ] **계정 간 보안 정책 일관성 확인** 🔐
 
 ### 주간 백업 점검 🔄
 - [ ] **RDS 자동 백업** 비활성화된 인스턴스 없음
 - [ ] **30일 이상 백업 없는 EBS 볼륨** 없음
 - [ ] **백업 생성 추이** 정상 패턴 확인
 - [ ] **오래된 스냅샷** 정리 (비용 최적화)
+- [ ] **계정별 백업 정책** 일관성 확인 🌐
+- [ ] **Cross-Account 백업** 설정 점검 📋
 
 ### 월간 검토 포인트 📅
 - [ ] 인스턴스 타입 최적화 기회
@@ -284,6 +403,9 @@ steampipe/
 - [ ] 보안 그룹 정리
 - [ ] **백업 보존 정책** 검토 및 최적화
 - [ ] **복구 시나리오** 테스트 실행
+- [ ] **계정 간 리소스 분산** 최적화 검토 🌐
+- [ ] **다중 계정 거버넌스** 정책 점검 📋
+- [ ] **Cross-Account 접근 권한** 감사 🔐
 
 ### 백업 위험 등급별 대응 📊
 - 🔴 **HIGH**: 즉시 조치 (RDS 백업 없음, SSH 전체 오픈 등)
