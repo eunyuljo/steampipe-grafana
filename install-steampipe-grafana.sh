@@ -204,8 +204,8 @@ sslverify=1
 sslcacert=/etc/pki/tls/certs/ca-bundle.crt
 EOF
             log_success "Grafana 저장소 추가 완료"
-            log_info "Grafana v12.3.3 설치 중... (버전 고정)"
-            sudo dnf install -y grafana-12.3.3-1
+            log_info "Grafana v10.4.10 LTS 설치 중... (버전 고정)"
+            sudo dnf install -y grafana-10.4.10-1
             ;;
         "ubuntu")
             # DEB 기반 시스템
@@ -213,8 +213,8 @@ EOF
             sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
             wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
             sudo apt-get update
-            log_info "Grafana v12.3.3 설치 중... (버전 고정)"
-            sudo apt-get install -y grafana=12.3.3
+            log_info "Grafana v10.4.10 LTS 설치 중... (버전 고정)"
+            sudo apt-get install -y grafana=10.4.10
             ;;
         *)
             log_error "지원하지 않는 운영체제입니다: $OS"
@@ -226,12 +226,12 @@ EOF
     local installed_version
     installed_version=$(grafana-server --version 2>/dev/null | grep "Version" | awk '{print $2}' || echo "확인불가")
 
-    if [[ "$installed_version" == "12.3.3" ]]; then
-        log_success "Grafana v12.3.3 설치 완료 ✅"
-        log_info "⚠️  중요: 대시보드 호환성 유지를 위해 Grafana 업그레이드를 피해주세요."
-        log_info "      업그레이드 방지: sudo apt-mark hold grafana (Ubuntu) 또는 sudo dnf versionlock add grafana (CentOS/RHEL)"
+    if [[ "$installed_version" == "10.4.10" ]]; then
+        log_success "Grafana v10.4.10 LTS 설치 완료 ✅"
+        log_info "✨ LTS 버전으로 안정성과 호환성이 검증된 버전입니다."
+        log_info "⚠️  업그레이드 방지: sudo apt-mark hold grafana (Ubuntu) 또는 sudo dnf versionlock add grafana (CentOS/RHEL)"
     else
-        log_warning "예상 버전(12.3.3)과 다른 버전이 설치됨: $installed_version"
+        log_warning "예상 버전(10.4.10)과 다른 버전이 설치됨: $installed_version"
         log_info "대시보드 호환성 문제가 발생할 수 있습니다."
     fi
 }
@@ -392,7 +392,7 @@ import_grafana_dashboard() {
     log_info "Grafana 대시보드 자동 임포트 중..."
 
     # 대시보드 JSON 파일이 존재하는지 확인
-    if [[ ! -f "dashboards/grafana-ec2-v12-optimized.json" ]]; then
+    if [[ ! -f "dashboards/grafana-ec2-v10-lts.json" ]]; then
         log_warning "대시보드 JSON 파일이 없습니다 - 수동으로 임포트해주세요"
         return
     fi
@@ -426,7 +426,7 @@ import_grafana_dashboard() {
 
     # 대시보드 JSON에서 datasource UID 치환
     local dashboard_json
-    dashboard_json=$(cat dashboards/grafana-ec2-v12-optimized.json)
+    dashboard_json=$(cat dashboards/grafana-ec2-v10-lts.json)
 
     # 대시보드 임포트
     local response
@@ -448,7 +448,7 @@ import_grafana_dashboard() {
         log_info "수동 임포트 방법:"
         echo "  1. http://localhost:3000 접속"
         echo "  2. + (Create) → Import 클릭"
-        echo "  3. dashboards/grafana-ec2-v12-optimized.json 파일 업로드"
+        echo "  3. dashboards/grafana-ec2-v10-lts.json 파일 업로드"
         echo "  4. 데이터소스를 'Steampipe'로 선택"
     fi
 }
@@ -473,14 +473,14 @@ display_connection_info() {
     echo "$STEAMPIPE_INFO"
     echo ""
     echo "📁 설정 파일 위치:"
-    echo "   대시보드: dashboards/grafana-ec2-v12-optimized.json (v12.3.3 최적화)"
+    echo "   대시보드: dashboards/grafana-ec2-v10-lts.json (v10.4.10 LTS 호환)"
     echo "   환경설정: .env.example"
     echo ""
     echo "🚀 다음 단계:"
     echo "   1. 브라우저에서 http://localhost:3000 접속"
     echo "   2. admin/admin으로 로그인"
     echo "   3. Steampipe 데이터소스가 자동으로 설정됨 ✅"
-    echo "   4. v12.3.3 호환 대시보드 자동 임포트 완료 ✅"
+    echo "   4. v10.4.10 LTS 호환 대시보드 자동 임포트 완료 ✅"
     echo ""
     echo "============================================================================="
 }
