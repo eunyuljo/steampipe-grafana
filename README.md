@@ -48,9 +48,9 @@ AWS 리소스를 실시간으로 모니터링할 수 있는 Steampipe와 Grafana
 - OS 자동 감지 및 패키지 설치
 - Steampipe v2.3.2 자동 설치
 - AWS 플러그인 자동 설치
-- **Grafana v10.4.10 LTS 고정 설치** (호환성 보장)
+- **Grafana v12.3.3 최신 버전 설치** (최신 기능 제공)
 - **🆕 데이터소스 자동 설정** (API 활용)
-- **🆕 v10.4.10 LTS 네이티브 대시보드** 자동 임포트
+- **🆕 v12.3.3 최적화 대시보드** 자동 임포트
 
 ### ✅ 스마트 검증
 - 12개 항목 자동 체크
@@ -62,7 +62,7 @@ AWS 리소스를 실시간으로 모니터링할 수 있는 Steampipe와 Grafana
 
 ## 📊 기본 제공 대시보드
 
-### AWS EC2 종합 모니터링 (v10.4.10 LTS 호환)
+### AWS EC2 종합 모니터링 (v12.3.3 최적화)
 #### 📈 상단 통계 패널 (6개)
 - 총 인스턴스 수 / 🟢 실행중 / 🔴 중지됨
 - 🌐 퍼블릭 IP / 📍 AZ 개수 / 💻 타입 종류
@@ -130,7 +130,7 @@ steampipe/
 ├── .env.example                     # 환경 변수 템플릿
 ├── grafana-datasource.yaml         # 데이터소스 설정
 ├── dashboards/                     # 대시보드 디렉토리
-│   ├── grafana-ec2-v10-lts.json          # EC2 대시보드 (v10.4.10 LTS 호환)
+│   ├── grafana-ec2-v12-optimized.json     # EC2 대시보드 (v12.3.3 최적화)
 │   └── grafana-s3-security-dashboard.json  # S3 보안 대시보드
 ├── README.md                        # 사용자 가이드
 └── claude.md                        # 프로젝트 문서
