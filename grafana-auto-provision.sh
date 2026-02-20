@@ -197,10 +197,11 @@ main() {
     # Variable 방식 대시보드 목록 (dashboards 폴더에서)
     declare -A dashboards=(
         ["dashboards/grafana-variable-dashboard.json"]="🌐 AWS 다중 계정 모니터링 (Variable 메인)"
-        ["dashboards/grafana-aws-infra-comprehensive.json"]="🏢 AWS 통합 인프라 모니터링 (Variable 방식)"
-        ["dashboards/grafana-ec2-v12-optimized.json"]="🖥️ EC2 전용 모니터링 (Variable 방식)"
-        ["dashboards/grafana-backup-monitoring-dashboard.json"]="💾 백업 모니터링 (Variable 방식)"
-        ["dashboards/grafana-s3-security-dashboard.json"]="🪣 S3 보안 모니터링 (Variable 방식)"
+        ["dashboards/grafana-aws-infra-comprehensive.json"]="🏢 AWS 통합 인프라 모니터링"
+        ["dashboards/grafana-ec2-v12-optimized.json"]="🖥️ EC2 전용 모니터링"
+        ["dashboards/grafana-backup-monitoring-dashboard.json"]="💾 백업 모니터링"
+        ["dashboards/grafana-s3-security-dashboard.json"]="🪣 S3 보안 모니터링"
+        ["dashboards/grafana-aws-resource-health-dashboard.json"]="🔍 AWS 리소스별 점검 현황"
         ["dashboards/grafana-test-variable.json"]="🧪 Variable 테스트 대시보드"
         ["dashboards/grafana-manual-variable-example.json"]="📝 Manual Variable 설정 예시"
     )

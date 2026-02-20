@@ -32,7 +32,7 @@
       },
       "id": 100,
       "panels": [],
-      "title": "📊 AWS 인프라 현황 요약",
+      "title": "📊 AWS 리소스별 점검 현황 요약",
       "type": "row"
     },
     {
@@ -40,7 +40,7 @@
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "전체 EC2 인스턴스 현황",
+      "description": "EC2 인스턴스 총 개수",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -51,25 +51,30 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "blue",
+                "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           },
           "unit": "short"
-        }
+        },
+        "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 3,
         "x": 0,
         "y": 1
       },
       "id": 1,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "center",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -78,9 +83,10 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -102,7 +108,7 @@
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "RDS 데이터베이스 인스턴스",
+      "description": "Application Load Balancer 개수",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -115,23 +121,28 @@
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           },
           "unit": "short"
-        }
+        },
+        "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 3,
         "x": 3,
         "y": 1
       },
       "id": 2,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "center",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -140,9 +151,78 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_application_load_balancer",
+          "refId": "A"
+        }
+      ],
+      "title": "⚖️ ALB",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "RDS 데이터베이스 인스턴스 개수",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 3,
+        "x": 6,
+        "y": 1
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -156,7 +236,7 @@
           "refId": "A"
         }
       ],
-      "title": "💾 RDS 인스턴스",
+      "title": "💾 RDS",
       "type": "stat"
     },
     {
@@ -164,7 +244,7 @@
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "S3 버킷 수",
+      "description": "ElastiCache 클러스터 개수",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -175,87 +255,30 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "orange",
+                "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           },
           "unit": "short"
-        }
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 6,
-        "y": 1
-      },
-      "id": 3,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
         },
-        "textMode": "auto"
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_s3_bucket",
-          "refId": "A"
-        }
-      ],
-      "title": "🪣 S3 버킷",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "Lambda 함수 수",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "purple",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        }
+        "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 3,
         "x": 9,
         "y": 1
       },
       "id": 4,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "center",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -264,9 +287,10 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -276,11 +300,11 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_lambda_function",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_elasticache_cluster",
           "refId": "A"
         }
       ],
-      "title": "⚡ Lambda 함수",
+      "title": "🔄 ElastiCache",
       "type": "stat"
     },
     {
@@ -288,7 +312,7 @@
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "VPC 네트워크 수",
+      "description": "VPC 네트워크 개수",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -299,25 +323,30 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-blue",
+                "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           },
           "unit": "short"
-        }
+        },
+        "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 3,
         "x": 12,
         "y": 1
       },
       "id": 5,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "center",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -326,9 +355,10 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -342,7 +372,7 @@
           "refId": "A"
         }
       ],
-      "title": "🌐 VPC 네트워크",
+      "title": "🌐 VPC",
       "type": "stat"
     },
     {
@@ -350,7 +380,7 @@
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "로드밸런서 수 (ELBv2)",
+      "description": "IAM 사용자 개수",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -361,25 +391,30 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "dark-green",
+                "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           },
           "unit": "short"
-        }
+        },
+        "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 8,
         "w": 3,
         "x": 15,
         "y": 1
       },
       "id": 6,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "center",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -388,71 +423,10 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_load_balancer_v2",
-          "refId": "A"
-        }
-      ],
-      "title": "⚖️ 로드밸런서",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "IAM 사용자 수",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        }
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 18,
-        "y": 1
-      },
-      "id": 7,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -474,82 +448,7 @@
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "관리되는 AWS 리전 수",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "yellow",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        }
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 3,
-        "x": 21,
-        "y": 1
-      },
-      "id": 8,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT COUNT(DISTINCT region) as value FROM ${account_connection}.aws_ec2_instance",
-          "refId": "A"
-        }
-      ],
-      "title": "🌍 활성 리전",
-      "type": "stat"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 5
-      },
-      "id": 101,
-      "panels": [],
-      "title": "🚨 인프라 알림 및 위험 요소",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "중지된 EC2 인스턴스 (비용 절감 기회)",
+      "description": "CloudFront 배포 개수",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -564,7 +463,220 @@
                 "value": null
               },
               {
-                "color": "yellow",
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 3,
+        "x": 18,
+        "y": 1
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_cloudfront_distribution",
+          "refId": "A"
+        }
+      ],
+      "title": "☁️ CloudFront",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "S3 버킷 개수",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 3,
+        "x": 21,
+        "y": 1
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_s3_bucket",
+          "refId": "A"
+        }
+      ],
+      "title": "🪣 S3 버킷",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 200,
+      "panels": [],
+      "title": "🖥️ EC2 점검 현황",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "EC2 인스턴스 상태별 분포",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            }
+          },
+          "mappings": []
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 10
+      },
+      "id": 9,
+      "options": {
+        "legend": {
+          "displayMode": "visible",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  CASE \n    WHEN instance_state = 'running' THEN '🟢 Running'\n    WHEN instance_state = 'stopped' THEN '🔴 Stopped'\n    WHEN instance_state = 'pending' THEN '🟡 Pending'\n    WHEN instance_state = 'stopping' THEN '🟠 Stopping'\n    ELSE instance_state\n  END as metric, \n  COUNT(*) as value\nFROM ${account_connection}.aws_ec2_instance \nGROUP BY instance_state\nORDER BY value DESC",
+          "refId": "A"
+        }
+      ],
+      "title": "EC2 인스턴스 상태별 분포",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "보안 위험 EC2 인스턴스 수",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
                 "value": 1
               },
               {
@@ -574,19 +686,20 @@
             ]
           },
           "unit": "short"
-        }
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 0,
-        "y": 6
+        "w": 3,
+        "x": 6,
+        "y": 10
       },
-      "id": 9,
+      "id": 10,
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "center",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -595,9 +708,154 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(DISTINCT ec2.instance_id) as value\nFROM ${account_connection}.aws_ec2_instance ec2\nWHERE EXISTS (\n  SELECT 1 \n  FROM ${account_connection}.aws_vpc_security_group_rule sgr\n  WHERE sgr.group_id = ANY(\n    SELECT jsonb_array_elements_text(\n      jsonb_path_query_array(ec2.security_groups, '$[*].GroupId')\n    )\n  )\n  AND sgr.type = 'ingress' \n  AND sgr.from_port <= 22 \n  AND sgr.to_port >= 22 \n  AND sgr.cidr_ipv4 = '0.0.0.0/0'\n)",
+          "refId": "A"
+        }
+      ],
+      "title": "🚨 SSH 전체 오픈",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "미태그 EC2 인스턴스 수",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 10
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 9,
+        "y": 10
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE tags = '{}'::jsonb OR tags->>'Name' IS NULL",
+          "refId": "A"
+        }
+      ],
+      "title": "🏷️ 미태그 인스턴스",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "중지된 EC2 인스턴스 수",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 12,
+        "y": 10
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -619,11 +877,18 @@
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "퍼블릭 액세스 가능한 RDS (보안 위험)",
+      "description": "EC2 인스턴스 상세 현황",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -634,40 +899,34 @@
                 "value": null
               },
               {
-                "color": "yellow",
-                "value": 1
-              },
-              {
                 "color": "red",
-                "value": 3
+                "value": 80
               }
             ]
-          },
-          "unit": "short"
-        }
+          }
+        },
+        "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 4,
-        "y": 6
+        "h": 8,
+        "w": 9,
+        "x": 15,
+        "y": 10
       },
-      "id": 10,
+      "id": 13,
       "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
           ],
-          "fields": ""
+          "show": false
         },
-        "textMode": "auto"
+        "showHeader": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -677,19 +936,19 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance WHERE publicly_accessible = true",
+          "rawSql": "SELECT \n  instance_id,\n  instance_type,\n  instance_state,\n  placement_availability_zone as az,\n  CASE WHEN public_ip_address IS NOT NULL THEN 'Yes' ELSE 'No' END as public_ip,\n  tags->>'Name' as name\nFROM ${account_connection}.aws_ec2_instance \nORDER BY instance_state, launch_time DESC\nLIMIT 20",
           "refId": "A"
         }
       ],
-      "title": "🔓 퍼블릭 RDS",
-      "type": "stat"
+      "title": "EC2 인스턴스 상세 현황 (최신 20개)",
+      "type": "table"
     },
     {
       "datasource": {
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "암호화되지 않은 EBS 볼륨 (보안 위험)",
+      "description": "미암호화된 EBS 볼륨 수",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -704,7 +963,7 @@
                 "value": null
               },
               {
-                "color": "yellow",
+                "color": "orange",
                 "value": 1
               },
               {
@@ -714,19 +973,20 @@
             ]
           },
           "unit": "short"
-        }
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 8,
-        "y": 6
+        "w": 3,
+        "x": 6,
+        "y": 14
       },
-      "id": 11,
+      "id": 14,
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "center",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -735,9 +995,10 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -755,11 +1016,504 @@
       "type": "stat"
     },
     {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 300,
+      "panels": [],
+      "title": "💾 RDS 점검 현황",
+      "type": "row"
+    },
+    {
       "datasource": {
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "태그가 없는 리소스 (관리 위험)",
+      "description": "RDS 백업 보존 기간별 분포",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            },
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 19
+      },
+      "id": 15,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "visible",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ 백업 없음'\n    WHEN backup_retention_period <= 7 THEN '🟡 1-7일'\n    WHEN backup_retention_period <= 14 THEN '🟠 8-14일'\n    WHEN backup_retention_period <= 30 THEN '🟢 15-30일'\n    ELSE '🔵 30일+'\n  END as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_rds_db_instance \nWHERE backup_retention_period IS NOT NULL\nGROUP BY \n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ 백업 없음'\n    WHEN backup_retention_period <= 7 THEN '🟡 1-7일'\n    WHEN backup_retention_period <= 14 THEN '🟠 8-14일'\n    WHEN backup_retention_period <= 30 THEN '🟢 15-30일'\n    ELSE '🔵 30일+'\n  END\nORDER BY MIN(backup_retention_period)",
+          "refId": "A"
+        }
+      ],
+      "title": "RDS 백업 보존 기간 분포",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "퍼블릭 액세스 가능한 RDS 수",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 3
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 19
+      },
+      "id": 16,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance WHERE publicly_accessible = true",
+          "refId": "A"
+        }
+      ],
+      "title": "🔓 퍼블릭 액세스 RDS",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "자동 백업 비활성화 RDS 수",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 3
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 19
+      },
+      "id": 17,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance WHERE backup_retention_period = 0",
+          "refId": "A"
+        }
+      ],
+      "title": "🚫 백업 비활성화",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "RDS 인스턴스 상세 현황",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 19
+      },
+      "id": 18,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  db_instance_identifier,\n  engine,\n  db_instance_class,\n  db_instance_status,\n  CASE WHEN publicly_accessible THEN 'Yes' ELSE 'No' END as public,\n  backup_retention_period || ' days' as backup_retention,\n  region\nFROM ${account_connection}.aws_rds_db_instance \nORDER BY creation_time DESC\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "RDS 인스턴스 상세 현황 (최신 10개)",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 27
+      },
+      "id": 400,
+      "panels": [],
+      "title": "🌐 네트워크 점검 현황",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "VPC별 서브넷 분포",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "vis": false
+            },
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 28
+      },
+      "id": 19,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "visible",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \n  v.vpc_id as metric,\n  COUNT(s.subnet_id) as value\nFROM ${account_connection}.aws_vpc v\nLEFT JOIN ${account_connection}.aws_vpc_subnet s ON v.vpc_id = s.vpc_id\nGROUP BY v.vpc_id\nORDER BY value DESC\nLIMIT 10",
+          "refId": "A"
+        }
+      ],
+      "title": "VPC별 서브넷 개수 (상위 10개)",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "보안 그룹 총 개수",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 28
+      },
+      "id": 20,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_vpc_security_group",
+          "refId": "A"
+        }
+      ],
+      "title": "🛡️ 보안 그룹 총 개수",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "NAT 게이트웨이 개수",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -784,858 +1538,20 @@
             ]
           },
           "unit": "short"
-        }
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 4,
         "w": 4,
         "x": 12,
-        "y": 6
-      },
-      "id": 12,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_instance WHERE tags = '{}'::jsonb OR tags->>'Name' IS NULL",
-          "refId": "A"
-        }
-      ],
-      "title": "🏷️ 미태그 리소스",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "SSH 전체 오픈된 보안 그룹 (높은 위험)",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "short"
-        }
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 16,
-        "y": 6
-      },
-      "id": 13,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT COUNT(DISTINCT group_id) as value FROM ${account_connection}.aws_vpc_security_group_rule WHERE type = 'ingress' AND from_port = 22 AND to_port = 22 AND cidr_ipv4 = '0.0.0.0/0'",
-          "refId": "A"
-        }
-      ],
-      "title": "🚨 SSH 전체 오픈",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "루트 액세스 키 사용 (최고 위험)",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "short"
-        }
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 20,
-        "y": 6
-      },
-      "id": 14,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_account_summary WHERE account_access_keys_present > 0",
-          "refId": "A"
-        }
-      ],
-      "title": "⚠️ 루트 액세스 키",
-      "type": "stat"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 10
-      },
-      "id": 102,
-      "panels": [],
-      "title": "📈 리전별 리소스 분포",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "AWS 리전별 EC2 인스턴스 분포",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "displayMode": "list",
-            "drawStyle": "line",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "vis": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        }
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 11
-      },
-      "id": 15,
-      "options": {
-        "displayMode": "basic",
-        "maxVizHeight": 300,
-        "minVizHeight": 75,
-        "namePlacement": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "valueMode": "color"
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT region as metric, COUNT(*) as value FROM ${account_connection}.aws_ec2_instance GROUP BY region ORDER BY value DESC",
-          "refId": "A"
-        }
-      ],
-      "title": "🌍 EC2 인스턴스 리전별 분포",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "AWS 리전별 RDS 인스턴스 분포",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-GrYlRd"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "displayMode": "list",
-            "drawStyle": "line",
-            "fillOpacity": 80,
-            "gradientMode": "scheme",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "vis": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        }
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 11
-      },
-      "id": 16,
-      "options": {
-        "displayMode": "basic",
-        "maxVizHeight": 300,
-        "minVizHeight": 75,
-        "namePlacement": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "valueMode": "color"
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT region as metric, COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance GROUP BY region ORDER BY value DESC",
-          "refId": "A"
-        }
-      ],
-      "title": "💾 RDS 인스턴스 리전별 분포",
-      "type": "barchart"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 19
-      },
-      "id": 103,
-      "panels": [],
-      "title": "🔍 리소스 상세 현황",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "EC2 인스턴스 타입별 분포 (비용 최적화 참고)",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "displayMode": "list",
-            "drawStyle": "line",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "vis": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        }
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 20
-      },
-      "id": 17,
-      "options": {
-        "displayMode": "basic",
-        "maxVizHeight": 300,
-        "minVizHeight": 75,
-        "namePlacement": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "valueMode": "color"
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT instance_type as metric, COUNT(*) as value FROM ${account_connection}.aws_ec2_instance GROUP BY instance_type ORDER BY value DESC LIMIT 10",
-          "refId": "A"
-        }
-      ],
-      "title": "💻 EC2 인스턴스 타입별 분포 (상위 10개)",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "RDS 엔진별 분포",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-GrYlRd"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "displayMode": "list",
-            "drawStyle": "line",
-            "fillOpacity": 80,
-            "gradientMode": "scheme",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "vis": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        }
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 20
-      },
-      "id": 18,
-      "options": {
-        "displayMode": "basic",
-        "maxVizHeight": 300,
-        "minVizHeight": 75,
-        "namePlacement": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "valueMode": "color"
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT engine as metric, COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance GROUP BY engine ORDER BY value DESC",
-          "refId": "A"
-        }
-      ],
-      "title": "🗄️ RDS 엔진별 분포",
-      "type": "barchart"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
         "y": 28
-      },
-      "id": 104,
-      "panels": [],
-      "title": "📋 인프라 관리 테이블",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "즉시 조치가 필요한 보안 위험 리소스",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "risk_level"
-            },
-            "properties": [
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "options": {
-                      "HIGH": {
-                        "color": "red",
-                        "index": 0,
-                        "text": "🔴 HIGH"
-                      },
-                      "MEDIUM": {
-                        "color": "orange",
-                        "index": 1,
-                        "text": "🟡 MEDIUM"
-                      },
-                      "LOW": {
-                        "color": "green",
-                        "index": 2,
-                        "text": "🟢 LOW"
-                      }
-                    },
-                    "type": "value"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 29
-      },
-      "id": 19,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "risk_level"
-          }
-        ]
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "-- 보안 위험 요소 종합\nSELECT \n  'EC2 Instance' as resource_type,\n  instance_id as resource_id,\n  'SSH Open to 0.0.0.0/0' as issue,\n  'HIGH' as risk_level,\n  region,\n  placement_availability_zone as az\nFROM ${account_connection}.aws_ec2_instance \nWHERE instance_id IN (\n  SELECT DISTINCT instance_id \n  FROM ${account_connection}.aws_ec2_instance_security_group isg\n  JOIN aws_vpc_security_group_rule sgr ON isg.group_id = sgr.group_id\n  WHERE sgr.type = 'ingress' AND sgr.from_port = 22 AND sgr.to_port = 22 AND sgr.cidr_ipv4 = '0.0.0.0/0'\n)\nUNION ALL\nSELECT \n  'RDS Instance' as resource_type,\n  db_instance_identifier as resource_id,\n  'Publicly Accessible' as issue,\n  'HIGH' as risk_level,\n  region,\n  availability_zone as az\nFROM ${account_connection}.aws_rds_db_instance \nWHERE publicly_accessible = true\nUNION ALL\nSELECT \n  'EBS Volume' as resource_type,\n  volume_id as resource_id,\n  'Not Encrypted' as issue,\n  'MEDIUM' as risk_level,\n  region,\n  availability_zone as az\nFROM ${account_connection}.aws_ebs_volume \nWHERE encrypted = false\nORDER BY \n  CASE risk_level \n    WHEN 'HIGH' THEN 1 \n    WHEN 'MEDIUM' THEN 2 \n    WHEN 'LOW' THEN 3 \n  END,\n  resource_type",
-          "refId": "A"
-        }
-      ],
-      "title": "🚨 보안 위험 요소 (즉시 조치 필요)",
-      "type": "table"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "태그 정책 위반 및 관리 이슈",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "has_name_tag"
-            },
-            "properties": [
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "options": {
-                      "false": {
-                        "color": "red",
-                        "index": 0,
-                        "text": "❌ No Name"
-                      },
-                      "true": {
-                        "color": "green",
-                        "index": 1,
-                        "text": "✅ Tagged"
-                      }
-                    },
-                    "type": "value"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 37
-      },
-      "id": 20,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": false,
-            "displayName": "has_name_tag"
-          }
-        ]
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "-- 태그 정책 준수 현황\nSELECT \n  'EC2' as resource_type,\n  instance_id as resource_id,\n  instance_type,\n  instance_state,\n  CASE \n    WHEN tags->>'Name' IS NOT NULL AND tags->>'Name' != '' THEN true\n    ELSE false \n  END as has_name_tag,\n  tags->>'Environment' as environment_tag,\n  tags->>'Owner' as owner_tag,\n  region,\n  launch_time::date as created_date\nFROM ${account_connection}.aws_ec2_instance \nORDER BY has_name_tag, launch_time DESC\nLIMIT 50",
-          "refId": "A"
-        }
-      ],
-      "title": "🏷️ 태그 정책 준수 현황 (최근 50개 리소스)",
-      "type": "table"
-    },
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 45
-      },
-      "id": 105,
-      "panels": [],
-      "title": "💾 백업 및 복구 현황",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "EBS 스냅샷 총 개수",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        }
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 0,
-        "y": 46
       },
       "id": 21,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "center",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -1644,9 +1560,10 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -1656,11 +1573,11 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ebs_snapshot WHERE state = 'completed'",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_vpc_nat_gateway",
           "refId": "A"
         }
       ],
-      "title": "📀 EBS 스냅샷",
+      "title": "🚪 NAT 게이트웨이",
       "type": "stat"
     },
     {
@@ -1668,11 +1585,18 @@
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "RDS 자동 백업이 활성화된 인스턴스 수",
+      "description": "VPC 상세 현황",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -1681,34 +1605,36 @@
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
-          },
-          "unit": "short"
-        }
+          }
+        },
+        "overrides": []
       },
       "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 4,
-        "y": 46
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 28
       },
       "id": 22,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
           ],
-          "fields": ""
+          "show": false
         },
-        "textMode": "auto"
+        "showHeader": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -1718,143 +1644,32 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance WHERE backup_retention_period > 0",
+          "rawSql": "SELECT \n  v.vpc_id,\n  v.cidr_block,\n  v.state,\n  CASE WHEN v.is_default THEN 'Yes' ELSE 'No' END as is_default,\n  COUNT(s.subnet_id) as subnet_count,\n  v.region\nFROM ${account_connection}.aws_vpc v\nLEFT JOIN ${account_connection}.aws_vpc_subnet s ON v.vpc_id = s.vpc_id\nGROUP BY v.vpc_id, v.cidr_block, v.state, v.is_default, v.region\nORDER BY subnet_count DESC\nLIMIT 10",
           "refId": "A"
         }
       ],
-      "title": "🔄 RDS 자동 백업",
-      "type": "stat"
+      "title": "VPC 상세 현황 (상위 10개)",
+      "type": "table"
     },
     {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "최근 7일 내 생성된 백업 수",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        }
-      },
+      "collapsed": false,
       "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 8,
-        "y": 46
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 36
       },
-      "id": 23,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ebs_snapshot WHERE start_time >= NOW() - INTERVAL '7 days' AND state = 'completed'",
-          "refId": "A"
-        }
-      ],
-      "title": "📅 최근 백업 (7일)",
-      "type": "stat"
+      "id": 500,
+      "panels": [],
+      "title": "👤 IAM 점검 현황",
+      "type": "row"
     },
     {
       "datasource": {
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "AMI 이미지 백업 수",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "orange",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        }
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 4,
-        "x": 12,
-        "y": 46
-      },
-      "id": 24,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_ami WHERE state = 'available' AND owner_id != 'amazon'",
-          "refId": "A"
-        }
-      ],
-      "title": "💿 AMI 이미지",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "백업 없는 EBS 볼륨 (위험)",
+      "description": "활성 액세스 키가 있는 사용자 수",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1870,28 +1685,29 @@
               },
               {
                 "color": "yellow",
-                "value": 1
+                "value": 5
               },
               {
                 "color": "red",
-                "value": 5
+                "value": 10
               }
             ]
           },
           "unit": "short"
-        }
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 4,
         "w": 4,
-        "x": 16,
-        "y": 46
+        "x": 0,
+        "y": 37
       },
-      "id": 25,
+      "id": 23,
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "center",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -1900,9 +1716,10 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -1912,11 +1729,11 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ebs_volume v WHERE NOT EXISTS (SELECT 1 FROM ${account_connection}.aws_ebs_snapshot s WHERE s.volume_id = v.volume_id AND s.start_time >= NOW() - INTERVAL '30 days')",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_access_key WHERE status = 'Active'",
           "refId": "A"
         }
       ],
-      "title": "⚠️ 백업 없는 EBS",
+      "title": "🔑 활성 액세스 키",
       "type": "stat"
     },
     {
@@ -1924,7 +1741,7 @@
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "자동 백업이 비활성화된 RDS",
+      "description": "IAM 역할 총 개수",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1939,25 +1756,30 @@
                 "value": null
               },
               {
+                "color": "yellow",
+                "value": 50
+              },
+              {
                 "color": "red",
-                "value": 1
+                "value": 100
               }
             ]
           },
           "unit": "short"
-        }
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 4,
         "w": 4,
-        "x": 20,
-        "y": 46
+        "x": 4,
+        "y": 37
       },
-      "id": 26,
+      "id": 24,
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "center",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "values": false,
@@ -1966,9 +1788,10 @@
           ],
           "fields": ""
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -1978,11 +1801,11 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_rds_db_instance WHERE backup_retention_period = 0",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_role",
           "refId": "A"
         }
       ],
-      "title": "🚫 백업 없는 RDS",
+      "title": "🎭 IAM 역할",
       "type": "stat"
     },
     {
@@ -1990,40 +1813,11 @@
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "EBS 스냅샷 생성 추이 (최근 30일)",
+      "description": "IAM 정책 총 개수",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "displayMode": "list",
-            "drawStyle": "line",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "vis": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
+            "mode": "thresholds"
           },
           "mappings": [],
           "thresholds": {
@@ -2032,118 +1826,33 @@
               {
                 "color": "green",
                 "value": null
-              }
-            ]
-          }
-        }
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 50
-      },
-      "id": 27,
-      "options": {
-        "displayMode": "basic",
-        "maxVizHeight": 300,
-        "minVizHeight": 75,
-        "namePlacement": "auto",
-        "orientation": "vertical",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "valueMode": "color"
-      },
-      "pluginVersion": "12.3.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "postgres",
-            "uid": "steampipe"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT \n  start_time::date as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_ebs_snapshot \nWHERE start_time >= NOW() - INTERVAL '30 days'\n  AND state = 'completed'\nGROUP BY start_time::date \nORDER BY start_time::date",
-          "refId": "A"
-        }
-      ],
-      "title": "📈 백업 생성 추이 (최근 30일)",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "type": "postgres",
-        "uid": "steampipe"
-      },
-      "description": "RDS 백업 보존 기간 분포",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "continuous-GrYlRd"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "displayMode": "list",
-            "drawStyle": "line",
-            "fillOpacity": 80,
-            "gradientMode": "scheme",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "vis": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
+              },
               {
-                "color": "green",
-                "value": null
+                "color": "yellow",
+                "value": 100
+              },
+              {
+                "color": "red",
+                "value": 200
               }
             ]
           },
           "unit": "short"
-        }
+        },
+        "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 50
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 37
       },
-      "id": 28,
+      "id": 25,
       "options": {
-        "displayMode": "basic",
-        "maxVizHeight": 300,
-        "minVizHeight": 75,
-        "namePlacement": "auto",
-        "orientation": "horizontal",
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
         "reduceOptions": {
           "values": false,
           "calcs": [
@@ -2151,11 +1860,10 @@
           ],
           "fields": ""
         },
-        "showUnfilled": true,
-        "sizing": "auto",
-        "valueMode": "color"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -2165,19 +1873,19 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ 백업 없음'\n    WHEN backup_retention_period <= 7 THEN '🟡 1-7일'\n    WHEN backup_retention_period <= 14 THEN '🟠 8-14일'\n    WHEN backup_retention_period <= 30 THEN '🟢 15-30일'\n    ELSE '🔵 30일+'\n  END as metric,\n  COUNT(*) as value\nFROM ${account_connection}.aws_rds_db_instance \nGROUP BY \n  CASE \n    WHEN backup_retention_period = 0 THEN '❌ 백업 없음'\n    WHEN backup_retention_period <= 7 THEN '🟡 1-7일'\n    WHEN backup_retention_period <= 14 THEN '🟠 8-14일'\n    WHEN backup_retention_period <= 30 THEN '🟢 15-30일'\n    ELSE '🔵 30일+'\n  END\nORDER BY value DESC",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_policy",
           "refId": "A"
         }
       ],
-      "title": "🗄️ RDS 백업 보존 기간 분포",
-      "type": "barchart"
+      "title": "📜 IAM 정책",
+      "type": "stat"
     },
     {
       "datasource": {
         "type": "postgres",
         "uid": "steampipe"
       },
-      "description": "백업 위험 리소스 및 권장사항",
+      "description": "IAM 사용자 상세 현황",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2197,54 +1905,23 @@
               {
                 "color": "green",
                 "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
               }
             ]
           }
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "risk_level"
-            },
-            "properties": [
-              {
-                "id": "custom.cellOptions",
-                "value": {
-                  "type": "color-background"
-                }
-              },
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "options": {
-                      "HIGH": {
-                        "color": "red",
-                        "index": 0,
-                        "text": "🔴 HIGH"
-                      },
-                      "MEDIUM": {
-                        "color": "orange",
-                        "index": 1,
-                        "text": "🟡 MEDIUM"
-                      }
-                    },
-                    "type": "value"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 58
+        "w": 12,
+        "x": 12,
+        "y": 37
       },
-      "id": 29,
+      "id": 26,
       "options": {
         "cellHeight": "sm",
         "footer": {
@@ -2255,15 +1932,9 @@
           ],
           "show": false
         },
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": true,
-            "displayName": "risk_level"
-          }
-        ]
+        "showHeader": true
       },
-      "pluginVersion": "12.3.3",
+      "pluginVersion": "10.2.2",
       "targets": [
         {
           "datasource": {
@@ -2273,11 +1944,95 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "-- 백업 위험 요소 종합\nSELECT * FROM (\n  SELECT\n    'RDS Instance' as resource_type,\n    db_instance_identifier as resource_id,\n    'No Automatic Backup' as issue,\n    'HIGH' as risk_level,\n    'Enable automated backups' as recommendation,\n    region,\n    availability_zone as az\n  FROM ${account_connection}.aws_rds_db_instance\n  WHERE backup_retention_period = 0\n\n  UNION ALL\n\n  SELECT\n    'EBS Volume' as resource_type,\n    v.volume_id as resource_id,\n    'No Recent Snapshot' as issue,\n    'MEDIUM' as risk_level,\n    'Create EBS snapshot' as recommendation,\n    v.region,\n    v.availability_zone as az\n  FROM ${account_connection}.aws_ebs_volume v\n  WHERE NOT EXISTS (\n    SELECT 1 FROM ${account_connection}.aws_ebs_snapshot s\n    WHERE s.volume_id = v.volume_id\n      AND s.start_time >= NOW() - INTERVAL '30 days'\n      AND s.state = 'completed'\n  )\n  AND v.state = 'in-use'\n) backup_risks\nORDER BY\n  CASE risk_level\n    WHEN 'HIGH' THEN 1\n    WHEN 'MEDIUM' THEN 2\n  END,\n  resource_type\nLIMIT 50",
+          "rawSql": "SELECT \n  u.name as user_name,\n  u.create_date::date as created,\n  CASE WHEN u.password_last_used IS NOT NULL THEN 'Console' ELSE 'API Only' END as access_type,\n  u.password_last_used::date as last_console_login,\n  COUNT(ak.access_key_id) as access_key_count\nFROM ${account_connection}.aws_iam_user u\nLEFT JOIN ${account_connection}.aws_iam_access_key ak ON u.name = ak.user_name AND ak.status = 'Active'\nGROUP BY u.name, u.create_date, u.password_last_used\nORDER BY u.create_date DESC\nLIMIT 15",
           "refId": "A"
         }
       ],
-      "title": "⚠️ 백업 위험 요소 및 권장사항",
+      "title": "IAM 사용자 상세 현황 (최신 15개)",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 45
+      },
+      "id": 600,
+      "panels": [],
+      "title": "🚨 종합 보안 위험 요소",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "steampipe"
+      },
+      "description": "즉시 조치가 필요한 보안 위험 요소들",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 46
+      },
+      "id": 27,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "steampipe"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT * FROM (\n  SELECT\n    'EC2 Instance' as resource_type,\n    instance_id as resource_id,\n    'SSH Open to 0.0.0.0/0' as issue,\n    'HIGH' as risk_level,\n    region,\n    placement_availability_zone as az\n  FROM ${account_connection}.aws_ec2_instance ec2\n  WHERE EXISTS (\n    SELECT 1 \n    FROM ${account_connection}.aws_vpc_security_group_rule sgr\n    WHERE sgr.group_id = ANY(\n      SELECT jsonb_array_elements_text(\n        jsonb_path_query_array(ec2.security_groups, '$[*].GroupId')\n      )\n    )\n    AND sgr.type = 'ingress' \n    AND sgr.from_port <= 22 \n    AND sgr.to_port >= 22 \n    AND sgr.cidr_ipv4 = '0.0.0.0/0'\n  )\n\n  UNION ALL\n\n  SELECT \n    'RDS Instance' as resource_type,\n    db_instance_identifier as resource_id,\n    'Publicly Accessible' as issue,\n    'HIGH' as risk_level,\n    region,\n    availability_zone as az\n  FROM ${account_connection}.aws_rds_db_instance \n  WHERE publicly_accessible = true\n\n  UNION ALL\n\n  SELECT \n    'EBS Volume' as resource_type,\n    volume_id as resource_id,\n    'Not Encrypted' as issue,\n    'MEDIUM' as risk_level,\n    region,\n    availability_zone as az\n  FROM ${account_connection}.aws_ebs_volume \n  WHERE encrypted = false\n\n  UNION ALL\n\n  SELECT \n    'S3 Bucket' as resource_type,\n    name as resource_id,\n    'Public Access Allowed' as issue,\n    'HIGH' as risk_level,\n    region,\n    '' as az\n  FROM ${account_connection}.aws_s3_bucket \n  WHERE block_public_acls = false OR block_public_policy = false\n) security_risks\nORDER BY \n  CASE risk_level \n    WHEN 'HIGH' THEN 1 \n    WHEN 'MEDIUM' THEN 2 \n    WHEN 'LOW' THEN 3 \n  END,\n  resource_type\nLIMIT 50",
+          "refId": "A"
+        }
+      ],
+      "title": "종합 보안 위험 요소 (즉시 조치 필요 - 상위 50개)",
       "type": "table"
     }
   ],
@@ -2286,10 +2041,10 @@
   "style": "dark",
   "tags": [
     "aws",
-    "infrastructure",
-    "comprehensive",
-    "security",
-    "compliance"
+    "resource",
+    "health",
+    "monitoring",
+    "security"
   ],
   "templating": {
     "list": [
@@ -2299,27 +2054,23 @@
           "text": "Account 1",
           "value": "aws_estaid"
         },
+        "datasource": {
+          "type": "postgres",
+          "uid": "steampipe"
+        },
+        "definition": "SELECT DISTINCT schema_name as __value, CASE WHEN schema_name = 'aws_estaid' THEN 'Account 1' WHEN schema_name = 'aws_test_fnf' THEN 'Account 2' ELSE schema_name END as __text FROM information_schema.schemata WHERE schema_name LIKE 'aws_%' AND schema_name != 'aws_compliance' ORDER BY schema_name",
         "hide": 0,
         "includeAll": false,
+        "label": "Account",
         "multi": false,
         "name": "account_connection",
-        "options": [
-          {
-            "selected": true,
-            "text": "Account 1",
-            "value": "aws_estaid"
-          },
-          {
-            "selected": false,
-            "text": "Account 2",
-            "value": "aws_test_fnf"
-          }
-        ],
-        "query": "Account 1 : aws_estaid, Account 2 : aws_test_fnf",
-        "queryValue": "",
+        "options": [],
+        "query": "SELECT DISTINCT schema_name as __value, CASE WHEN schema_name = 'aws_estaid' THEN 'Account 1' WHEN schema_name = 'aws_test_fnf' THEN 'Account 2' ELSE schema_name END as __text FROM information_schema.schemata WHERE schema_name LIKE 'aws_%' AND schema_name != 'aws_compliance' ORDER BY schema_name",
+        "refresh": 1,
+        "regex": "",
         "skipUrlSync": false,
-        "type": "custom",
-        "refresh": 0
+        "sort": 0,
+        "type": "query"
       }
     ]
   },
@@ -2329,7 +2080,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "🌐 AWS 다중 계정 인프라 모니터링",
-  "uid": "aws-multi-account-variable",
-  "version": 1
+  "title": "AWS 리소스별 점검 현황 대시보드",
+  "uid": "aws-resource-health-dashboard",
+  "version": 0,
+  "weekStart": ""
 }

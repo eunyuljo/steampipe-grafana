@@ -86,7 +86,7 @@
           "hide": false
         }
       ],
-      "title": "퍼블릭 액세스 허용 버킷 (Variable 방식)",
+      "title": "퍼블릭 액세스 허용 버킷",
       "type": "stat"
     },
     {
@@ -153,7 +153,7 @@
           "hide": false
         }
       ],
-      "title": "버전 관리 비활성화 버킷 (Variable 방식)",
+      "title": "버전 관리 비활성화 버킷",
       "type": "stat"
     },
     {
@@ -216,7 +216,7 @@
           "hide": false
         }
       ],
-      "title": "총 S3 버킷 수 (Variable 방식)",
+      "title": "총 S3 버킷 수",
       "type": "stat"
     },
     {
@@ -278,7 +278,7 @@
           "refId": "A"
         }
       ],
-      "title": "완전 보안 설정 버킷 (Variable 방식)",
+      "title": "완전 보안 설정 버킷",
       "type": "stat"
     },
     {
@@ -344,7 +344,7 @@
           "refId": "A"
         }
       ],
-      "title": "액세스 로그 비활성화 버킷 (Variable 방식)",
+      "title": "액세스 로그 비활성화 버킷",
       "type": "stat"
     },
     {
@@ -408,7 +408,7 @@
           "refId": "A"
         }
       ],
-      "title": "버전 관리 상태 (Variable 방식)",
+      "title": "버전 관리 상태",
       "type": "piechart"
     },
     {
@@ -472,7 +472,7 @@
           "refId": "A"
         }
       ],
-      "title": "퍼블릭 액세스 차단 상태 (Variable 방식)",
+      "title": "퍼블릭 액세스 차단 상태",
       "type": "piechart"
     },
     {
@@ -536,7 +536,7 @@
           "refId": "A"
         }
       ],
-      "title": "액세스 로그 활성화 상태 (Variable 방식)",
+      "title": "액세스 로그 활성화 상태",
       "type": "piechart"
     },
     {
@@ -601,7 +601,7 @@
           "refId": "A"
         }
       ],
-      "title": "S3 버킷 보안 위험도 평가 (Variable 방식)",
+      "title": "S3 버킷 보안 위험도 평가",
       "type": "table"
     }
   ],
@@ -648,7 +648,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "AWS S3 보안 모니터링 (Variable 방식)",
+  "title": "AWS S3 보안 모니터링",
   "uid": "aws-s3-security-variable",
   "version": 1,
   "weekStart": ""
