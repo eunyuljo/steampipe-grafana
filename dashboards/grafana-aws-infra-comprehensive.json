@@ -38,7 +38,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "전체 EC2 인스턴스 현황",
       "fieldConfig": {
@@ -85,7 +85,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -100,7 +100,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "RDS 데이터베이스 인스턴스",
       "fieldConfig": {
@@ -147,7 +147,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -162,7 +162,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "S3 버킷 수",
       "fieldConfig": {
@@ -209,7 +209,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -224,7 +224,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "Lambda 함수 수",
       "fieldConfig": {
@@ -271,7 +271,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -286,7 +286,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "VPC 네트워크 수",
       "fieldConfig": {
@@ -333,7 +333,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -348,7 +348,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "로드밸런서 수 (ELBv2)",
       "fieldConfig": {
@@ -395,7 +395,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -410,7 +410,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "IAM 사용자 수",
       "fieldConfig": {
@@ -457,7 +457,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -472,7 +472,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "관리되는 AWS 리전 수",
       "fieldConfig": {
@@ -519,7 +519,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -547,7 +547,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "중지된 EC2 인스턴스 (비용 절감 기회)",
       "fieldConfig": {
@@ -602,7 +602,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -617,7 +617,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "퍼블릭 액세스 가능한 RDS (보안 위험)",
       "fieldConfig": {
@@ -672,7 +672,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -687,7 +687,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "암호화되지 않은 EBS 볼륨 (보안 위험)",
       "fieldConfig": {
@@ -742,7 +742,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -757,7 +757,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "태그가 없는 리소스 (관리 위험)",
       "fieldConfig": {
@@ -812,7 +812,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -827,7 +827,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "SSH 전체 오픈된 보안 그룹 (높은 위험)",
       "fieldConfig": {
@@ -878,7 +878,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -893,7 +893,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "루트 액세스 키 사용 (최고 위험)",
       "fieldConfig": {
@@ -944,7 +944,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -972,7 +972,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "AWS 리전별 EC2 인스턴스 분포",
       "fieldConfig": {
@@ -1050,7 +1050,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -1065,7 +1065,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "AWS 리전별 RDS 인스턴스 분포",
       "fieldConfig": {
@@ -1143,7 +1143,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -1171,7 +1171,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "EC2 인스턴스 타입별 분포 (비용 최적화 참고)",
       "fieldConfig": {
@@ -1249,7 +1249,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -1264,7 +1264,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "RDS 엔진별 분포",
       "fieldConfig": {
@@ -1342,7 +1342,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -1370,7 +1370,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "즉시 조치가 필요한 보안 위험 리소스",
       "fieldConfig": {
@@ -1468,7 +1468,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -1483,7 +1483,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "태그 정책 위반 및 관리 이슈",
       "fieldConfig": {
@@ -1576,7 +1576,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -1604,7 +1604,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "EBS 스냅샷 총 개수",
       "fieldConfig": {
@@ -1651,7 +1651,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -1666,7 +1666,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "RDS 자동 백업이 활성화된 인스턴스 수",
       "fieldConfig": {
@@ -1713,7 +1713,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -1728,7 +1728,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "최근 7일 내 생성된 백업 수",
       "fieldConfig": {
@@ -1775,7 +1775,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -1790,7 +1790,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "AMI 이미지 백업 수",
       "fieldConfig": {
@@ -1837,7 +1837,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -1852,7 +1852,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "백업 없는 EBS 볼륨 (위험)",
       "fieldConfig": {
@@ -1907,7 +1907,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -1922,7 +1922,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "자동 백업이 비활성화된 RDS",
       "fieldConfig": {
@@ -1973,7 +1973,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -1988,7 +1988,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "EBS 스냅샷 생성 추이 (최근 30일)",
       "fieldConfig": {
@@ -2066,7 +2066,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -2081,7 +2081,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "RDS 백업 보존 기간 분포",
       "fieldConfig": {
@@ -2160,7 +2160,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -2175,7 +2175,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "백업 위험 리소스 및 권장사항",
       "fieldConfig": {
@@ -2268,7 +2268,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",

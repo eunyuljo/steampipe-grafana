@@ -38,7 +38,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "완료된 EBS 스냅샷 총 개수",
       "fieldConfig": {
@@ -89,7 +89,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -104,7 +104,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "RDS 자동 백업 설정된 인스턴스",
       "fieldConfig": {
@@ -151,7 +151,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -166,7 +166,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "오늘 생성된 새로운 백업",
       "fieldConfig": {
@@ -217,7 +217,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -232,7 +232,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "총 백업 스토리지 사용량 (GB)",
       "fieldConfig": {
@@ -279,7 +279,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -294,7 +294,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "90일 이상 된 오래된 스냅샷 (비용 최적화 대상)",
       "fieldConfig": {
@@ -349,7 +349,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -364,7 +364,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "사용자 생성 AMI 이미지",
       "fieldConfig": {
@@ -411,7 +411,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -439,7 +439,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "지난 30일간 일별 백업 생성 추이",
       "fieldConfig": {
@@ -514,7 +514,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -542,7 +542,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "EBS 스냅샷 상태별 분포",
       "fieldConfig": {
@@ -620,7 +620,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -635,7 +635,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "RDS 백업 보존 기간별 인스턴스 분포",
       "fieldConfig": {
@@ -713,7 +713,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -741,7 +741,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "최신 EBS 스냅샷 목록 (최근 50개)",
       "fieldConfig": {
@@ -839,7 +839,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
@@ -854,7 +854,7 @@
     {
       "datasource": {
         "type": "postgres",
-        "uid": "steampipe-variable"
+        "uid": "steampipe"
       },
       "description": "RDS 백업 설정 현황 및 다음 백업 윈도우",
       "fieldConfig": {
@@ -947,7 +947,7 @@
         {
           "datasource": {
             "type": "postgres",
-            "uid": "steampipe-variable"
+            "uid": "steampipe"
           },
           "editorMode": "code",
           "format": "table",
