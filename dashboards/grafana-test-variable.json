@@ -111,7 +111,7 @@
     "list": [
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "Account 1",
           "value": "aws_estaid"
         },
@@ -134,7 +134,8 @@
         "query": "Account 1 : aws_estaid, Account 2 : aws_test_fnf",
         "queryValue": "",
         "skipUrlSync": false,
-        "type": "custom"
+        "type": "custom",
+        "refresh": 0
       }
     ]
   },

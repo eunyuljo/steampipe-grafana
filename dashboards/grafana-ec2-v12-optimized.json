@@ -704,42 +704,27 @@
   "templating": {
     "list": [
       {
-        "allValue": null,
         "current": {
-          "isNone": false,
-          "selected": false,
           "text": "Account 1",
           "value": "aws_estaid"
         },
-        "datasource": null,
-        "definition": "",
-        "description": "Select AWS Account",
-        "error": null,
+        "datasource": {
+          "type": "postgres",
+          "uid": "steampipe"
+        },
+        "definition": "SELECT DISTINCT schema_name as __value, CASE WHEN schema_name = 'aws_estaid' THEN 'Account 1' WHEN schema_name = 'aws_test_fnf' THEN 'Account 2' ELSE schema_name END as __text FROM information_schema.schemata WHERE schema_name LIKE 'aws_%' AND schema_name != 'aws_compliance' ORDER BY schema_name",
         "hide": 0,
         "includeAll": false,
         "label": "Account",
         "multi": false,
         "name": "account_connection",
-        "options": [
-          {
-            "selected": true,
-            "text": "Account 1",
-            "value": "aws_estaid"
-          },
-          {
-            "selected": false,
-            "text": "Account 2",
-            "value": "aws_test_fnf"
-          }
-        ],
-        "query": "Account 1 : aws_estaid,Account 2 : aws_test_fnf",
-        "queryValue": "",
-        "refresh": 0,
+        "options": [],
+        "query": "SELECT DISTINCT schema_name as __value, CASE WHEN schema_name = 'aws_estaid' THEN 'Account 1' WHEN schema_name = 'aws_test_fnf' THEN 'Account 2' ELSE schema_name END as __text FROM information_schema.schemata WHERE schema_name LIKE 'aws_%' AND schema_name != 'aws_compliance' ORDER BY schema_name",
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "type": "custom",
-        "useTags": false
+        "type": "query"
       }
     ]
   },
