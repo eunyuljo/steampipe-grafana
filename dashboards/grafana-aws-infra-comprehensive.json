@@ -400,7 +400,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_load_balancer_v2",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_ec2_application_load_balancer",
           "refId": "A"
         }
       ],
@@ -949,7 +949,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_account_summary WHERE account_access_keys_present > 0",
+          "rawSql": "SELECT COUNT(*) as value FROM ${account_connection}.aws_iam_access_key WHERE status = 'Active'",
           "refId": "A"
         }
       ],
@@ -1473,7 +1473,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "-- 보안 위험 요소 종합\nSELECT \n  'EC2 Instance' as resource_type,\n  instance_id as resource_id,\n  'SSH Open to 0.0.0.0/0' as issue,\n  'HIGH' as risk_level,\n  region,\n  placement_availability_zone as az\nFROM ${account_connection}.aws_ec2_instance \nWHERE instance_id IN (\n  SELECT DISTINCT instance_id \n  FROM ${account_connection}.aws_ec2_instance_security_group isg\n  JOIN aws_vpc_security_group_rule sgr ON isg.group_id = sgr.group_id\n  WHERE sgr.type = 'ingress' AND sgr.from_port = 22 AND sgr.to_port = 22 AND sgr.cidr_ipv4 = '0.0.0.0/0'\n)\nUNION ALL\nSELECT \n  'RDS Instance' as resource_type,\n  db_instance_identifier as resource_id,\n  'Publicly Accessible' as issue,\n  'HIGH' as risk_level,\n  region,\n  availability_zone as az\nFROM ${account_connection}.aws_rds_db_instance \nWHERE publicly_accessible = true\nUNION ALL\nSELECT \n  'EBS Volume' as resource_type,\n  volume_id as resource_id,\n  'Not Encrypted' as issue,\n  'MEDIUM' as risk_level,\n  region,\n  availability_zone as az\nFROM ${account_connection}.aws_ebs_volume \nWHERE encrypted = false\nORDER BY \n  CASE risk_level \n    WHEN 'HIGH' THEN 1 \n    WHEN 'MEDIUM' THEN 2 \n    WHEN 'LOW' THEN 3 \n  END,\n  resource_type",
+          "rawSql": "-- 보안 위험 요소 종합\nSELECT * FROM (\n  SELECT \n    'EC2 Instance' as resource_type,\n    instance_id as resource_id,\n    'SSH Open to 0.0.0.0/0' as issue,\n    'HIGH' as risk_level,\n    region,\n    placement_availability_zone as az\n  FROM ${account_connection}.aws_ec2_instance ec2\n  WHERE EXISTS (\n    SELECT 1 \n    FROM ${account_connection}.aws_vpc_security_group_rule sgr\n    WHERE sgr.group_id = ANY(\n      SELECT jsonb_array_elements_text(\n        jsonb_path_query_array(ec2.security_groups, '$[*].GroupId')\n      )\n    )\n    AND sgr.type = 'ingress' \n    AND sgr.from_port <= 22 \n    AND sgr.to_port >= 22 \n    AND sgr.cidr_ipv4 = '0.0.0.0/0'\n  )\n\n  UNION ALL\n\n  SELECT \n    'RDS Instance' as resource_type,\n    db_instance_identifier as resource_id,\n    'Publicly Accessible' as issue,\n    'HIGH' as risk_level,\n    region,\n    availability_zone as az\n  FROM ${account_connection}.aws_rds_db_instance \n  WHERE publicly_accessible = true\n\n  UNION ALL\n\n  SELECT \n    'EBS Volume' as resource_type,\n    volume_id as resource_id,\n    'Not Encrypted' as issue,\n    'MEDIUM' as risk_level,\n    region,\n    availability_zone as az\n  FROM ${account_connection}.aws_ebs_volume \n  WHERE encrypted = false\n) security_risks\nORDER BY \n  CASE risk_level \n    WHEN 'HIGH' THEN 1 \n    WHEN 'MEDIUM' THEN 2 \n    WHEN 'LOW' THEN 3 \n  END,\n  resource_type",
           "refId": "A"
         }
       ],
