@@ -2294,21 +2294,12 @@
   "templating": {
     "list": [
       {
-        "allValue": null,
         "current": {
-          "isNone": false,
-          "selected": false,
           "text": "Account 1",
           "value": "aws_estaid"
         },
-        "datasource": null,
-        "definition": "",
-        "description": "Select AWS Account",
-        "error": null,
         "hide": 0,
-        "includeAll": false,
         "label": "Account",
-        "multi": false,
         "name": "account_connection",
         "options": [
           {
@@ -2323,13 +2314,7 @@
           }
         ],
         "query": "Account 1 : aws_estaid,Account 2 : aws_test_fnf",
-        "queryValue": "",
-        "refresh": 0,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "custom",
-        "useTags": false
+        "type": "custom"
       }
     ]
   },

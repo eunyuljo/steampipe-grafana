@@ -202,6 +202,7 @@ main() {
         ["dashboards/grafana-backup-monitoring-dashboard.json"]="💾 백업 모니터링 (Variable 방식)"
         ["dashboards/grafana-s3-security-dashboard.json"]="🪣 S3 보안 모니터링 (Variable 방식)"
         ["dashboards/grafana-test-variable.json"]="🧪 Variable 테스트 대시보드"
+        ["dashboards/grafana-manual-variable-example.json"]="📝 Manual Variable 설정 예시"
     )
 
     # 각 대시보드 처리
