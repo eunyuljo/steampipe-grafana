@@ -705,6 +705,7 @@
     "list": [
       {
         "current": {
+          "selected": true,
           "text": "Account 1",
           "value": "aws_estaid"
         },
